@@ -1608,11 +1608,12 @@ class AuthProxy {
         // ===============================
         window.addEventListener("DOMContentLoaded", () => {
             const hasStoredState = loadStateFromStorage();
-            // Time gate: fresh entries only allowed daily 7:00–8:00 PM (local time).
+            // Time gate: fresh entries only allowed daily 7:00–8:30 PM (local time).
             // Started/completed quizzes may resume after refresh; direct links outside the window bounce home.
-            const _gateH = new Date().getHours();
-            if (!(_gateH >= 19 && _gateH < 20) && !(hasStoredState && (appState.quizStarted || appState.quizCompleted))) {
-                alert("Quiz #2 can be opened at 7:00 PM (until 8:00 PM). Please come back at 7PM.");
+            const _gateMinutes = new Date().getHours() * 60 + new Date().getMinutes();
+            const isFreshWindowOpen = _gateMinutes >= 19 * 60 && _gateMinutes < 20 * 60 + 30;
+            if (!(isFreshWindowOpen) && !(hasStoredState && (appState.quizStarted || appState.quizCompleted))) {
+                alert("Quiz #2 can be opened at 7:00 PM (until 8:30 PM). Please come back at 7PM.");
                 window.location.href = "index.html";
                 return;
             }
@@ -1673,10 +1674,10 @@ class AuthProxy {
                 return;
             }
 
-            // Time gate: new quiz starts only allowed daily 7:00–8:00 PM (local time).
-            const _startH = new Date().getHours();
-            if (!(_startH >= 19 && _startH < 20)) {
-                alert("Quiz #2 can be opened at 7:00 PM (until 8:00 PM). Please come back at 7PM.");
+            // Time gate: new quiz starts only allowed daily 7:00–8:30 PM (local time).
+            const _startMinutes = new Date().getHours() * 60 + new Date().getMinutes();
+            if (!(_startMinutes >= 19 * 60 && _startMinutes < 20 * 60 + 30)) {
+                alert("Quiz #2 can be opened at 7:00 PM (until 8:30 PM). Please come back at 7PM.");
                 return;
             }
 
