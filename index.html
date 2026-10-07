@@ -74,14 +74,14 @@
                 </div>
             </div>
 
-            <!-- Quiz #2 : TIME-GATED (open daily 3:00–5:00 PM) -->
+            <!-- Quiz #2 : TIME-GATED (open daily 7:00–8:00 PM) -->
             <div id="quiz2Card" role="button" tabindex="0" onclick="tryOpenQuiz2()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tryOpenQuiz2();}" class="group bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-lg hover:border-brand-500 transition cursor-pointer">
                 <div>
                     <span class="inline-block bg-emerald-100 text-emerald-700 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-emerald-200">Available</span>
                     <h3 class="text-xl font-bold text-slate-900 mt-3">Quiz #2</h3>
                     <p class="text-xs text-slate-500 mt-1">20 items · Structural Design Patterns (Adapter, Bridge, Proxy, Composite, Facade, Flyweight, Decorator)</p>
                     <p class="text-xs text-slate-500 mt-1">Multiple Choice &amp; PHP Code Writing</p>
-                    <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-3">Open daily 3:00 PM – 5:00 PM only</p>
+                    <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-3">Open daily 7:00 PM – 8:00 PM only</p>
                 </div>
                 <div class="mt-6">
                     <span class="w-full inline-flex items-center justify-center gap-2 bg-brand-600 group-hover:bg-brand-700 text-white font-semibold py-2.5 px-4 rounded-xl shadow-md transition text-sm">
@@ -147,7 +147,7 @@
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
                 <h3 class="text-xl font-bold text-slate-900">Quiz #2 is closed</h3>
-                <p class="text-sm text-slate-600 mt-2">Quiz #2 can be opened at <span class="font-bold">3:00 PM</span> (until 5:00 PM). Please come back at 3PM.</p>
+                <p class="text-sm text-slate-600 mt-2">Quiz #2 can be opened at <span class="font-bold">7:00 PM</span> (until 8:00 PM). Please come back at 7PM.</p>
                 <p id="quiz2ClosedTime" class="text-xs text-slate-400 mt-2"></p>
             </div>
             <button onclick="closeQuiz2ClosedModal()" class="w-full px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 font-semibold text-white text-sm shadow-md transition">OK, Got it</button>
@@ -155,10 +155,10 @@
     </div>
 
     <script>
-        // Quiz #2 access window: daily 3:00 PM (inclusive) to 5:00 PM (exclusive), local time.
+        // Quiz #2 access window: daily 7:00 PM (inclusive) to 8:00 PM (exclusive), local time.
         function isQuiz2Open() {
             const h = new Date().getHours();
-            return h >= 15 && h < 17;
+            return h >= 19 && h < 20;
         }
         function tryOpenQuiz2() {
             if (isQuiz2Open()) {
