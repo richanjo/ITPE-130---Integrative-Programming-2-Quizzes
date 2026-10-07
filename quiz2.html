@@ -1,0 +1,2605 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITPE 130 – Integrative Programming 2 | Quiz #2 Portal</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- jsPDF & jsPDF-AutoTable CDNs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+    <style>
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Pulse and visual effects */
+        @keyframes pulse-red {
+            0%, 100% { background-color: #ef4444; color: #ffffff; }
+            50% { background-color: #dc2626; color: #ffffff; box-shadow: 0 0 15px rgba(239, 68, 68, 0.6); }
+        }
+        .timer-danger {
+            animation: pulse-red 1s infinite;
+        }
+
+        @keyframes countdown-pop {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop {
+            animation: countdown-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* Monospace code highlights */
+        .sql-code {
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            background-color: #0f172a;
+            color: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* Sample Table Styling */
+        .db-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+            text-align: left;
+        }
+        .db-table th {
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 0.625rem 0.875rem;
+            font-weight: 600;
+            border: 1px solid #334155;
+        }
+        .db-table td {
+            padding: 0.5rem 0.875rem;
+            border: 1px solid #e2e8f0;
+            background-color: #ffffff;
+        }
+        .db-table tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        /* Custom radio styling */
+        .custom-radio:checked + label {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Anti-copy protection for questionnaire */
+        #quizContainer,
+        #quizContainer *:not(input):not(textarea) {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+        #quizContainer input,
+        #quizContainer textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+        @media print {
+            #quizContainer { display: none !important; }
+        }
+    </style>
+</head>
+
+<body class="h-full text-slate-800 bg-slate-100 font-sans flex flex-col antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Top Fixed Header -->
+    <header class="bg-slate-900 text-white shadow-md sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-brand-600 p-2 rounded-lg text-white font-bold flex items-center justify-center w-10 h-10 shadow">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 2.21 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight text-white leading-tight">ITPE 130 – Integrative Programming 2</h1>
+                    <p class="text-xs text-slate-400">Faculty: <span class="text-slate-200 font-medium">Rich Anjo Capiloyan</span> | Quiz #2 Portal</p>
+                </div>
+            </div>
+
+            <!-- Active User & Metadata Display -->
+            <div id="headerUserBadge" class="hidden flex items-center gap-4 bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-lg text-xs">
+                <div>
+                    <span class="text-slate-400 block text-[10px] uppercase tracking-wider">Student</span>
+                    <span id="displayStudentName" class="font-semibold text-white"></span>
+                    <span id="displayStudentId" class="text-brand-300 ml-1"></span>
+                    <span id="displayStudentSection" class="text-emerald-300 ml-1 font-semibold"></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Body -->
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col">
+
+        <!-- 1. STUDENT INFORMATION MODAL OVERLAY -->
+        <div id="studentModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8 border border-slate-200 animate-pop">
+                <div class="text-center mb-6">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-50 text-brand-600 mb-3">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path></svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900">ITPE 130 Quiz #2</h2>
+                    <p class="text-sm text-slate-500 mt-1">Integrative Programming 2 (20 Items)</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Faculty: Rich Anjo Capiloyan</p>
+                </div>
+
+                <form id="studentForm" class="space-y-4" onsubmit="handleStartQuiz(event)">
+                    <div>
+                        <label for="inputStudentId" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Student ID Number <span class="text-red-500">*</span></label>
+                        <input type="text" id="inputStudentId" required placeholder="e.g. 2026-0194" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm transition outline-none" />
+                    </div>
+
+                    <div>
+                        <label for="inputStudentName" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Full Student Name <span class="text-red-500">*</span></label>
+                        <input type="text" id="inputStudentName" required placeholder="e.g. Juan Dela Cruz" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm transition outline-none" />
+                    </div>
+
+                    <div>
+                        <label for="inputStudentSection" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Section <span class="text-red-500">*</span></label>
+                        <select id="inputStudentSection" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm transition outline-none bg-white">
+                            <option value="" disabled selected>Select section</option>
+                            <option value="IT3E" disabled>IT3E (closed)</option>
+                            <option value="IT3G">IT3G</option>
+                        </select>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-800 space-y-1">
+                        <div class="font-semibold flex items-center gap-1">
+                            <svg class="w-4 h-4 text-amber-600 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                            Quiz #2 Guidelines:
+                        </div>
+                        <p>• 20 Items randomized with strict per-question countdown timers.</p>
+                        <p>• Timed-out questions are locked automatically and marked unanswerable.</p>
+                        <p>• Progress is saved locally in browser storage.</p>
+                    </div>
+
+                    <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-brand-500/25 transition-all duration-200 flex items-center justify-center gap-2">
+                        <span>Save and Start Quiz #2</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- 2. FULLSCREEN COUNTDOWN OVERLAY -->
+        <div id="countdownOverlay" class="hidden fixed inset-0 bg-slate-950 z-50 flex flex-col items-center justify-center text-white">
+            <span class="text-brand-400 font-bold uppercase tracking-widest text-lg mb-4">Get Ready</span>
+            <div id="countdownNumber" class="text-8xl font-extrabold tracking-tighter text-white animate-pop">5</div>
+            <p class="text-slate-400 text-sm mt-6">Initializing ITPE 130 Question Bank...</p>
+        </div>
+
+        <!-- 3. ACTIVE QUIZ CONTAINER -->
+        <div id="quizContainer" class="hidden flex-1 flex flex-col space-y-6">
+
+            <!-- Progress & Per-Question Timer Header Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                    <div>
+                        <span id="questionCounterBadge" class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-3 py-1 rounded-full border border-slate-200 uppercase tracking-wider">
+                            Question 1 of 20
+                        </span>
+                        <span id="questionCategoryBadge" class="inline-block ml-2 text-xs font-medium text-brand-600 bg-brand-50 px-2.5 py-1 rounded-full border border-brand-100">
+                            Structural Pattern
+                        </span>
+                    </div>
+
+                    <!-- Per-Question Countdown Timer -->
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Time Remaining:</span>
+                        <div id="timerDisplayContainer" class="flex items-center gap-1.5 bg-slate-900 text-white font-mono font-bold text-lg px-4 py-1.5 rounded-xl shadow-inner transition-colors duration-300">
+                            <svg class="w-5 h-5 text-brand-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span id="timerSeconds">30</span>
+                            <span class="text-xs text-slate-400 font-sans">s</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden border border-slate-200">
+                    <div id="progressBar" class="bg-brand-600 h-full transition-all duration-300 rounded-full" style="width: 5%;"></div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 flex-1 flex flex-col justify-between">
+                <div>
+                    <!-- Expired Question Warning Banner -->
+                    <div id="expiredWarningBanner" class="hidden mb-6 bg-red-50 border border-red-200 text-red-700 p-3.5 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-2">
+                        <svg class="w-5 h-5 text-red-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+                        <span>Time expired for this question. Modifying this response is locked.</span>
+                    </div>
+
+                    <!-- Question Prompt -->
+                    <div class="mb-6">
+                        <h2 id="questionPromptText" class="text-base sm:text-lg font-bold text-slate-900 leading-snug">
+                            Question Loading...
+                        </h2>
+                    </div>
+
+                    <!-- Optional Sample Tables Container -->
+                    <div id="sampleTablesArea" class="hidden mb-6 space-y-4">
+                        <!-- Injected sample HTML tables dynamically -->
+                    </div>
+
+                    <div id="sampleCodeArea" class="hidden mb-6 space-y-3">
+                        <h3 class="text-sm font-bold text-slate-800">Sample PHP code</h3>
+                        <pre class="sql-code text-xs sm:text-sm"><code id="sampleCodeText"></code></pre>
+                        <p class="bg-brand-50 border border-brand-100 rounded-lg px-4 py-3 text-sm text-brand-800"><span class="font-bold">Tip:</span> <span id="sampleCodeTip"></span></p>
+                    </div>
+
+                    <!-- Answer Input Area (Dynamic depending on question type) -->
+                    <div id="answerInputArea" class="space-y-3">
+                        <!-- Dynamic Input / Radio options -->
+                    </div>
+                </div>
+
+                <!-- Navigation Bar -->
+                <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-end gap-4">
+                    <button id="btnNext" onclick="navigateQuestion(1)" disabled class="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 font-semibold text-white text-sm shadow-md transition flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                        <span id="btnNextText">Next Question</span>
+                        <svg id="btnNextIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. RESULTS / COMPLETION LOCK SCREEN -->
+        <div id="resultsContainer" class="hidden bg-white rounded-2xl shadow-xl border border-slate-200 p-6 sm:p-10 my-4 space-y-8">
+            <div class="text-center pb-6 border-b border-slate-200">
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-emerald-50 text-emerald-600 mb-4 ring-8 ring-emerald-50/50">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h2 id="resultsBannerTitle" class="text-3xl font-extrabold text-slate-900 tracking-tight">Quiz #2 Completed</h2>
+                <p class="text-slate-500 text-sm mt-1">ITPE 130 – Integrative Programming 2</p>
+                <div class="inline-block mt-2 px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-medium border border-slate-200">
+                    Faculty: Rich Anjo Capiloyan
+                </div>
+            </div>
+
+            <!-- Student Summary Header Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Student Name</span>
+                    <span id="resStudentName" class="text-base font-bold text-slate-800"></span>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Student ID</span>
+                    <span id="resStudentId" class="text-base font-bold text-brand-600 font-mono"></span>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Section</span>
+                    <span id="resStudentSection" class="text-base font-bold text-slate-800"></span>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Final Score</span>
+                    <span id="resScoreText" class="text-xl font-extrabold text-slate-900">0 / 20</span>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Percentage Grade</span>
+                    <span id="resPercentageText" class="text-xl font-extrabold text-brand-600">0.00%</span>
+                </div>
+            </div>
+
+            <!-- Score Breakdown Pills -->
+            <div class="grid grid-cols-3 gap-3 text-center">
+                <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3">
+                    <span class="block text-2xl font-bold text-emerald-700" id="resCorrectCount">0</span>
+                    <span class="text-xs font-semibold text-emerald-600 uppercase">Correct</span>
+                </div>
+                <div class="bg-rose-50 border border-rose-200 rounded-xl p-3">
+                    <span class="block text-2xl font-bold text-rose-700" id="resIncorrectCount">0</span>
+                    <span class="text-xs font-semibold text-rose-600 uppercase">Incorrect</span>
+                </div>
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-3">
+                    <span class="block text-2xl font-bold text-amber-700" id="resUnansweredCount">0</span>
+                    <span class="text-xs font-semibold text-amber-600 uppercase">Unanswered</span>
+                </div>
+            </div>
+
+            <!-- Drive Upload CTA (result PDF is uploaded to Drive on submit, not downloaded) -->
+            <div class="bg-slate-900 text-white rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                    <h3 class="text-base font-bold">Official Quiz #2 Result PDF</h3>
+                    <p class="text-xs text-slate-300 mt-0.5">Your result PDF is uploaded directly to the instructor Drive folder on submit.</p>
+                    <p class="text-xs text-amber-300 bg-amber-500/10 border border-amber-400/40 rounded-lg px-3 py-2 mt-2"><span class="font-bold">Note:</span> If the upload fails or an error occurs, take a screenshot of this results page showing your score and PM it directly to your faculty.</p>
+                    <p id="driveUploadStatus" class="text-xs mt-2 hidden px-3 py-2 rounded-lg border"></p>
+                </div>
+                <button id="btnDriveUpload" onclick="uploadResultPDFToDrive(true)" class="shrink-0 bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                    <span id="btnDriveUploadText">Upload PDF Result to Drive</span>
+                </button>
+            </div>
+
+            <!-- Item-by-Item Review Table (hidden per instructor request) -->
+            <div id="detailedBreakdownSection" class="space-y-4 hidden">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center justify-between">
+                    <span>Detailed Item Breakdown</span>
+                    <span class="text-xs font-normal text-slate-500">20 Questions</span>
+                </h3>
+
+                <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 border-b border-slate-200 font-semibold uppercase tracking-wider text-[11px]">
+                                <th class="p-3">#</th>
+                                <th class="p-3">Type</th>
+                                <th class="p-3">Question</th>
+                                <th class="p-3">Your Answer</th>
+                                <th class="p-3 text-center">Result</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reviewTableBody" class="divide-y divide-slate-200">
+                            <!-- Injected review rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 5. SUBMIT CONFIRMATION MODAL -->
+    <div id="submitConfirmModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-slate-200 animate-pop">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-amber-100 text-amber-600 mb-3">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900">Submit Quiz #2?</h3>
+                <p class="text-sm text-slate-600 mt-2">Are you sure you want to finalize and submit your answers?</p>
+                <p class="text-xs text-slate-400 mt-1">Once submitted, your result PDF is uploaded directly to Drive. You will not be able to take or modify the quiz again.</p>
+                <p id="submitUploadStatus" class="hidden text-xs mt-3 p-2.5 rounded-lg border"></p>
+            </div>
+
+            <div class="flex items-center justify-end gap-3">
+                <button id="btnCancelSubmit" onclick="closeSubmitModal()" class="px-4 py-2.5 rounded-xl border border-slate-300 font-semibold text-slate-700 text-sm hover:bg-slate-50 transition">
+                    Cancel
+                </button>
+                <button id="btnConfirmSubmit" onclick="confirmQuizSubmission()" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 font-semibold text-white text-sm shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    Confirm & Submit
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===============================
+        // QUIZ DATA (EXACTLY 20 ITEMS)
+        // ITPE 130 - Structural Design Patterns (Adapter, Bridge, Proxy, Composite, Facade, Flyweight, Decorator)
+        // Types: multiple-choice (10) + fill-blank PHP keywords (2) + PHP code writing (8)
+        // ===============================
+        const MASTER_QUESTION_BANK = [
+            // Q1 - Adapter concept
+            {
+                id: 1,
+                type: "multiple-choice",
+                category: "Adapter",
+                question: "What is the main intent of the Adapter design pattern?",
+                options: [
+                    "Converts the interface of a class into another interface clients expect",
+                    "Provides a unified simplified interface to a set of interfaces in a subsystem",
+                    "Attaches additional responsibilities to an object dynamically without using subclassing",
+                    "Uses sharing to support large numbers of fine-grained objects efficiently by separating intrinsic and extrinsic state"
+                ],
+                a: "Cjs+M1RBRF5xAQEfElNUMBcbEAQzAFAfA1JCElNeV1JJGlkMEV0WBVtbPTw1NxFaXlk0Bw8bUV8aJx4AEwskFlAVHQJGUUQ=", s: "0be26d54",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q2 - Bridge concept
+            {
+                id: 2,
+                type: "multiple-choice",
+                category: "Bridge",
+                question: "What is the main intent of the Bridge design pattern?",
+                options: [
+                    "Decouples an abstraction from its implementation so the two can vary independently",
+                    "Composes objects into tree structures so clients treat individual objects and compositions uniformly",
+                    "Provides a surrogate or placeholder to control access to another object",
+                    "Converts the interface of a class into another interface clients expect"
+                ],
+                a: "DTEzKkRDXEgiVQgUEltYNwYbFwYkDB8eRRRRXV0SX1VJGlxfQA1dWFFZPTUkLF5dEF4+VR0SVxpOMx1JFQQ+RQYRFwsDW15WU1FfVFFXXhVUTA==", s: "520a8547",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q3 - Proxy concept
+            {
+                id: 3,
+                type: "multiple-choice",
+                category: "Proxy",
+                question: "What is the main intent of the Proxy design pattern?",
+                options: [
+                    "Provides a surrogate or placeholder to control access to another object",
+                    "Attaches additional responsibilities to an object dynamically without using subclassing",
+                    "Provides a unified simplified interface to a set of interfaces in a subsystem",
+                    "Decouples an abstraction from its implementation so the two can vary independently"
+                ],
+                a: "GSY/M1hXVV5xFEkJR0hIKxUIAgBwCgJQFR5CUVVaWU1eX0pCFVkWAQ0PPSY/KRFSU040BhpaRlUaJRwGAg01F1AfBxhGUUQ=", s: "8ba66bba",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q4 - Composite concept
+            {
+                id: 4,
+                type: "multiple-choice",
+                category: "Composite",
+                question: "What is the main intent of the Composite design pattern?",
+                options: [
+                    "Composes objects into tree structures so clients treat individual objects and compositions uniformly",
+                    "Uses sharing to support large numbers of fine-grained objects efficiently by separating intrinsic and extrinsic state",
+                    "Converts the interface of a class into another interface clients expect",
+                    "Provides a unified simplified interface to a set of interfaces in a subsystem"
+                ],
+                a: "Cjs9NV5AVV5xGgsQV1lON1IAGBE/RQQCABcDQURAQ0JOT0VcRhZDV0VSJT01K0VAEFkjEAgOElNUIBsfHwElBBxQChBJV1NGRQFbVFMZVlldSApCICA5Kl9AEFg/HA8VQFdWPQ==", s: "795608e1",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q5 - Facade concept
+            {
+                id: 5,
+                type: "multiple-choice",
+                category: "Facade",
+                question: "What is the main intent of the Facade design pattern?",
+                options: [
+                    "Provides a unified simplified interface to a set of interfaces in a subsystem",
+                    "Decouples an abstraction from its implementation so the two can vary independently",
+                    "Provides a surrogate or placeholder to control access to another object",
+                    "Uses sharing to support large numbers of fine-grained objects efficiently by separating intrinsic and extrinsic state"
+                ],
+                a: "GSY/M1hXVV5xFEkPXFNcLRcNVhY5CAAcDBRKV1QSX09OXxdTBAcHFURYaTVwNlRHEEI3VQAURl9IIhMKExZwDB5QBFJQR1JBT1JOXwg=", s: "e5edb507",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q6 - Flyweight concept
+            {
+                id: 6,
+                type: "multiple-choice",
+                category: "Flyweight",
+                question: "What is the main intent of the Flyweight design pattern?",
+                options: [
+                    "Uses sharing to support large numbers of fine-grained objects efficiently by separating intrinsic and extrinsic state",
+                    "Attaches additional responsibilities to an object dynamically without using subclassing",
+                    "Converts the interface of a class into another interface clients expect",
+                    "Composes objects into tree structures so clients treat individual objects and compositions uniformly"
+                ],
+                a: "HCc1NhFAWEwjHAcdEk5VZAEcBhU/FwRQCRNRVVUSWFRXWFVCEkJaBEQDIDo1aFZBUUQ/EA1aXVhQIREdBUU1AxYZBhtGXEReTwFYQxBDBBJUEAURIDo3ZVhdRF84GxoTURpbKhZJEx0kFxkeFhtAEkNGV1Vf", s: "00ab5bde",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q7 - Decorator concept
+            {
+                id: 7,
+                type: "multiple-choice",
+                category: "Decorator",
+                question: "What is the main intent of the Decorator design pattern?",
+                options: [
+                    "Attaches additional responsibilities to an object dynamically without using subclassing",
+                    "Provides a surrogate or placeholder to control access to another object",
+                    "Provides a unified simplified interface to a set of interfaces in a subsystem",
+                    "Converts the interface of a class into another interface clients expect"
+                ],
+                a: "CCAkJFJbVV5xFA0eW05TKxwIGkUiAAMAChxQW1JbWkhOU1NCEExdQVlaaTsyL1RQRA01DAcbX1NZJR4FD0UnDAQYCgdXEkVBX09dGkVEUlteAEtHIDo3", s: "61082a84",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q8 - Adapter scenario
+            {
+                id: 8,
+                type: "multiple-choice",
+                category: "Adapter",
+                question: "PHP scenario: class OldPrinter has oldPrint($text) but client code expects print($text). You create PrinterAdapter that wraps OldPrinter and exposes print(). Which structural pattern is this?",
+                options: [
+                    "Adapter",
+                    "Facade",
+                    "Flyweight",
+                    "Composite"
+                ],
+                a: "CDAxNUVWQg==", s: "8b362c8e",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q9 - Decorator scenario
+            {
+                id: 9,
+                type: "multiple-choice",
+                category: "Decorator",
+                question: "PHP scenario: you have class Coffee and need Milk, Sugar, and Whip variants without creating a subclass explosion (MilkSugarCoffee, etc.). You wrap Coffee objects at runtime to add cost() and description(). Which pattern is this?",
+                options: [
+                    "Decorator",
+                    "Proxy",
+                    "Bridge",
+                    "Facade"
+                ],
+                a: "DTEzKkNSREIj", s: "617dc297",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q10 - Flyweight scenario
+            {
+                id: 10,
+                type: "multiple-choice",
+                category: "Flyweight",
+                question: "PHP game scenario: you must render 10,000 trees that share the same texture; only x/y positions differ. You cache and reuse texture objects instead of creating 10,000 copies. Which pattern saves memory here?",
+                options: [
+                    "Flyweight",
+                    "Adapter",
+                    "Facade",
+                    "Bridge"
+                ],
+                a: "DzgpMlRaV0Ul", s: "4b91ae95",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q11 - fill-blank Adapter keyword
+            {
+                id: 11,
+                type: "fill-blank",
+                category: "Adapter",
+                question: "Complete the missing PHP keyword so the adapter conforms to the expected interface: <br/><code class='sql-code text-xs sm:text-sm block mt-2'>class PrinterAdapter _____ PrinterInterface { }</code>",
+                a: "IDkgKVReVUMlBg==", s: "5d46756d",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q12 - fill-blank Decorator keyword
+            {
+                id: 12,
+                type: "fill-blank",
+                category: "Decorator",
+                question: "Complete the missing PHP keyword for a decorator that reuses the base decorator behavior: <br/><code class='sql-code text-xs sm:text-sm block mt-2'>class MilkDecorator _____ CoffeeDecorator { }</code>",
+                a: "LCwkIF9XQw==", s: "64951df4",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q13 - code Adapter
+            {
+                id: 13,
+                type: "query-writing",
+                category: "PHP Code Writing",
+                question: "Adapter in PHP: OldSpeaker has oldSound(). SpeakerAdapter stores it in $this->old and must expose sound().<br/>Write ONLY the <code>sound()</code> method that delegates to <code>oldSound()</code>.",
+                sampleCode: `<?php
+interface Speaker {
+    public function sound();
+}
+class OldSpeaker {
+    public function oldSound() { return 'beep'; }
+}
+class SpeakerAdapter implements Speaker {
+    private OldSpeaker $old;
+    public function __construct(OldSpeaker $old) { $this->old = $old; }
+    public function sound() {
+        throw new LogicException('Implement sound()');
+    }
+}`,
+                tip: "Replace the body of SpeakerAdapter::sound() so it calls the old speaker. Enter only the complete sound() method below, not the entire class.",
+                a: "OSEyKVhQEEskGwoOW1VUZAEGAws0TVlQHlJRV0RHRE8aHkMMDUIaBllbLXluKl1XY0IkGw1SGwEaOQ==", s: "7dd17867",
+                ax: [{ a: "LyE+JkVaX0NxBgYPXF4SbVISVhc1EQUCC1IHRlhbRQwEVQgHSV1XCgc1JiE+IRkaCw0s", s: "dcdc8fcf" }],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q14 - code Bridge
+            {
+                id: 14,
+                type: "query-writing",
+                category: "PHP Code Writing",
+                question: "Bridge in PHP: abstraction Shape holds Color $color. <br/>Write ONLY the <code>draw()</code> method that delegates to <code>$this->color->fill()</code>.",
+                sampleCode: `<?php
+interface Color {
+    public function fill();
+}
+class Red implements Color {
+    public function fill() { return 'red'; }
+}
+class Shape {
+    private Color $color;
+    public function __construct(Color $color) { $this->color = $color; }
+    public function draw() {
+        throw new LogicException('Implement draw()');
+    }
+}`,
+                tip: "Replace Shape::draw() so it delegates to the Color object. Enter only the complete draw() method below.",
+                a: "OSEyKVhQEEskGwoOW1VUZBYbFxJ4TFALRQBGRkVAWAEeTlhQFR0MW19dJiZ9e1daXEF5XFJaTw==", s: "09f02801",
+                ax: [{ a: "LyE+JkVaX0NxERsbRRITZAlJBAAkEAIeRVZXWllBGx9ZVQlZS0lYB1AJJXx5fhFO", s: "e69dfa9e" }],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q15 - code Proxy lazy loading
+            {
+                id: 15,
+                type: "query-writing",
+                category: "PHP Code Writing",
+                question: "Proxy in PHP: ProxyImage holds $file and $real = null. <br/>Write ONLY the <code>display()</code> method with lazy loading: create RealImage($this->file) only when $this->real is null, then return display().",
+                sampleCode: `<?php
+class RealImage {
+    private $file;
+    public function __construct($file) { $this->file = $file; }
+    public function display() { return $this->file; }
+}
+class ProxyImage {
+    private $file;
+    private $real = null;
+    public function __construct($file) { $this->file = $file; }
+    public function display() {
+        throw new LogicException('Implement display()');
+    }
+}`,
+                tip: "Replace ProxyImage::display(). Create RealImage only on first use, then return its display() result. Enter only the complete display() method.",
+                a: "OSEyKVhQEEskGwoOW1VUZBYABRU8BAlYTFJYEllUFgkeTlwMEE4KF1ZSJXRteAwTXlg9GUBaSRoeMBoABUhuFxURCVIeEl5XQQFoX1UJKg5VAlYbbSA4LEIeDks4GQxTCRpHZAAMAhAiC1BUERpKQR0MRERbVhlbBwpHFV9SMHx5fhFO", s: "4ecc4e33",
+                ax: [{ a: "LyE+JkVaX0NxEQAJQlZbPVpAVh5wDBZQTVZXWllBGx9IX1JaRA8ICBcIPDg8bBEXREU4BkREQF9bKFJUVgs1ElAiABNPe11TUUQSHkdeDUEYC1EPJTF5fhFBVVkkBwdaFk5SLQFESBc1BBxdWxZKQUBeV1gSEwgWGQ==", s: "36d2557f" }],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q16 - code Composite
+            {
+                id: 16,
+                type: "query-writing",
+                category: "PHP Code Writing",
+                question: "Composite in PHP: Department holds $children = []. <br/>Write ONLY the <code>add(Component $c)</code> method that appends to $this->children.",
+                sampleCode: `<?php
+abstract class Component {
+    abstract public function render();
+}
+class Employee extends Component {
+    public function render() { return 'employee'; }
+}
+class Department extends Component {
+    private $children = [];
+    public function add(Component $c) {
+        throw new LogicException('Implement add()');
+    }
+    public function render() {
+        foreach ($this->children as $child) { $child->render(); }
+    }
+}`,
+                tip: "Replace Department::add(Component $c) so the child joins the collection. Enter only the complete add() method.",
+                a: "OSEyKVhQEEskGwoOW1VUZBMNEk0TCh0AChxGXEQSEkITGhgZFUBQWEpJdzc4LF1XQkg/LjRaDxoeJ0lJCw==", s: "c914819d",
+                ax: [{ a: "LyE+JkVaX0NxFA0eGnlVKQIGGAA+EVBUBlsDSRAWQklTSRgMAAoKVVUQLDoLGBEOEAkyTkkH", s: "52cbc91b" }],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q17 - code Facade
+            {
+                id: 17,
+                type: "query-writing",
+                category: "PHP Code Writing",
+                question: "Facade in PHP: ShopFacade has $stock, $pay, $ship. <br/>Write ONLY the <code>order()</code> method that calls check(), pay(), and send() on those subsystems in order.",
+                sampleCode: `<?php
+class Stock {
+    public function check() { return true; }
+}
+class Payment {
+    public function pay() { return true; }
+}
+class Shipping {
+    public function send() { return true; }
+}
+class ShopFacade {
+    private $stock;
+    private $pay;
+    private $ship;
+    public function __construct($stock, $pay, $ship) {
+        $this->stock = $stock;
+        $this->pay = $pay;
+        $this->ship = $ship;
+    }
+    public function order() {
+        throw new LogicException('Implement order()');
+    }
+}`,
+                tip: "Replace ShopFacade::order() with the three subsystem calls in the requested order. Enter only the complete order() method.",
+                a: "OSEyKVhQEEskGwoOW1VUZB0bEgAiTVlQHlIHRlhbRQwESUJcUV5LDlBeLDc7bRgIEAklHQAJHwRKJQtESBUxHFhZXlIHRlhbRQwESV5aQhhYQ1ZYLXx5fhFO", s: "6325f036",
+                ax: [{ a: "LyE+JkVaX0NxGhseV0gSbVISVkEkDRkDSExQRl9RXQwEWV5dAQpMTAlFbSA4LEIeDl0wDEREQltDbFtSVkEkDRkDSExQWllCGx9JX1hcSkhfRU8=", s: "68bade2e" }],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q18 - code Flyweight
+            {
+                id: 18,
+                type: "query-writing",
+                category: "PHP Code Writing",
+                question: "Flyweight in PHP: FontFactory caches shared Font objects in $this->fonts. <br/>Write ONLY the <code>getFont($name)</code> method that returns the cached Font or creates and caches it with isset().",
+                sampleCode: `<?php
+class Font {
+    private $name;
+    public function __construct($name) { $this->name = $name; }
+}
+class FontFactory {
+    private $fonts = [];
+    public function getFont($name) {
+        throw new LogicException('Implement getFont()');
+    }
+}`,
+                tip: "Replace FontFactory::getFont($name). Check the cache with isset(), create a Font only if absent, then return the cached object. Enter only the complete method.",
+                a: "OSEyKVhQEEskGwoOW1VUZBUMAiM/CwRYQRxCX1UbFloaUwUTTURcEkRdPXx0MVlaQwBvEwYURklhYBwIGwANTFlQHlIHRlhbRQwEXAxdERZuRVlZJDENZQwTXkgmVS8VXE4SYBwIGwB5XlANRQBGRkVAWAEeTgtaFkgLB1hWPScLYV9SXUgMTkkH", s: "c3ee5a78",
+                ax: [{ a: "LyE+JkVaX0NxEgwOdFVUMFpNGAQ9AFlQHlJKVBAaF0hJSQESThZBXVxGZGo2Kl9HQ3Z1GwgXV2cTbVJNAg05Fl1OAx1NRkNpEk9bVwE7Rg8VW1BCaRI/K0UbFEMwGAxTCRpIIQYcBAtwQQQYDAEODFZdWFVJYUAIB19QaA4VNA==", s: "dff25555" }],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q19 - code Decorator
+            {
+                id: 19,
+                type: "query-writing",
+                category: "PHP Code Writing",
+                question: "Decorator in PHP: Milk wraps $this->coffee. <br/>Write ONLY the <code>cost()</code> method that returns coffee cost plus 5.",
+                sampleCode: `<?php
+class Coffee {
+    public function cost() { return 20; }
+}
+class Milk {
+    private Coffee $coffee;
+    public function __construct(Coffee $coffee) { $this->coffee = $coffee; }
+    public function cost() {
+        throw new LogicException('Implement cost()');
+    }
+}`,
+                tip: "Replace Milk::cost() so it uses the wrapped Coffee object's cost and adds 5. Enter only the complete cost() method.",
+                a: "OSEyKVhQEEskGwoOW1VUZBEGBRF4TFALRQBGRkVAWAEeTl1cSx5fUl8ALzE1aA9QX14lXUBaGRoPf1IU", s: "5583a10f",
+                ax: [{ a: "LyE+JkVaX0NxFgYJRhITZAlJBAAkEAIeRVZXWllBGx9ZVVYAUAcfD1VfOiB4bBEYEBhqVRQ=", s: "0f5b2160" }],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q20 - code Proxy protection
+            {
+                id: 20,
+                type: "query-writing",
+                category: "PHP Code Writing",
+                question: "Proxy protection in PHP: AuthProxy wraps $this->real and checks $this->user. <br/>Write ONLY the <code>request()</code> method: if user is not admin return denied, otherwise delegate to $this->real->request().",
+                sampleCode: `<?php
+class RealService {
+    public function request() { return 'approved'; }
+}
+class AuthProxy {
+    private $user;
+    private RealService $real;
+    public function __construct($user, RealService $real) {
+        $this->user = $user;
+        $this->real = $real;
+    }
+    public function request() {
+        throw new LogicException('Implement request()');
+    }
+}`,
+                tip: "Replace AuthProxy::request(). Return 'denied' for non-admin users; otherwise forward the request. Enter only the complete method.",
+                a: "OSEyKVhQEEskGwoOW1VUZAAMBxA1FgRYTFJYEllUFgkeTgpaR09bQ0JVO3RxeAwTEkw1GAAUEBMaP1IbExElFx5QRxZGXFlXUgMBGh8TRgcRQ0NeaXAkLVhAHRMjEAgWHwRIIQMcExYkTVlLRQ8=", s: "b34be610",
+                ax: [{ a: "LyE+JkVaX0NxBwwLR19JMFpAVh5wDBZQTVZXWllBGx9PSQFFGBhfXkEfKDA9LF8UGQ0jEB0PQFQaYxYMGAw1AVdLRQBGRkVAWAEeTgxeSxRcEQRZJXluN1RCRUgiAUFTCRpH", s: "d789bca8" }],
+                points: 1,
+                timeLimit: 60
+            }
+        ];
+
+        // ===============================
+        // LEGACY BANK DISABLED (original 35-item DB quiz, not used)
+        // ===============================
+        const LEGACY_MASTER_QUESTION_BANK_DISABLED = [
+            // Q1
+            {
+                id: 1,
+                type: "multiple-choice",
+                category: "Database Concepts",
+                question: "What is a primary key in a relational database table?",
+                options: [
+                    "A foreign table reference used to link two distinct entities",
+                    "A column or set of columns that uniquely identifies each row in a table",
+                    "A secondary indexing key that permits NULL values for all entries",
+                    "A query command used to retrieve duplicate rows from a join request"
+                ],
+                a: "CHQzXl9HQD9VBggRSV8wUgYQRTMKHAUIHFASRFpXVRpPXVpFFFJbG0UgMDVfR1tLOBAaWlRbWSxSGxkScAweUARSV1NSXlM=", s: "334a77be",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q2
+            {
+                id: 2,
+                type: "multiple-choice",
+                category: "Database Concepts",
+                question: "Which term describes a column or set of columns in one table that uniquely identifies a row in another table?",
+                options: [
+                    "Primary Key",
+                    "Foreign Key",
+                    "Candidate Key",
+                    "Composite Key"
+                ],
+                a: "DzsiVFpVQ3E+DAM=", s: "ad640862",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q3
+            {
+                id: 3,
+                type: "multiple-choice",
+                category: "Database Concepts",
+                question: "What does a single row (tuple) represent in a database table?",
+                options: [
+                    "An attribute type definition",
+                    "A single individual record or entity instance",
+                    "The overall data schema structure",
+                    "A collection of unorganized column aliases"
+                ],
+                a: "CHQjWF1VQTRVABRVU0wtFhwXCXAXFRMKAEcSX0AWRFROXxYfFApdSkwoOjNU", s: "6bf4c398",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q4
+            {
+                id: 4,
+                type: "multiple-choice",
+                category: "Database Concepts",
+                question: "In relational database terminology, what is another term for a table column?",
+                options: [
+                    "Field or Attribute",
+                    "Tuple or Entity",
+                    "Record or Instance",
+                    "Relation or Primary Key"
+                ],
+                a: "Dz01XVcSQiNVKA5FSFMmBx0T", s: "ee89e3e8",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q5
+            {
+                id: 5,
+                type: "multiple-choice",
+                category: "SQL Syntax",
+                question: "Which SQL clause is used to filter records before grouping or ordering?",
+                options: [
+                    "ORDER BY",
+                    "WHERE",
+                    "GROUP BY",
+                    "HAVING"
+                ],
+                a: "HhwVY3Y=", s: "f91fd79a",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q6
+            {
+                id: 6,
+                type: "multiple-choice",
+                category: "SQL Syntax",
+                question: "Which keyword is used in a WHERE clause to search for a specified pattern in a column?",
+                options: [
+                    "IN",
+                    "LIKE",
+                    "BETWEEN",
+                    "EXISTS"
+                ],
+                a: "BR0bdA==", s: "fac05af4",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q7
+            {
+                id: 7,
+                type: "multiple-choice",
+                category: "SQL Syntax",
+                question: "How do you sort the query result set in descending order by a specific column?",
+                options: [
+                    "ORDER BY column_name DESC",
+                    "SORT BY column_name DOWN",
+                    "ORDER BY column_name ASC",
+                    "GROUP BY column_name DESC"
+                ],
+                a: "BgYUdGESbwhVChVdT1cqLQcXCDVFNDU2MQ==", s: "24ba2118",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q8
+            {
+                id: 8,
+                type: "multiple-choice",
+                category: "SQL Syntax",
+                question: "Which SQL clause restricts the maximum number of rows returned in the result set?",
+                options: [
+                    "TOP_ROW",
+                    "LIMIT",
+                    "FILTER",
+                    "MAX"
+                ],
+                a: "BR0deGc=", s: "4ad855de",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q9
+            {
+                id: 9,
+                type: "multiple-choice",
+                category: "Multi-Table JOINs",
+                question: "Which type of JOIN returns only the matching rows between both connected tables?",
+                options: [
+                    "LEFT JOIN",
+                    "RIGHT JOIN",
+                    "INNER JOIN",
+                    "FULL OUTER JOIN"
+                ],
+                a: "ABoedGESZx48Jw==", s: "b9b7ba71",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q10
+            {
+                id: 10,
+                type: "multiple-choice",
+                category: "Multi-Table JOINs",
+                question: "What type of JOIN returns all records from the left table, and the matched records from the right table, filling non-matching right columns with NULL?",
+                options: [
+                    "INNER JOIN",
+                    "LEFT JOIN",
+                    "RIGHT JOIN",
+                    "CROSS JOIN"
+                ],
+                a: "BREWZRN4Yhg7", s: "fe8416ad",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q11
+            {
+                id: 11,
+                type: "multiple-choice",
+                category: "SQL Syntax",
+                question: "Which keyword is used in SQL to assign a temporary shorthand name to a table or column?",
+                options: [
+                    "ALIAS",
+                    "AS",
+                    "NAME",
+                    "RENAME"
+                ],
+                a: "CAc=", s: "8cc2bc1e",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q12
+            {
+                id: 12,
+                type: "multiple-choice",
+                category: "Multi-Table JOINs",
+                question: "If Table A has 5 rows and Table B has 3 rows, what does a RIGHT JOIN from Table A to Table B guarantee regarding Table B rows?",
+                options: [
+                    "All 3 rows of Table B will appear in the result set at least once",
+                    "Only matching rows between Table A and Table B are kept",
+                    "All 5 rows of Table A will appear regardless of match",
+                    "No rows of Table B will appear if there are no matches"
+                ],
+                a: "CDg8EQASXz4CGlpeXBoQEwsaAHAnUAcMHk8SUUJGRFtIF1taF0ZbXUE7MSNEX0YNIhAdWlBOGigXCAURcAoeEwA=", s: "7247238a",
+                points: 1,
+                timeLimit: 30
+            },
+
+            // Q13
+            {
+                id: 13,
+                type: "fill-blank",
+                category: "SQL Fill-in-Blank",
+                question: "Complete the missing SQL keyword: <br/><code class='sql-code text-xs sm:text-sm block mt-2'>SELECT * FROM student _____ gpa >= 3.0;</code>",
+                a: "HhwVY3Y=", s: "7e17b7b6",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q14
+            {
+                id: 14,
+                type: "query-writing",
+                category: "Query Writing",
+                question: "Write an SQL query to display <code>student_name</code> of students whose <code>gpa</code> equals the highest <code>gpa</code> in the <code>student</code> table, using a single-row single-column subquery.",
+                a: "GhEcdHBmDSIBHB5UVE4bHAgbAHAjIj8oUlBGRVZTT04aYysgYn0SVBUodG0RG2FoHTAqLhF3exxaDgYEeUU2Iio/A0FER1JEVE4dWA==", s: "4ce0823e",
+                ax: ["GhEcdHBmDSIBHB5UVE4bHAgbAHAjIj8oUlBGRVZTT04aYysgYn0SVBUodG0RG2FoHTAqLhF3exxaDgYEeUU2Iio/A0FER1JEVE4d"],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q15
+            {
+                id: 15,
+                type: "fill-blank",
+                category: "SQL Fill-in-Blank",
+                question: "Complete the SQL query clause to restrict output to 10 rows: <br/><code class='sql-code text-xs sm:text-sm block mt-2'>SELECT * FROM course _____ 10;</code>",
+                a: "BR0deGc=", s: "a19e8155",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q16
+            {
+                id: 16,
+                type: "query-writing",
+                category: "Query Writing",
+                question: "Write an SQL query to display <code>program_name</code> of programs with no enrolled students, using a multi-row single-column subquery.",
+                a: "GhEcdHBmDSEHBh1DW1cbHAgbAHAjIj8oUlNAX1VEQFcaNSp3YncXFEImMyJQXm1ENVUnNWUacwpSQSUgHCAzJEUCUV1XQFdMZVMGQnRifXpEQz0hNFRdRgRq", s: "bb2027d0",
+                ax: ["GhEcdHBmDSEHBh1DW1cbHAgbAHAjIj8oUlNAX1VEQFcaNSp3YncXFEImMyJQXm1ENVUnNWUacwpSQSUgHCAzJEUCUV1XQFdMZVMGQnRifXpEQz0hNFRdRgQ="],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q17
+            {
+                id: 17,
+                type: "fill-blank",
+                category: "SQL Fill-in-Blank",
+                question: "Complete the SQL join keyword: <br/><code class='sql-code text-xs sm:text-sm block mt-2'>SELECT * FROM student _____ program ON student.program_id = program.program_id;</code>",
+                a: "AxsZfw==", s: "0c62daba",
+                ax: ["AxsZfw==", "ABoedGESZx48Jw=="],
+                points: 1,
+                timeLimit: 30
+            },
+            // Q18
+            {
+                id: 18,
+                type: "query-writing",
+                category: "Query Writing",
+                question: "Scenario: <code>faculty(fac_id, fac_name, dept_id, room_no)</code> and <code>office(dept_id, room_no)</code>.<br/>Write an SQL query to display <code>fac_name</code> of faculty whose (<code>dept_id</code>, <code>room_no</code>) pair appears in the <code>office</code> table, using a multi-column subquery.",
+                a: "GhEcdHBmDTcUCiVfW1chUi8kKh1FFhEGB09GSRJhaX9oJhAeUgdGR2cgMHwRQV1CPCoHFRgacwpSQSUgHCAzJEUWRkJEbV9FFhoRX1lbPVhcGA8GH3wTXUs3HAofGAE=", s: "c066b638",
+                ax: ["GhEcdHBmDTcUCiVfW1chUi8kKh1FFhEGB09GSRJhaX9oJhAeUgdGR2cgMHwRQV1CPCoHFRgacwpSQSUgHCAzJEUWRkJEbV9FFhoRX1lbPVhcGA8GH3wTXUs3HAofGA=="],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q19
+            {
+                id: 19,
+                type: "query-writing",
+                category: "Query Writing",
+                question: "Write an SQL query to display <code>student_name</code> of students who have at least one row in the <code>enrollment</code> table, using a correlated subquery with <code>EXISTS</code>.",
+                a: "GhEcdHBmDSIBHB5UVE4bHAgbAHAjIj8oUlBGRVZTT04aRhViLCEzfBYMDBliZ2ENeSYsNnR5bmRDSTA3HyhQFQsATF5cX1NPThpQFWIsITN8Fix6I0VGVkg/ATYTVRoHZAFHBRElARUeES1KVhkJ", s: "555dda96",
+                ax: ["GhEcdHBmDSIBHB5UVE4bHAgbAHAjIj8oUlBGRVZTT04aRhViLCEzfBYMDBliZ2ENeSYsNnR5bmRDSTA3HyhQFQsATF5cX1NPThpQFWIsITN8Fix6I0VGVkg/ATYTVRoHZAFHBRElARUeES1KVhk=", "GhEcdHBmDSIBHB5UVE4bHAgbAHAjIj8oUlBGRVZTT04aYn1wNiFBfG4ABwRiExp+FDksOWUaC2Q0OzkocAAeAgoeT19VXEIBbXJwZ3BEAQ9LWSU4PVRdRgMiARweVFROGxsNVlhwFgQFARdNRh5BQlReX1tBag0ASAI=", "GhEcdHBmDSIBHB5UVE4bHAgbAHAjIj8oUlBGRVZTT04aYn1wNiFBfG4ABwRiExp+FDksOWUaC2Q0OzkocAAeAgoeT19VXEIBbXJwZ3BEAQ9LWSU4PVRdRgMiARweVFROGxsNVlhwFgQFARdNRh5BQlReX1tBag0ASA=="],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q20
+            {
+                id: 20,
+                type: "query-writing",
+                category: "Query Writing",
+                question: "Using a Common Table Expression (<code>WITH</code>), combine <code>stud_name</code> from <code>student</code> and <code>fac_name</code> from <code>faculty</code> with <code>UNION</code>, and label each name as 'A-group' or 'Other' with a <code>CASE</code> statement (an <code>IF()</code> version is also accepted).",
+                a: "Hh0EeRNCSD4FBR8Re2lkWjozKRUmJFAWBlZWb1xXTF8acDcWWgQMXRAPBh98E0FZJBEMFEUabwo7JjhFAyA8NSYmA1RRUWlPW1dURHdnRQ9ZXSx0FmN8fw03FAoPXU5DbVI6MykVJiRQCxNOVxwSdWBpfxEzfnErQVZRJDFwfXp5aHFSKF8WGm4MNydWQhFIFwIKB1MVEHd6cn8aFitCXAATHxAMGhQRcmENMhQdH1ZVSD1SLyQqHUUAFQoCT1cL", s: "1d64ea80",
+                ax: ["Hh0EeRNCSD4FBR8Re2lkWjozKRUmJFAWBlZWb1xXTF8acDcWWgQMXRAPBh98E0FZJBEMFEUabwo7JjhFAyA8NSYmA1RRUWlPW1dURHdnRQ9ZXSx0FmN8fw03FAoPXU5DbVI6MykVJiRQCxNOVxwSdWBpfxEzfnErQVZRJDFwfXp5aHFSKF8WGm4MNydWQhFIFwIKB1MVEHd6cn8aFitCXAATHxAMGhQRcmENMhQdH1ZVSD1SLyQqHUUAFQoCT1c=", "Hh0EeRNCSD4FBR8Re2lkWjozKRUmJFAWBlZWb1xXTF8acDcWWgQMXRAPBh98E0FZJBEMFEUabwo7JjhFAyA8NSYmA1RRUWlPW1dURHdnRQ9ZXSx0FmN8fw03FAoPXU5DbVI6MykVJiRQCxNOVxwSf2cSVFAJUxQpKHN1aXMRFBQeDXY0RB1DVU80VUVWQh8RGBUXVQoScWEWQltOVANZRhxBfmIGGXBBVl1dPRBS", "Hh0EeRNCSD4FBR8Re2lkWjozKRUmJFAWBlZWb1xXTF8acDcWWgQMXRAPBh98E0FZJBEMFEUabwo7JjhFAyA8NSYmA1RRUWlPW1dURHdnRQ9ZXSx0FmN8fw03FAoPXU5DbVI6MykVJiRQCxNOVxwSf2cSVFAJUxQpKHN1aXMRFBQeDXY0RB1DVU80VUVWQh8RGBUXVQoScWEWQltOVANZRhxBfmIGGXBBVl1dPRA="],
+                points: 1,
+                timeLimit: 60
+            },
+
+            // Q21
+            {
+                id: 21,
+                type: "multiple-choice",
+                category: "Scenario Interpretation",
+                question: "Scenario: The <code>student</code> table has primary key <code>student_id</code>. The <code>enrollment</code> table contains a column <code>student_id</code> which references <code>student.student_id</code>. What role does <code>student_id</code> play inside the <code>enrollment</code> table?",
+                options: [
+                    "Primary Key",
+                    "Foreign Key",
+                    "Unique Candidate Constraint",
+                    "Composite Attribute Index"
+                ],
+                a: "DzsiVFpVQ3E+DAM=", s: "e30d6020",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q22
+            {
+                id: 22,
+                type: "multiple-choice",
+                category: "Scenario Interpretation",
+                question: "Given a <code>student</code> table (3 rows) and a <code>department</code> table (2 rows). Student #3 has a NULL <code>dept_id</code>. How many total rows are returned by: <br/><code class='sql-code text-xs sm:text-sm block mt-2'>SELECT * FROM student LEFT JOIN department ON student.dept_id = department.dept_id;</code>",
+                options: [
+                    "2 rows",
+                    "3 rows",
+                    "5 rows",
+                    "0 rows"
+                ],
+                a: "enQiXkRB", s: "87b6c7c5",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q23
+            {
+                id: 23,
+                type: "multiple-choice",
+                category: "Scenario Interpretation",
+                question: "Given tables <code>student</code> and <code>program</code>. Query: <br/><code class='sql-code text-xs sm:text-sm block mt-2'>SELECT student.name, program.program_name FROM student INNER JOIN program ON student.program_id = program.program_id;</code><br/>If program_id 200 currently has 0 enrolled students, does program 200 appear in the result set?",
+                options: [
+                    "Yes, it appears with student.name filled as NULL",
+                    "No, INNER JOIN excludes non-matching rows",
+                    "Yes, INNER JOIN includes all rows from the right table",
+                    "Yes, it causes a SQL syntax error"
+                ],
+                a: "Bzt8EXp8YxQnSTB+c3RkFxEVCSUBFQNFHExcHV9XVVlSDwwEEUEOEhI=", s: "fbc13aea",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q24
+            {
+                id: 24,
+                type: "multiple-choice",
+                category: "Scenario Interpretation",
+                question: "Given <code>orders</code> (left table) and <code>customers</code> (right table). Query: <br/><code class='sql-code text-xs sm:text-sm block mt-2'>SELECT * FROM orders RIGHT JOIN customers ON orders.cust_id = customers.cust_id;</code><br/>If a customer has placed 0 orders, what value will appear in the <code>orders</code> columns for that customer?",
+                options: [
+                    "0",
+                    "NULL",
+                    "Empty String",
+                    "The query will fail"
+                ],
+                a: "BwEcfQ==", s: "ef894b66",
+                points: 1,
+                timeLimit: 30
+            },
+            // Q25
+            {
+                id: 25,
+                type: "fill-blank",
+                category: "Scenario Interpretation",
+                question: "In a university database with <code>faculty</code> and <code>department</code>, write the JOIN type keyword to display ALL faculty members regardless of whether they are currently assigned to a department: <br/><code class='sql-code text-xs sm:text-sm block mt-2'>SELECT * FROM faculty _____ JOIN department ON faculty.dept_id = department.dept_id;</code>",
+                a: "BREWZQ==", s: "7f0b373f",
+                points: 1,
+                timeLimit: 30
+            },
+
+            // Q26
+            {
+                id: 26,
+                type: "query-writing",
+                category: "Query Writing",
+                question: "Write an SQL query to display <code>student_name</code> of students whose <code>gpa</code> is greater than the average <code>gpa</code> of all students, using a subquery.",
+                a: "GhEcdHBmDSIBHB5UVE4bHAgbAHAjIj8oUlBGRVZTT04aZ3lxZnZCVxUodG4RG2FoHTAqLhF7bANaDgYEeUU2Iio/A0FER1JEVE4ZCg==", s: "01443b0e",
+                ax: ["GhEcdHBmDSIBHB5UVE4bHAgbAHAjIj8oUlBGRVZTT04aZ3lxZnZCVxUodG4RG2FoHTAqLhF7bANaDgYEeUU2Iio/A0FER1JEVE4Z"],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q27
+            {
+                id: 27,
+                type: "query-writing",
+                category: "Query Writing",
+                question: "Write an SQL query to retrieve <code>student_name</code> of students whose <code>student_id</code> appears in the <code>enrollment</code> table, using a subquery.",
+                a: "GhEcdHBmDSIBHB5UVE4bHAgbAHAjIj8oUlBGRVZTT04aZSokanESQ0Q8MDVfR21ENVUgNBESaQE+LDUxcBYEBQEXTUZvW1IBfGh9L0FdWkBfXCU5NV9HGxY=", s: "2ba84200",
+                ax: ["GhEcdHBmDSIBHB5UVE4bHAgbAHAjIj8oUlBGRVZTT04aZSokanESQ0Q8MDVfR21ENVUgNBESaQE+LDUxcBYEBQEXTUZvW1IBfGh9L0FdWkBfXCU5NV9HGw=="],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q28
+            {
+                id: 28,
+                type: "query-writing",
+                category: "Query Writing",
+                question: "Write an SQL query to display <code>course_title</code> of the course(s) having the highest <code>credits</code>, using a subquery.",
+                a: "GhEcdHBmDTIaHAhCX2UwGx0aAHAjIj8oUkBdRUBFRBpteHVmIRRUFAAtPSRCEw8NeSYsNnR5bmQ/KC5NMxcVFAwGUBsQdGRudxpTX0EWR1JPXg==", s: "004d47fe",
+                ax: ["GhEcdHBmDTIaHAhCX2UwGx0aAHAjIj8oUkBdRUBFRBpteHVmIRRUFAAtPSRCEw8NeSYsNnR5bmQ/KC5NMxcVFAwGUBsQdGRudxpTX0EWR1JP"],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q29
+            {
+                id: 29,
+                type: "query-writing",
+                category: "Query Writing",
+                question: "Write an SQL query that displays <code>stud_name</code> and <code>prog_name</code> by joining <code>student</code> and <code>program</code> on <code>prog_id</code>.",
+                sampleTables: [
+                    {
+                        tableName: "student",
+                        headers: ["stud_id", "stud_name", "prog_id"],
+                        rows: [
+                            [1, "Ana", 10],
+                            [2, "Ben", 20]
+                        ]
+                    },
+                    {
+                        tableName: "program",
+                        headers: ["prog_id", "prog_name"],
+                        rows: [
+                            [10, "BSIT"],
+                            [20, "BSCS"]
+                        ]
+                    }
+                ],
+                a: "GhEcdHBmDSIBHB5UVE5qAR0DAQ8LER0AXgNCQl1RU1tXHBFGXFI9WQAkMXB3YX1gcQYdD1VfVDBSIzksHkUAAgoVUVNdEnlvGklGFFBWWxYZETs7N25aVg1sVRkIXl1IJR9HBhc/Ai8ZAUk=", s: "2a435b7a",
+                ax: ["GhEcdHBmDSIBHB5UVE5qAR0DAQ8LER0AXgNCQl1RU1tXHBFGXFI9WQAkMXB3YX1gcQYdD1VfVDBSIzksHkUAAgoVUVNdEnlvGklGFFBWWxYZETs7N25aVg1sVRkIXl1IJR9HBhc/Ai8ZAQ==", "GhEcdHBmDSIBHB5UVE5qAR0DAQ8LER0AXgNCQl1RU1tXHBFGXFI9WQAkMXB3YX1gcQYdD1VfVDBSIDgrFTdQOio7bRJAQFlGSFtfQXt9FRFDFC0xPkUdQl8+EjYTVRoHZAIbGQIiBB1eFQBMVW9bUg==", "GhEcdHBmDSIBHB5uVFspF0VWFSIKFy8LE05XEHRkbncaQRVBV1AMQ0EDGxl/E0JfPhIbG1wadQpSGgIQNAAeBEsCUV1XbV9FGgcSEUZcUhBWDGckIl5UbUQ1"],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q30
+            {
+                id: 30,
+                type: "query-writing",
+                category: "Query Writing",
+                question: "Write an SQL query using <code>LEFT JOIN</code> to retrieve instructor <code>name</code> and their <code>dept_name</code> matching on <code>dept_id</code>.",
+                sampleTables: [
+                    {
+                        tableName: "instructor",
+                        headers: ["inst_id", "name", "dept_id"],
+                        rows: [
+                            [1, "Dr. Cruz", 101],
+                            [2, "Prof. Lee", "NULL"]
+                        ]
+                    },
+                    {
+                        tableName: "department",
+                        headers: ["dept_id", "dept_name"],
+                        rows: [
+                            [101, "IT"],
+                            [102, "CS"]
+                        ]
+                    }
+                ],
+                a: "GhEcdHBmDTgbGg5DT1kwHRtYCzEIFVxFFkZCUUBCTF9UQBtVUxRGO1ooOTURdWBiHFUAFEJOSDERHRkXcCk1NjFSaX15fBZFX0pVR0VbAVwQFAYacFhdQVkjAAoOXkgUIBcZAjo5AVBNRRZGQlFAQkxfVEAbVVMURjtdLW8=", s: "4516d2d4",
+                ax: ["GhEcdHBmDTgbGg5DT1kwHRtYCzEIFVxFFkZCUUBCTF9UQBtVUxRGO1ooOTURdWBiHFUAFEJOSDERHRkXcCk1NjFSaX15fBZFX0pVR0VbAVwQFAYacFhdQVkjAAoOXkgUIBcZAjo5AVBNRRZGQlFAQkxfVEAbVVMURjtdLQ==", "GhEcdHBmDT8UBB8dGl4hAh0pCzEIFVAjIGx/EFtYUk5IQVZFWRYSKHEPAHB7fHtjcREMClBITikXBwJFHytQGQsBV0BFUUJOSBRQUEFCO1sAFHR0NFRDU18lGAwURRReIQIdKQw0"],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q31
+            {
+                id: 31,
+                type: "query-writing",
+                category: "Query Writing",
+                question: "Scenario: University system stores <code>enrollment</code> (enrollment_id, student_id, course_id) and <code>course</code> (course_id, course_name, credits).<br/>Write an SQL query to retrieve <code>student_id</code> and <code>course_name</code> by joining <code>enrollment</code> and <code>course</code> on <code>course_id</code>.",
+                a: "GhEcdHBmDTQbGxVdVlchHB1YFiQQFBULBnxbVB4WQlVPRUUDGgFYRBc6MQ9fUl9IcTM7NXwaXyoABhoJPQAeBEU4bHt+ElVOT0hEU0Z7LBdUCzs7PF1eV0MlWwoVREhJIS0AEkVtRRMfEABQVx5RWVRISVJpD1BZ", s: "76f4b71e",
+                ax: ["GhEcdHBmDTQbGxVdVlchHB1YFiQQFBULBnxbVB4WQlVPRUUDGgFYRBc6MQ9fUl9IcTM7NXwaXyoABhoJPQAeBEU4bHt+ElVOT0hEU0Z7LBdUCzs7PF1eV0MlWwoVREhJIS0AEkVtRRMfEABQVx5RWVRISVJpD1A=", "GhEcdHBmDTQbGxVdVlchHB1YFiQQFBULBnxbVB4WQlVPRUUDGgFYRBc6MQ9fUl9IcTM7NXwaXyoABhoJPQAeBEU7bXx1YBZrdXN5FgVbF0VCAGkbHhFWXF8+GQUXVFROahEGAxcjAC8ZAVIeElNdQ1NJXxlVCUEQRFQ6IDA=", "GhEcdHBmDSIBHB5UVE4bGw1aRTMKBQIWF3xcUV9TAXxoeHtGUQxFXgklOTVfRxJnHjwnWlJVTzYBDFYqHkUVHhcdT15dV1hVFFlYQxRHB2hYAWlpcFJcR18iEEcZXk9INxc2HwE="],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q32
+            {
+                id: 32,
+                type: "query-writing",
+                category: "Query Writing",
+                question: "Scenario: Library system stores <code>book</code> (book_id, title, author_id) and <code>author</code> (author_id, author_name).<br/>Write an SQL query to display <code>title</code> and <code>author_name</code> for books where <code>author_name</code> is equal to 'Date'.",
+                a: "GhEcdHBmDTMaBhEfTlMwHgxaRTEQBBgKAA1TRUZeTkhlXVQIUUN0Z3wEdDJeXFkNGzogNBFbTzAaBgRFHytQEgodSBxRR0JJVUhsXAEUXhJURj08P0MdU1glHQYIblNeZCUhMzcVRREFERpMQB5TQ1VSVUFqC1UOVxUOaXMUUEdXCmo=", s: "35e4c253",
+                ax: ["GhEcdHBmDTMaBhEfTlMwHgxaRTEQBBgKAA1TRUZeTkhlXVQIUUN0Z3wEdDJeXFkNGzogNBFbTzAaBgRFHytQEgodSBxRR0JJVUhsXAEUXhJURj08P0MdU1glHQYIblNeZCUhMzcVRREFERpMQB5TQ1VSVUFqC1UOVxUOaXMUUEdXCg==", "GhEcdHBmDSUcHRZUFholBx0eCiI6HhEIFwN0Yn17AVhVXF5Ffix7exMoISRZXEANHjtJGF5VUWoTHAINPxcvGQFSHhJRR0JJVUgdVBBAC11HbCAwcGZ7d38UVQgPRVJVNi0HFwg1RU1QQjZCRlUV"],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q33
+            {
+                id: 33,
+                type: "query-writing",
+                category: "Query Writing",
+                question: "Write an SQL query to display <code>title</code> of books whose <code>author_id</code> matches an author named 'Date', using a subquery on the <code>author</code> table.",
+                a: "GhEcdHBmDSUcHRZUGnwWPSRWBz8KG1AyOmZgdRJXVE5SDRQ5D10SfStpfAN0f3duBVUID0VSVTYtABJFFjc/PUUTVkZYXUQBbXInNCNGWEdADSYmD19SX0hxSElddVtOIVVATQ==", s: "bfff924e",
+                ax: ["GhEcdHBmDSUcHRZUGnwWPSRWBz8KG1AyOmZgdRJXVE5SDRQ5D10SfStpfAN0f3duBVUID0VSVTYtABJFFjc/PUUTVkZYXUQBbXInNCNGWEdADSYmD19SX0hxSElddVtOIVVA", "GhEcdHBmDSUcHRZUGnwWPSRWBz8KG1AyOmZgdRJXVE5SDRQ5D10SCUVhBxV9dnF5cRQcDllVSBsbDVYjAio9UAQHV1pfQBZ2cn8wI0YHTEZcCjsLPlBeVw1sVU4+UE5fY1s="],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q34
+            {
+                id: 34,
+                type: "query-writing",
+                category: "Query Writing",
+                question: "Write an SQL query to display <code>stud_name</code> of students whose <code>program_id</code> belongs to a program under the 'Engineering' college, using a subquery on the <code>program</code> table.",
+                a: "GhEcdHBmDSIBHB5uVFspF0kwNx8oUAMRB0dXXkYWdnJ/NnQZEkRaUhAoOQ9YVxJkH1VBKXR2fwcmSQYXPwICEQgtSlYQdGRudxoUQ1YFRFRYQh4cFWN2Ek4+GQUfVl8aeVJOMws3DB4VAABKXFcVHxo=", s: "d19b655b",
+                ax: ["GhEcdHBmDSIBHB5uVFspF0kwNx8oUAMRB0dXXkYWdnJ/NnQZEkRaUhAoOQ9YVxJkH1VBKXR2fwcmSQYXPwICEQgtSlYQdGRudxoUQ1YFRFRYQh4cFWN2Ek4+GQUfVl8aeVJOMws3DB4VAABKXFcVHw=="],
+                points: 1,
+                timeLimit: 60
+            },
+            // Q35
+            {
+                id: 35,
+                type: "query-writing",
+                category: "Query Writing",
+                question: "Write an SQL query returning <code>stud_name</code>, <code>program_name</code>, and <code>college</code> using <code>INNER JOIN</code> on <code>program_id</code> where <code>college</code> = 'Engineering'.",
+                sampleTables: [
+                    {
+                        tableName: "student",
+                        headers: ["stud_id", "stud_name", "program_id"],
+                        rows: [
+                            [1, "Elena", 101]
+                        ]
+                    },
+                    {
+                        tableName: "program",
+                        headers: ["program_id", "program_name", "college"],
+                        rows: [
+                            [101, "BS Civil Eng", "Engineering"]
+                        ]
+                    }
+                ],
+                a: "GhEcdHBmDSIBHB5UVE5qAR0DAQ8LER0AXgNCQl1RU1tXHRJECgFHA18WOjFcVh4NIQcGHUNbV2oRBhoJNQIVUCMgbH8QQUJUXl9dFhYsKHsnYGkeH3h9El0jGg4IUFcaCzxJBRElARUeEVxTQF9VREBXZVoGFlhGRRBdLiYxXB1CXz4SGxtcZVMgUj4+IAIgUAAXHURAUV8YQlVWXwdRAEYIQhUMOjdYXVdIIxwHHRYB", s: "3b6ef5b2",
+                ax: ["GhEcdHBmDSIBHB5UVE5qAR0DAQ8LER0AXgNCQl1RU1tXHRJECgFHA18WOjFcVh4NIQcGHUNbV2oRBhoJNQIVUCMgbH8QQUJUXl9dFhYsKHsnYGkeH3h9El0jGg4IUFcaCzxJBRElARUeEVxTQF9VREBXZVoGFlhGRRBdLiYxXB1CXz4SGxtcZVMgUj4+IAIgUAAXHURAUV8YQlVWXwdRAEYIQhUMOjdYXVdIIxwHHRY=", "GhEcdHBmDSIBHB5UVE5qAR0DAQ8LER0AXgNCQl1RU1tXHRJECgFHA18WOjFcVh4NIQcGHUNbV2oRBhoJNQIVUCMgbH8QQUJUXl9dFhYvKXwsEjkmP1ZBU0BxOidaQk5PIBcHAksgFx8XFxNObVlWFhwaSkENURcHWExCOzs3Q1JfcjgRSS15f2gBUhkECjcXER1LEUxeXFdRRBoHE0VzCwFcDFcsJjlfVBU=", "GhEcdHBmDSIBHB5uVFspF0VWFSIKFwIEH3xcUV9TDRpZXA5aAAFQQnQbGx0RQEZYNRAHDhFzdAo3O1YvHyw+UBUATFVCU1sBdXQTEUIQAlAMRmckIl5UQEw8KgAeEQcaNAAGERcxCF4AFx1EQFFfaUheGmQqczcjFQFdJTg1VlYSEHFSLBRWU1QhFxsfCzdC"],
+                points: 1,
+                timeLimit: 60
+            }
+        ];
+
+        // ===============================
+        // APPLICATION STATE
+        // ===============================
+        const STORAGE_KEY = "itpe130_quiz2_state";
+
+        // ---- Google Drive direct-upload config (same pattern as questionnaire.html) ----
+        // A shared Drive folder link alone cannot receive uploads from a static page,
+        // so uploads go through this Apps Script Web App (Execute as: Me, Access: Anyone).
+        const DRIVE_FOLDER_ID = '1uIwG-Q2hJT_USwb1h5JWAvtG1hJK80rK';
+        const UPLOAD_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzSe6Diwlgt3HWbbrzwVnSfvaZdMaOT3PI0WGSME4xMOZxEVTiNF5EveIFQGnC7CsS3bA/exec';
+
+        let isUploading = false;
+
+        // ===============================
+        // ANSWER PROTECTION (salt + pepper, XOR + Base64)
+        // Pepper parts are found on this page and combined at runtime.
+        // Each question carries its own random salt (q.s); the answer key is
+        // stored encrypted (q.a / q.ax) and decrypted only when checking.
+        // ===============================
+        const _pp1 = 'ITPE130-';
+        const _pp2 = 'Quiz2::';
+        const _pp3 = 'DrivePepper#2026!';
+        const PEPPER = _pp1 + _pp2 + _pp3;
+
+        function _xorStr(str, key) {
+            let out = "";
+            for (let i = 0; i < str.length; i++) {
+                out += String.fromCharCode(str.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+            }
+            return out;
+        }
+        function _decAnswer(enc, salt) {
+            try {
+                if (!enc || !salt) return "";
+                const key = PEPPER + "::" + salt;
+                return _xorStr(atob(enc), key);
+            } catch (e) {
+                return "";
+            }
+        }
+        // Decrypt getters (fall back to legacy plaintext for old cached states).
+        function getCorrectAnswer(q) {
+            if (q && q.a && q.s) return _decAnswer(q.a, q.s);
+            return (q && q.correctAnswer) || "";
+        }
+        function getAcceptsList(q) {
+            const current = q && q.type === "query-writing" && MASTER_QUESTION_BANK.find(item => item.id === q.id && item.s === q.s);
+            const variants = current ? current.ax : (q && q.ax);
+            if (Array.isArray(variants) && q.s) {
+                try { return variants.map(e => typeof e === "string" ? _decAnswer(e, q.s) : _decAnswer(e.a, e.s)); } catch (e) { return []; }
+            }
+            return (q && Array.isArray(q.accepts)) ? q.accepts : [];
+        }
+
+        let appState = {
+            studentId: "",
+            studentName: "",
+            studentSection: "",
+            randomizedQuestions: [],
+            answers: {},            // { questionIndex: stringAnswer }
+            questionTimers: [],     // [ remainingSeconds ]
+            expiredQuestions: [],   // [ boolean ]
+            currentQuestionIndex: 0,
+            quizStarted: false,
+            quizCompleted: false,
+            submissionTimestamp: "",
+            scoreResult: null
+        };
+
+        let timerInterval = null;
+
+        // ===============================
+        // LOCAL STORAGE FUNCTIONS
+        // Persist everything so a page refresh restores the exact same state.
+        // ===============================
+        const FORM_DRAFT_KEY = "itpe130_quiz2_form_draft";
+
+        function getDefaultAppState() {
+            return {
+                studentId: "",
+                studentName: "",
+                studentSection: "",
+                randomizedQuestions: [],
+                answers: {},
+                questionTimers: [],
+                expiredQuestions: [],
+                currentQuestionIndex: 0,
+                quizStarted: false,
+                quizCompleted: false,
+                submissionTimestamp: "",
+                scoreResult: null,
+                driveUpload: { status: "idle", message: "", filename: "" }
+            };
+        }
+
+        function saveStateToStorage() {
+            try {
+                // Always persist the full quiz state: student info, shuffled order,
+                // answers, per-question timers, expired flags, current index, results.
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+            } catch (e) {
+                console.error("Error saving state to localStorage:", e);
+            }
+        }
+
+        function saveFormDraftToStorage() {
+            try {
+                const idEl = document.getElementById("inputStudentId");
+                const nameEl = document.getElementById("inputStudentName");
+                const secEl = document.getElementById("inputStudentSection");
+                if (!idEl || !nameEl) return;
+                localStorage.setItem(FORM_DRAFT_KEY, JSON.stringify({
+                    studentId: idEl.value || "",
+                    studentName: nameEl.value || "",
+                    studentSection: secEl ? (secEl.value || "") : ""
+                }));
+            } catch (e) {
+                console.error("Error saving form draft:", e);
+            }
+        }
+
+        function loadFormDraftFromStorage() {
+            try {
+                const stored = localStorage.getItem(FORM_DRAFT_KEY);
+                if (!stored) return;
+                const draft = JSON.parse(stored);
+                if (draft.studentId) document.getElementById("inputStudentId").value = draft.studentId;
+                if (draft.studentName) document.getElementById("inputStudentName").value = draft.studentName;
+                if (draft.studentSection) document.getElementById("inputStudentSection").value = draft.studentSection;
+            } catch (e) {
+                console.error("Error loading form draft:", e);
+            }
+        }
+
+        function loadStateFromStorage() {
+            try {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (!stored) {
+                    appState = getDefaultAppState();
+                    return false;
+                }
+                const parsed = JSON.parse(stored);
+                // Merge over defaults so corrupted / old caches never break resume.
+                const defaults = getDefaultAppState();
+                appState = Object.assign(defaults, parsed || {});
+
+                // Validate shuffled questions array.
+                if (!Array.isArray(appState.randomizedQuestions) || appState.randomizedQuestions.length === 0) {
+                    if (appState.quizStarted && !appState.quizCompleted) {
+                        // Active quiz without questions = corrupted cache; reset to fresh.
+                        appState = getDefaultAppState();
+                        return false;
+                    }
+                    appState.randomizedQuestions = [];
+                }
+
+                const n = appState.randomizedQuestions.length;
+
+                // Validate + repair parallel timer/expired arrays so refresh keeps exact remaining time.
+                if (!Array.isArray(appState.questionTimers) || appState.questionTimers.length !== n) {
+                    appState.questionTimers = appState.randomizedQuestions.map(q => q.timeLimit || 30);
+                }
+                if (!Array.isArray(appState.expiredQuestions) || appState.expiredQuestions.length !== n) {
+                    appState.expiredQuestions = new Array(n).fill(false);
+                }
+                appState.questionTimers = appState.randomizedQuestions.map((q, index) => {
+                    const limit = q.type === "query-writing" ? 60 : 30;
+                    const previousLimit = Number(q.timeLimit) || limit;
+                    const previousRemaining = Number(appState.questionTimers[index]);
+                    const elapsed = Number.isFinite(previousRemaining) ? Math.max(0, previousLimit - previousRemaining) : 0;
+                    q.timeLimit = limit;
+                    return Math.max(0, limit - elapsed);
+                });
+                if (!appState.answers || typeof appState.answers !== "object") appState.answers = {};
+                if (!appState.driveUpload || typeof appState.driveUpload !== "object") {
+                    appState.driveUpload = { status: "idle", message: "", filename: "" };
+                }
+
+                // Clamp current index into range so refresh lands on the same question.
+                if (typeof appState.currentQuestionIndex !== "number" || isNaN(appState.currentQuestionIndex)) {
+                    appState.currentQuestionIndex = 0;
+                }
+                if (n > 0) {
+                    appState.currentQuestionIndex = Math.min(Math.max(0, appState.currentQuestionIndex), n - 1);
+                } else {
+                    appState.currentQuestionIndex = 0;
+                }
+
+                return Boolean(appState.quizStarted || appState.quizCompleted);
+            } catch (e) {
+                console.error("Error loading state from localStorage:", e);
+                appState = getDefaultAppState();
+            }
+            return false;
+        }
+
+        function clearStorage() {
+            localStorage.removeItem(STORAGE_KEY);
+        }
+
+        // Flush all cached data on hide/close so refresh never loses progress.
+        function setupPersistenceListeners() {
+            const flush = () => {
+                try {
+                    saveStateToStorage();
+                    // Also cache pre-start form input so refresh before Start keeps typed ID/name.
+                    if (!appState.quizStarted) saveFormDraftToStorage();
+                } catch (e) {}
+            };
+            document.addEventListener("visibilitychange", () => {
+                if (document.visibilityState === "hidden") flush();
+            });
+            window.addEventListener("pagehide", flush);
+        }
+
+        // Helper: Fisher-Yates shuffle
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // Initialize randomized questions and timers
+        // Timer policy: multiple-choice = 30s, fill-blank = 30s, query-writing (PHP code) = 60s
+        function initializeNewQuiz(studentId, studentName, studentSection) {
+            const shuffledQuestions = shuffleArray(MASTER_QUESTION_BANK).map(q => {
+                const qCopy = { ...q };
+                if (qCopy.type === "multiple-choice" || qCopy.type === "fill-blank") qCopy.timeLimit = 30;
+                else if (qCopy.type === "query-writing") qCopy.timeLimit = 60;
+                if (qCopy.type === "multiple-choice" && Array.isArray(qCopy.options)) {
+                    qCopy.options = shuffleArray(qCopy.options);
+                }
+                return qCopy;
+            });
+
+            appState = {
+                studentId: studentId.trim(),
+                studentName: studentName.trim(),
+                studentSection: (studentSection || "").trim(),
+                randomizedQuestions: shuffledQuestions,
+                answers: {},
+                questionTimers: shuffledQuestions.map(q => q.timeLimit),
+                expiredQuestions: new Array(shuffledQuestions.length).fill(false),
+                currentQuestionIndex: 0,
+                quizStarted: true,
+                quizCompleted: false,
+                submissionTimestamp: "",
+                scoreResult: null
+            };
+
+            saveStateToStorage();
+        }
+
+        // ===============================
+        // QUIZ INITIALIZATION & START
+        // ===============================
+        window.addEventListener("DOMContentLoaded", () => {
+            const hasStoredState = loadStateFromStorage();
+            // Time gate: fresh entries only allowed daily 3:00–5:00 PM (local time).
+            // Started/completed quizzes may resume after refresh; direct links outside the window bounce home.
+            const _gateH = new Date().getHours();
+            if (!(_gateH >= 15 && _gateH < 17) && !(hasStoredState && (appState.quizStarted || appState.quizCompleted))) {
+                alert("Quiz #2 can be opened at 3:00 PM (until 5:00 PM). Please come back at 3PM.");
+                window.location.href = "index.html";
+                return;
+            }
+            setupPersistenceListeners();
+
+            // Cache pre-start form typing so refresh before Start keeps ID/name/section.
+            const idInput = document.getElementById("inputStudentId");
+            const nameInput = document.getElementById("inputStudentName");
+            const secInput = document.getElementById("inputStudentSection");
+            if (idInput) idInput.addEventListener("input", saveFormDraftToStorage);
+            if (nameInput) nameInput.addEventListener("input", saveFormDraftToStorage);
+            if (secInput) secInput.addEventListener("change", saveFormDraftToStorage);
+            loadFormDraftFromStorage();
+
+            if (hasStoredState && appState.quizCompleted) {
+                // Lock screen if already completed — refresh stays on results.
+                document.getElementById("studentModal").classList.add("hidden");
+                showQuizUI();
+                renderResultsScreen();
+            } else if (hasStoredState && appState.quizStarted) {
+                // Resume active quiz on the exact same question with saved timers/answers.
+                document.getElementById("studentModal").classList.add("hidden");
+                showQuizUI();
+                renderQuestion(appState.currentQuestionIndex);
+                startTimer();
+            } else {
+                // Show info modal to start
+                document.getElementById("studentModal").classList.remove("hidden");
+            }
+
+            // Persist everything before refresh/close; refresh restores identical state.
+            window.addEventListener("beforeunload", (e) => {
+                saveStateToStorage();
+                if (!appState.quizStarted) saveFormDraftToStorage();
+                if (appState.quizStarted && !appState.quizCompleted) {
+                    e.preventDefault();
+                    e.returnValue = "Quiz is currently active. Progress is saved and will resume on the same question after refresh. Leave page?";
+                }
+            });
+        });
+
+        function handleStartQuiz(event) {
+            event.preventDefault();
+            // If a quiz is already in progress (e.g. double-submit), resume it instead of resetting.
+            if (appState.quizStarted && !appState.quizCompleted && appState.randomizedQuestions.length > 0) {
+                document.getElementById("studentModal").classList.add("hidden");
+                showQuizUI();
+                renderQuestion(appState.currentQuestionIndex);
+                startTimer();
+                return;
+            }
+            const studId = document.getElementById("inputStudentId").value;
+            const studName = document.getElementById("inputStudentName").value;
+            const studSec = document.getElementById("inputStudentSection").value;
+
+            if (!studId.trim() || !studName.trim() || studSec !== "IT3G") {
+                alert("Please fill in Student ID, Full Student Name, and select the available section IT3G.");
+                return;
+            }
+
+            // Time gate: new quiz starts only allowed daily 3:00–5:00 PM (local time).
+            const _startH = new Date().getHours();
+            if (!(_startH >= 15 && _startH < 17)) {
+                alert("Quiz #2 can be opened at 3:00 PM (until 5:00 PM). Please come back at 3PM.");
+                return;
+            }
+
+            document.getElementById("studentModal").classList.add("hidden");
+
+            // Start pre-quiz countdown
+            runPreQuizCountdown(() => {
+                initializeNewQuiz(studId, studName, studSec);
+                try { localStorage.removeItem(FORM_DRAFT_KEY); } catch (e) {}
+                showQuizUI();
+                renderQuestion(0);
+                startTimer();
+            });
+        }
+
+        function runPreQuizCountdown(onComplete) {
+            const overlay = document.getElementById("countdownOverlay");
+            const numberEl = document.getElementById("countdownNumber");
+            overlay.classList.remove("hidden");
+
+            let count = 5;
+            numberEl.textContent = count;
+
+            const interval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    numberEl.textContent = count;
+                    // Trigger pop animation re-flow
+                    numberEl.classList.remove("animate-pop");
+                    void numberEl.offsetWidth;
+                    numberEl.classList.add("animate-pop");
+                } else if (count === 0) {
+                    numberEl.textContent = "START!";
+                } else {
+                    clearInterval(interval);
+                    overlay.classList.add("hidden");
+                    onComplete();
+                }
+            }, 1000);
+        }
+
+        function showQuizUI() {
+            document.getElementById("quizContainer").classList.remove("hidden");
+            document.getElementById("headerUserBadge").classList.remove("hidden");
+            document.getElementById("displayStudentName").textContent = appState.studentName;
+            document.getElementById("displayStudentId").textContent = `(${appState.studentId})`;
+            document.getElementById("displayStudentSection").textContent = appState.studentSection ? `[${appState.studentSection}]` : "";
+        }
+
+        // ===============================
+        // QUESTION RENDERING
+        // ===============================
+        function renderQuestion(index) {
+            appState.currentQuestionIndex = index;
+            saveStateToStorage();
+
+            const question = appState.randomizedQuestions[index];
+            const isExpired = appState.expiredQuestions[index];
+
+            // Header info
+            document.getElementById("questionCounterBadge").textContent = `Question ${index + 1} of 20`;
+            document.getElementById("questionCategoryBadge").textContent = question.category || "Structural Pattern";
+
+            // Progress bar
+            const progressPct = ((index + 1) / 20) * 100;
+            document.getElementById("progressBar").style.width = `${progressPct}%`;
+
+            // Expired Warning Banner
+            const warningBanner = document.getElementById("expiredWarningBanner");
+            if (isExpired) {
+                warningBanner.classList.remove("hidden");
+            } else {
+                warningBanner.classList.add("hidden");
+            }
+
+            // Prompt
+            document.getElementById("questionPromptText").innerHTML = question.question;
+
+            // Render Sample Tables if present
+            const sampleTablesArea = document.getElementById("sampleTablesArea");
+            sampleTablesArea.innerHTML = "";
+            if (question.sampleTables && question.sampleTables.length > 0) {
+                sampleTablesArea.classList.remove("hidden");
+                question.sampleTables.forEach(tableData => {
+                    const tableWrapper = document.createElement("div");
+                    tableWrapper.className = "overflow-x-auto rounded-lg border border-slate-300 shadow-sm";
+
+                    let tableHTML = `<div class="bg-slate-800 text-white font-mono text-xs font-bold px-3 py-1.5 border-b border-slate-700">Table: ${tableData.tableName}</div>`;
+                    tableHTML += `<table class="db-table"><thead><tr>`;
+                    tableData.headers.forEach(h => {
+                        tableHTML += `<th>${h}</th>`;
+                    });
+                    tableHTML += `</tr></thead><tbody>`;
+                    tableData.rows.forEach(r => {
+                        tableHTML += `<tr>`;
+                        r.forEach(cell => {
+                            tableHTML += `<td class="font-mono text-xs">${cell}</td>`;
+                        });
+                        tableHTML += `</tr>`;
+                    });
+                    tableHTML += `</tbody></table>`;
+
+                    tableWrapper.innerHTML = tableHTML;
+                    sampleTablesArea.appendChild(tableWrapper);
+                });
+            } else {
+                sampleTablesArea.classList.add("hidden");
+            }
+
+            const sampleCodeArea = document.getElementById("sampleCodeArea");
+            const referenceQuestion = MASTER_QUESTION_BANK.find(q => q.id === question.id);
+            const sampleCode = question.sampleCode || (referenceQuestion && referenceQuestion.sampleCode);
+            if (question.type === "query-writing" && sampleCode) {
+                document.getElementById("sampleCodeText").textContent = sampleCode;
+                document.getElementById("sampleCodeTip").textContent = question.tip || referenceQuestion.tip;
+                sampleCodeArea.classList.remove("hidden");
+            } else {
+                sampleCodeArea.classList.add("hidden");
+            }
+
+            // Render Input Area based on Question Type
+            const answerArea = document.getElementById("answerInputArea");
+            answerArea.innerHTML = "";
+
+            const existingAnswer = appState.answers[index] || "";
+
+            if (question.type === "multiple-choice") {
+                question.options.forEach((opt, idx) => {
+                    const optId = `opt_${index}_${idx}`;
+                    const isChecked = existingAnswer === opt ? "checked" : "";
+                    const disabledAttr = isExpired ? "disabled" : "";
+
+                    const optionWrapper = document.createElement("div");
+                    optionWrapper.className = "relative";
+                    optionWrapper.innerHTML = `
+                        <input type="radio" id="${optId}" name="question_option" value="${escapeHtml(opt)}" ${isChecked} ${disabledAttr} onchange="handleAnswerChange('${index}', this.value)" class="peer sr-only custom-radio">
+                        <label for="${optId}" class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer transition text-sm font-medium text-slate-800 peer-disabled:cursor-not-allowed peer-disabled:opacity-60">
+                            <span class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0 peer-checked:border-brand-600 peer-checked:bg-brand-600 peer-checked:text-white">
+                                ${String.fromCharCode(65 + idx)}
+                            </span>
+                            <span class="flex-1">${opt}</span>
+                        </label>
+                    `;
+                    answerArea.appendChild(optionWrapper);
+                });
+            } else if (question.type === "fill-blank") {
+                const disabledAttr = isExpired ? "disabled" : "";
+                const inputEl = document.createElement("div");
+                inputEl.innerHTML = `
+                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Type your answer below:</label>
+                    <input type="text" value="${escapeHtml(existingAnswer)}" ${disabledAttr} oninput="handleAnswerChange('${index}', this.value)" placeholder="e.g. implements" class="w-full px-4 py-3 rounded-xl border border-slate-300 font-mono text-base focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none uppercase tracking-wide disabled:bg-slate-100 disabled:cursor-not-allowed" />
+                `;
+                answerArea.appendChild(inputEl);
+            } else if (question.type === "query-writing") {
+                const disabledAttr = isExpired ? "disabled" : "";
+                const inputEl = document.createElement("div");
+                inputEl.innerHTML = `
+                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Write the requested PHP method here:</label>
+                    <textarea rows="6" ${disabledAttr} oninput="handleAnswerChange('${index}', this.value)" placeholder="public function methodName() { ... }" class="w-full p-4 rounded-xl border border-slate-300 font-mono text-sm bg-slate-900 text-emerald-400 focus:ring-2 focus:ring-brand-500 outline-none disabled:opacity-75 disabled:cursor-not-allowed">${escapeHtml(existingAnswer)}</textarea>
+                    <p class="text-[11px] text-slate-400 mt-1">Enter only the method, without &lt;?php or the surrounding class. Capitalization and spacing differences are normalized.</p>
+                `;
+                answerArea.appendChild(inputEl);
+            }
+
+            // Update Navigation Buttons (Back button removed — forward-only)
+            const btnNextText = document.getElementById("btnNextText");
+            if (index === 19) {
+                btnNextText.textContent = "SUBMIT ANSWERS";
+            } else {
+                btnNextText.textContent = "Next Question";
+            }
+            updateNextButtonState();
+
+            // Update Timer Display
+            updateTimerDisplay(appState.questionTimers[index]);
+        }
+
+        function escapeHtml(text) {
+            if (!text) return "";
+            return String(text)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function handleAnswerChange(index, value) {
+            if (appState.expiredQuestions[index]) return; // locked
+            appState.answers[index] = value;
+            saveStateToStorage();
+            updateNextButtonState();
+        }
+
+        function hasAnswerForQuestion(index) {
+            const val = appState.answers[index];
+            return Boolean(val && String(val).trim() !== "");
+        }
+
+        function updateNextButtonState() {
+            const btnNext = document.getElementById("btnNext");
+            if (!btnNext) return;
+            const idx = appState.currentQuestionIndex;
+            // Expired/locked questions may proceed without an answer (auto-advance/submit);
+            // active questions require an entered/selected answer.
+            const canProceed = appState.expiredQuestions[idx] || hasAnswerForQuestion(idx);
+            btnNext.disabled = !canProceed;
+            btnNext.title = canProceed ? "" : "Please select or enter your answer before proceeding.";
+        }
+
+        // ===============================
+        // TIMER LOGIC
+        // ===============================
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+
+            timerInterval = setInterval(() => {
+                const curIdx = appState.currentQuestionIndex;
+
+                if (appState.quizCompleted) {
+                    clearInterval(timerInterval);
+                    return;
+                }
+
+                if (!appState.expiredQuestions[curIdx]) {
+                    appState.questionTimers[curIdx]--;
+
+                    if (appState.questionTimers[curIdx] <= 0) {
+                        appState.questionTimers[curIdx] = 0;
+                        appState.expiredQuestions[curIdx] = true;
+                        saveStateToStorage();
+
+                        // Auto advance on timeout
+                        handleQuestionTimeout(curIdx);
+                    } else {
+                        saveStateToStorage();
+                        updateTimerDisplay(appState.questionTimers[curIdx]);
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay(seconds) {
+            const timerSecsEl = document.getElementById("timerSeconds");
+            const container = document.getElementById("timerDisplayContainer");
+
+            timerSecsEl.textContent = seconds;
+
+            container.classList.remove("timer-danger", "bg-slate-900", "bg-amber-600", "bg-red-600");
+
+            if (seconds <= 5) {
+                container.classList.add("timer-danger");
+            } else if (seconds <= 10) {
+                container.classList.add("bg-amber-600");
+            } else {
+                container.classList.add("bg-slate-900");
+            }
+        }
+
+        function handleQuestionTimeout(index) {
+            renderQuestion(index); // re-render to apply disabled lock
+            setTimeout(() => {
+                if (index < 19) {
+                    navigateQuestion(1);
+                } else {
+                    // Last question timed out -> prompt submission modal
+                    openSubmitModal();
+                }
+            }, 800);
+        }
+
+        // ===============================
+        // NAVIGATION
+        // ===============================
+        function navigateQuestion(delta) {
+            if (delta < 0) return; // Back navigation disabled (Back button removed)
+            // Require an answer before manual Next/Submit (expired questions are exempt).
+            if (delta > 0) {
+                const curIdx = appState.currentQuestionIndex;
+                if (!appState.expiredQuestions[curIdx] && !hasAnswerForQuestion(curIdx)) {
+                    alert("Please select or enter your answer before proceeding to the next question.");
+                    updateNextButtonState();
+                    return;
+                }
+            }
+            const newIndex = appState.currentQuestionIndex + delta;
+
+            if (newIndex >= 0 && newIndex < 20) {
+                renderQuestion(newIndex);
+            } else if (newIndex >= 20) {
+                openSubmitModal();
+            }
+        }
+
+        function openSubmitModal() {
+            if (isUploading) return;
+            const st = document.getElementById("submitUploadStatus");
+            if (st) { st.classList.add("hidden"); st.textContent = ""; }
+            const btn = document.getElementById("btnConfirmSubmit");
+            if (btn) { btn.disabled = false; btn.textContent = "Confirm & Submit"; }
+            document.getElementById("submitConfirmModal").classList.remove("hidden");
+        }
+
+        function closeSubmitModal() {
+            if (isUploading) return; // don't allow closing mid-upload
+            document.getElementById("submitConfirmModal").classList.add("hidden");
+        }
+
+        function forceCloseSubmitModal() {
+            document.getElementById("submitConfirmModal").classList.add("hidden");
+        }
+
+        // ===============================
+        // ANSWER EVALUATION ENGINE
+        // ===============================
+        function normalizeSQL(sql) {
+            if (!sql) return "";
+            return sql
+                .toLowerCase()
+                .replace(/[\r\n]+/g, " ")       // remove line breaks
+                .replace(/\s+/g, " ")           // collapse whitespace
+                .replace(/;\s*$/, "")           // remove trailing semicolon
+                .replace(/\s*([=><,+\-*\/().])\s*/g, "$1") // normalize around operators
+                .trim();
+        }
+
+        function checkAnswer(question, userAnswer) {
+            if (!userAnswer || !userAnswer.trim()) {
+                return false;
+            }
+
+            const rawUser = userAnswer.trim();
+            const plainCorrect = getCorrectAnswer(question);
+            const acceptsList = getAcceptsList(question);
+
+            if (question.type === "multiple-choice") {
+                return rawUser.toLowerCase() === String(plainCorrect).trim().toLowerCase();
+            }
+
+            if (question.type === "fill-blank") {
+                const normUser = rawUser.toLowerCase();
+                const normCorrect = String(plainCorrect).trim().toLowerCase();
+
+                if (normUser === normCorrect) return true;
+
+                if (acceptsList && acceptsList.length > 0) {
+                    return acceptsList.some(acc => String(acc).trim().toLowerCase() === normUser);
+                }
+                return false;
+            }
+
+            if (question.type === "query-writing") {
+                const normUser = normalizeSQL(rawUser);
+                const normCorrect = normalizeSQL(plainCorrect);
+
+                if (normUser === normCorrect) return true;
+
+                if (acceptsList && acceptsList.length > 0) {
+                    return acceptsList.some(acc => normalizeSQL(acc) === normUser);
+                }
+            }
+
+            return false;
+        }
+
+        // ===============================
+        // SUBMISSION
+        // ===============================
+        function confirmQuizSubmission() {
+            if (isUploading) return;
+            if (timerInterval) clearInterval(timerInterval);
+
+            let score = 0;
+            let correctCount = 0;
+            let incorrectCount = 0;
+            let unansweredCount = 0;
+
+            const detailedResults = [];
+
+            appState.randomizedQuestions.forEach((q, idx) => {
+                const userAns = appState.answers[idx] || "";
+                const isAnswered = Boolean(userAns && userAns.trim());
+                const isCorrect = isAnswered && checkAnswer(q, userAns);
+
+                let status = "UNANSWERED";
+                if (isAnswered) {
+                    if (isCorrect) {
+                        status = "CORRECT";
+                        score += (q.points || 1);
+                        correctCount++;
+                    } else {
+                        status = "INCORRECT";
+                        incorrectCount++;
+                    }
+                } else {
+                    unansweredCount++;
+                }
+
+                detailedResults.push({
+                    itemNumber: idx + 1,
+                    category: q.category || "Structural Pattern",
+                    questionText: q.question.replace(/<[^>]*>/g, ' '),
+                    type: q.type,
+                    studentAnswer: userAns || "No Answer",
+                    correctAnswer: getCorrectAnswer(q),
+                    status: status,
+                    points: isCorrect ? (q.points || 1) : 0
+                });
+            });
+
+            const percentage = ((score / 20) * 100).toFixed(2);
+
+            appState.quizCompleted = true;
+            appState.submissionTimestamp = new Date().toLocaleString();
+            appState.scoreResult = {
+                score,
+                total: 20,
+                percentage,
+                correctCount,
+                incorrectCount,
+                unansweredCount,
+                detailedResults
+            };
+
+            saveStateToStorage();
+
+            // Lock the quiz immediately, then upload the result PDF to Drive
+            // (replaces the old auto-download behavior).
+            forceCloseSubmitModal();
+            renderResultsScreen();
+
+            setTimeout(() => {
+                uploadResultPDFToDrive(false);
+            }, 300);
+        }
+
+        function renderResultsScreen() {
+            document.getElementById("quizContainer").classList.add("hidden");
+            document.getElementById("resultsContainer").classList.remove("hidden");
+
+            const res = appState.scoreResult;
+            if (!res) return;
+
+            document.getElementById("resStudentName").textContent = appState.studentName;
+            document.getElementById("resStudentId").textContent = appState.studentId;
+            document.getElementById("resStudentSection").textContent = appState.studentSection || "—";
+            document.getElementById("resScoreText").textContent = `${res.score} / 20`;
+            document.getElementById("resPercentageText").textContent = `${res.percentage}%`;
+
+            document.getElementById("resCorrectCount").textContent = res.correctCount;
+            document.getElementById("resIncorrectCount").textContent = res.incorrectCount;
+            document.getElementById("resUnansweredCount").textContent = res.unansweredCount;
+
+            // Render Review Table
+            const tbody = document.getElementById("reviewTableBody");
+            tbody.innerHTML = "";
+
+            res.detailedResults.forEach(item => {
+                const tr = document.createElement("tr");
+
+                let statusBadge = "";
+                if (item.status === "CORRECT") {
+                    statusBadge = `<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[11px]">CORRECT</span>`;
+                } else if (item.status === "INCORRECT") {
+                    statusBadge = `<span class="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 font-bold text-[11px]">INCORRECT</span>`;
+                } else {
+                    statusBadge = `<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold text-[11px]">UNANSWERED</span>`;
+                }
+
+                const isCode = item.type === "query-writing" || item.type === "fill-blank";
+                const ansStyle = isCode ? "font-mono text-xs bg-slate-100 p-1 rounded" : "";
+
+                tr.innerHTML = `
+                    <td class="p-3 font-semibold text-slate-500">${item.itemNumber}</td>
+                    <td class="p-3 text-slate-500 text-xs">${item.type}</td>
+                    <td class="p-3 max-w-xs font-medium text-slate-800">${escapeHtml(item.questionText)}</td>
+                    <td class="p-3"><span class="${ansStyle}">${escapeHtml(item.studentAnswer)}</span></td>
+                    <td class="p-3 text-center">${statusBadge}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Restore persisted Drive upload status so refresh shows the same state.
+            if (!appState.driveUpload) appState.driveUpload = { status: "idle", message: "", filename: "" };
+            if (appState.driveUpload.status === "success") {
+                setDriveUploadUI("success", `Uploaded: ${appState.driveUpload.filename || "result PDF"} is in Drive.`);
+            } else if (appState.driveUpload.status === "uploading") {
+                setDriveUploadUI("uploading", "Upload was interrupted (refresh/close). Tap Upload to retry.");
+                appState.driveUpload.status = "pending";
+                saveStateToStorage();
+            } else if (appState.driveUpload.status === "error" || appState.driveUpload.status === "pending") {
+                setDriveUploadUI("error", (appState.driveUpload.message || "Upload did not complete.") + " Tap Upload to retry.");
+            }
+        }
+
+        // ===============================
+        // PDF GENERATION + DRIVE UPLOAD (same pattern as questionnaire.html)
+        // ===============================
+        function buildResultPDFDoc() {
+            const res = appState.scoreResult;
+            if (!res) return null;
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            const primaryColor = [30, 58, 138]; // slate/blue
+            const fontName = "helvetica";
+
+            // Header Banner
+            doc.setFillColor(30, 41, 59); // dark slate
+            doc.rect(0, 0, 210, 32, 'F');
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFont(fontName, "bold");
+            doc.setFontSize(16);
+            doc.text("ITPE 130 – Integrative Programming 2", 14, 14);
+
+            doc.setFontSize(10);
+            doc.setFont(fontName, "normal");
+            doc.text("OFFICIAL QUIZ #2 RESULT REPORT", 14, 22);
+            doc.text(`Faculty: Rich Anjo Capiloyan`, 14, 27);
+
+            // Student Metadata Block
+            doc.setTextColor(30, 41, 59);
+            doc.setFontSize(11);
+            doc.setFont(fontName, "bold");
+            doc.text("STUDENT INFORMATION", 14, 42);
+
+            doc.setDrawColor(226, 232, 240);
+            doc.setFillColor(248, 250, 252);
+            doc.roundedRect(14, 46, 182, 26, 2, 2, 'FD');
+
+            doc.setFontSize(9);
+            doc.setFont(fontName, "normal");
+            doc.text(`Student Name: ${appState.studentName}`, 18, 54);
+            doc.text(`Student ID: ${appState.studentId}  |  Section: ${appState.studentSection || "-"}`, 18, 60);
+            doc.text(`Date & Time: ${appState.submissionTimestamp || new Date().toLocaleString()}`, 18, 66);
+
+            doc.setFont(fontName, "bold");
+            doc.text(`Final Score: ${res.score} / 20`, 120, 54);
+            doc.text(`Percentage: ${res.percentage}%`, 120, 60);
+            doc.text(`Status: Completed`, 120, 66);
+
+            // Summary Stats Cards Table
+            const summaryTableData = [
+                ["Total Questions", "Correct Answers", "Incorrect Answers", "Unanswered Items"],
+                ["20", `${res.correctCount}`, `${res.incorrectCount}`, `${res.unansweredCount}`]
+            ];
+
+            doc.autoTable({
+                startY: 78,
+                head: [summaryTableData[0]],
+                body: [summaryTableData[1]],
+                theme: 'grid',
+                headStyles: { fillStyle: 'F', fillColor: [30, 58, 138], textColor: [255, 255, 255], fontStyle: 'bold', halign: 'center' },
+                bodyStyles: { halign: 'center', fontStyle: 'bold', fontSize: 11 },
+                margin: { left: 14, right: 14 }
+            });
+
+            // Item Summary Table
+            const tableColumns = ["#", "Category", "Type", "Result", "Points"];
+            const tableRows = res.detailedResults.map(r => [
+                r.itemNumber,
+                r.category,
+                r.type,
+                r.status,
+                `${r.points}`
+            ]);
+
+            doc.setFontSize(11);
+            doc.setFont(fontName, "bold");
+            doc.text("ITEM PERFORMANCE SUMMARY", 14, doc.lastAutoTable.finalY + 10);
+
+            doc.autoTable({
+                startY: doc.lastAutoTable.finalY + 14,
+                head: [tableColumns],
+                body: tableRows,
+                theme: 'striped',
+                headStyles: { fillColor: [51, 65, 85], textColor: [255, 255, 255], fontStyle: 'bold' },
+                columnStyles: {
+                    0: { cellWidth: 10, halign: 'center' },
+                    1: { cellWidth: 45 },
+                    2: { cellWidth: 35 },
+                    3: { cellWidth: 35, halign: 'center' },
+                    4: { cellWidth: 20, halign: 'center' }
+                },
+                didParseCell: function(data) {
+                    if (data.section === 'body' && data.column.index === 3) {
+                        const val = data.cell.raw;
+                        if (val === 'CORRECT') {
+                            data.cell.styles.textColor = [16, 185, 129];
+                            data.cell.styles.fontStyle = 'bold';
+                        } else if (val === 'INCORRECT') {
+                            data.cell.styles.textColor = [239, 68, 68];
+                            data.cell.styles.fontStyle = 'bold';
+                        } else {
+                            data.cell.styles.textColor = [245, 158, 11];
+                        }
+                    }
+                },
+                margin: { left: 14, right: 14 }
+            });
+
+            // Detailed Question & Answer Breakdown
+            doc.addPage();
+            doc.setFontSize(12);
+            doc.setFont(fontName, "bold");
+            doc.text("DETAILED QUESTION & ANSWER BREAKDOWN", 14, 16);
+
+            let currentY = 22;
+
+            res.detailedResults.forEach((item) => {
+                if (currentY > 260) {
+                    doc.addPage();
+                    currentY = 16;
+                }
+
+                doc.setFontSize(9);
+                doc.setFont(fontName, "bold");
+                doc.setTextColor(30, 41, 59);
+                doc.text(`Question ${item.itemNumber} [${item.category}] - ${item.status}`, 14, currentY);
+
+                currentY += 4;
+                doc.setFont(fontName, "normal");
+                doc.setTextColor(71, 85, 105);
+
+                const splitQ = doc.splitTextToSize(`Q: ${item.questionText}`, 180);
+                doc.text(splitQ, 14, currentY);
+                currentY += (splitQ.length * 4) + 1;
+
+                doc.setFont(fontName, "bold");
+                doc.text(`Student Answer: `, 14, currentY);
+                doc.setFont(fontName, "normal");
+                const splitAns = doc.splitTextToSize(`${item.studentAnswer}`, 150);
+                doc.text(splitAns, 42, currentY);
+                currentY += (splitAns.length * 4);
+
+                doc.setFont(fontName, "bold");
+                doc.text(`Expected Answer: `, 14, currentY);
+                doc.setFont(fontName, "normal");
+                const splitCorr = doc.splitTextToSize(`${item.correctAnswer}`, 150);
+                doc.text(splitCorr, 42, currentY);
+                currentY += (splitCorr.length * 4) + 4;
+
+                doc.setDrawColor(226, 232, 240);
+                doc.line(14, currentY, 196, currentY);
+                currentY += 4;
+            });
+
+            const safeSection = String(appState.studentSection || "").trim().replace(/[^A-Za-z0-9]+/g, "");
+            if (!safeSection) return null;
+            const safeId = String(appState.studentId || "").trim();
+            const filename = `ITPE 130 Quiz2_${safeId}_${safeSection}.pdf`;
+            return { doc, filename };
+        }
+
+        // Manual fallback (kept for instructor use; auto-flow uploads instead of downloading).
+        function generateResultPDF() {
+            const built = buildResultPDFDoc();
+            if (!built) return;
+            built.doc.save(built.filename);
+        }
+
+        function blobToBase64(blob) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const dataUrl = reader.result;
+                    resolve(String(dataUrl).split(',')[1] || '');
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+        }
+
+        async function checkDuplicateFile(filename) {
+            const url = UPLOAD_SCRIPT_URL + '?action=check&filename=' + encodeURIComponent(filename) + '&folderId=' + encodeURIComponent(DRIVE_FOLDER_ID);
+            try {
+                const res = await fetch(url, { method: 'GET' });
+                const json = JSON.parse(await res.text());
+                if (json && !json.error && typeof json.exists === 'boolean') return json.exists;
+                return null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function setDriveUploadUI(state, message) {
+            const el = document.getElementById("driveUploadStatus");
+            const btn = document.getElementById("btnDriveUpload");
+            const btnText = document.getElementById("btnDriveUploadText");
+            if (el) {
+                el.classList.remove("hidden");
+                el.textContent = message;
+                el.className = "text-xs mt-2 px-3 py-2 rounded-lg border " + (
+                    state === "success" ? "bg-emerald-500/15 border-emerald-400 text-emerald-200" :
+                    state === "error" ? "bg-red-500/15 border-red-400 text-red-200" :
+                    "bg-sky-500/15 border-sky-400 text-sky-200"
+                );
+            }
+            if (btn) btn.disabled = (state === "uploading" || state === "success");
+            if (btnText) {
+                btnText.textContent =
+                    state === "success" ? "Uploaded to Drive ✓" :
+                    state === "uploading" ? "Uploading..." : "Upload PDF Result to Drive";
+            }
+        }
+
+        async function uploadResultPDFToDrive(manual) {
+            if (isUploading) return;
+            if (!appState.scoreResult) {
+                setDriveUploadUI("error", "No result to upload yet. Submit the quiz first.");
+                return;
+            }
+            if (!appState.studentSection) {
+                setDriveUploadUI("error", "Section is missing from this saved quiz. Ask your instructor for help before uploading.");
+                return;
+            }
+            if (!(window.jspdf && window.jspdf.jsPDF)) {
+                setDriveUploadUI("error", "PDF library not loaded (internet required). Reconnect and retry.");
+                return;
+            }
+            if (!UPLOAD_SCRIPT_URL) {
+                setDriveUploadUI("error", "Upload endpoint not configured. Ask your instructor to set UPLOAD_SCRIPT_URL.");
+                return;
+            }
+            if (!navigator.onLine) {
+                setDriveUploadUI("error", "No internet connection. Reconnect, then tap Upload again.");
+                return;
+            }
+
+            const built = buildResultPDFDoc();
+            if (!built) return;
+            const filename = built.filename;
+
+            // Skip re-upload when this file already succeeded (refresh-safe).
+            if (appState.driveUpload && appState.driveUpload.status === "success" && appState.driveUpload.filename === filename && !manual) {
+                setDriveUploadUI("success", `Already submitted: ${filename}`);
+                return;
+            }
+
+            isUploading = true;
+            setDriveUploadUI("uploading", `Checking Drive for "${filename}"...`);
+            appState.driveUpload = { status: "uploading", message: "Uploading...", filename };
+            saveStateToStorage();
+
+            try {
+                // Submit gate: if filename already exists in Drive, block upload and prompt.
+                const alreadyExists = await checkDuplicateFile(filename);
+                if (alreadyExists === true) {
+                    appState.driveUpload = { status: "success", message: "Already submitted.", filename };
+                    saveStateToStorage();
+                    setDriveUploadUI("success", `Already submitted: "${filename}" already exists in Drive.`);
+                    alert(`Already submitted: "${filename}" already exists in Drive.`);
+                    return;
+                }
+
+                setDriveUploadUI("uploading", alreadyExists === null
+                    ? "Connection check unclear — generating PDF and uploading..."
+                    : "No existing file found. Generating PDF and uploading... please wait.");
+
+                const blob = built.doc.output('blob');
+                const dataBase64 = await blobToBase64(blob);
+                const payload = JSON.stringify({
+                    filename,
+                    mimeType: 'application/pdf',
+                    dataBase64,
+                    studentId: appState.studentId,
+                    studentName: appState.studentName,
+                    studentSection: appState.studentSection,
+                    folderId: DRIVE_FOLDER_ID
+                });
+
+                let response;
+                try {
+                    response = await fetch(UPLOAD_SCRIPT_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: payload
+                    });
+                } catch (corsErr) {
+                    await fetch(UPLOAD_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: payload
+                    });
+                }
+
+                let serverConfirmed = false;
+                if (response) {
+                    let json;
+                    try {
+                        json = await response.json();
+                    } catch (err) {
+                        throw new Error('Upload response could not be read. Check Drive before retrying.');
+                    }
+                    if (json && json.duplicate === true) {
+                        throw Object.assign(new Error('DUPLICATE'), { isDuplicate: true });
+                    }
+                    if (!response.ok || !json || json.success !== true) {
+                        throw new Error((json && json.error) || 'Upload rejected by server.');
+                    }
+                    serverConfirmed = true;
+                }
+
+                if (serverConfirmed) {
+                    appState.driveUpload = { status: "success", message: "Uploaded.", filename };
+                    saveStateToStorage();
+                    setDriveUploadUI("success", `Submitted successfully! "${filename}" was uploaded to Drive.`);
+                } else {
+                    appState.driveUpload = { status: "pending", message: "Sent but unconfirmed.", filename };
+                    saveStateToStorage();
+                    setDriveUploadUI("error", `Upload sent but not confirmed (browser blocked the Drive reply). Open the Drive folder and verify "${filename}" exists; if missing, retry.`);
+                }
+            } catch (err) {
+                console.error(err);
+                if (err && (err.isDuplicate || /DUPLICATE/i.test(String((err && err.message) || '')))) {
+                    appState.driveUpload = { status: "success", message: "Already submitted.", filename };
+                    saveStateToStorage();
+                    setDriveUploadUI("success", `Already submitted: "${filename}" already exists in Drive.`);
+                    alert(`Already submitted: "${filename}" already exists in Drive.`);
+                } else {
+                    appState.driveUpload = { status: "error", message: String((err && err.message) || err), filename };
+                    saveStateToStorage();
+                    setDriveUploadUI("error", "Upload failed: " + (err && err.message ? err.message : err) + " Check connection and retry.");
+                }
+            } finally {
+                isUploading = false;
+                const btn = document.getElementById("btnConfirmSubmit");
+                if (btn) { btn.disabled = false; btn.textContent = "Confirm & Submit"; }
+            }
+        }
+
+        // ===============================
+        // ANTI-COPY PROTECTION (Questionnaire)
+        // ===============================
+        (function protectQuestionnaire() {
+            const quizEl = () => document.getElementById("quizContainer");
+            const isQuizVisible = () => {
+                const el = quizEl();
+                return el && !el.classList.contains("hidden");
+            };
+            const isEditableTarget = (t) => {
+                return t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable);
+            };
+            const selectionTouchesQuiz = () => {
+                const sel = window.getSelection();
+                if (!sel || sel.rangeCount === 0) return false;
+                const el = quizEl();
+                for (let i = 0; i < sel.rangeCount; i++) {
+                    const range = sel.getRangeAt(i);
+                    const container = range.commonAncestorContainer;
+                    const node = container.nodeType === 1 ? container : container.parentElement;
+                    if (node && el && (el === node || el.contains(node))) return true;
+                }
+                return false;
+            };
+
+            // Block copy / cut of questionnaire text (allow copying what user typed in inputs)
+            document.addEventListener("copy", (e) => {
+                if (!isQuizVisible()) return;
+                if (isEditableTarget(e.target)) return; // allow copy from own answer fields
+                if (selectionTouchesQuiz()) {
+                    e.preventDefault();
+                    e.clipboardData && e.clipboardData.setData("text/plain", "");
+                }
+            });
+            document.addEventListener("cut", (e) => {
+                if (!isQuizVisible()) return;
+                if (isEditableTarget(e.target)) return;
+                if (selectionTouchesQuiz()) e.preventDefault();
+            });
+
+            // Block right-click menu page-wide (allow it inside answer inputs for paste).
+            document.addEventListener("contextmenu", (e) => {
+                if (isEditableTarget(e.target)) return;
+                e.preventDefault();
+            });
+
+            // Block drag / selection start on questionnaire text
+            document.addEventListener("dragstart", (e) => {
+                const el = quizEl();
+                if (isQuizVisible() && el && el.contains(e.target) && !isEditableTarget(e.target)) {
+                    e.preventDefault();
+                }
+            });
+            document.addEventListener("selectstart", (e) => {
+                const el = quizEl();
+                if (isQuizVisible() && el && el.contains(e.target) && !isEditableTarget(e.target)) {
+                    e.preventDefault();
+                }
+            });
+
+            // View-source / devtools deterrents (page-wide) + copy blocks during quiz.
+            // NOTE: a static HTML page cannot truly block View Source / DevTools
+            // (browser menu, view-source: URL, disabling JS all bypass this).
+            document.addEventListener("keydown", (e) => {
+                const key = (e.key || "").toLowerCase();
+                // Always block: view-source, devtools, save/print (even inside inputs).
+                if ((e.ctrlKey || e.metaKey) && key === "u") e.preventDefault();
+                if (e.key === "F12" || ((e.ctrlKey || e.metaKey) && e.shiftKey && ["i", "j", "c"].includes(key))) {
+                    e.preventDefault();
+                }
+                if ((e.ctrlKey || e.metaKey) && ["s", "p"].includes(key)) e.preventDefault();
+                if (!isQuizVisible()) return;
+                if (isEditableTarget(e.target) || isEditableTarget(document.activeElement)) {
+                    // Inside answer inputs: allow normal typing/copy of own answer.
+                    return;
+                }
+                if ((e.ctrlKey || e.metaKey) && ["c", "x", "a"].includes(key)) {
+                    e.preventDefault();
+                }
+                if (e.key === "PrintScreen") {
+                    e.preventDefault();
+                    if (navigator.clipboard) navigator.clipboard.writeText("").catch(() => {});
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
