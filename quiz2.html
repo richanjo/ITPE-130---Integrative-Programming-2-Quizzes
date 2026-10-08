@@ -197,7 +197,7 @@
                         <label for="inputStudentSection" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Section <span class="text-red-500">*</span></label>
                         <select id="inputStudentSection" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm transition outline-none bg-white">
                             <option value="" disabled selected>Select section</option>
-                            <option value="IT3E" disabled>IT3E (closed)</option>
+                            <option value="IT3E">IT3E</option>
                             <option value="IT3G">IT3G</option>
                         </select>
                     </div>
@@ -1608,12 +1608,12 @@ class AuthProxy {
         // ===============================
         window.addEventListener("DOMContentLoaded", () => {
             const hasStoredState = loadStateFromStorage();
-            // Time gate: fresh entries only allowed daily 7:00–8:30 PM (local time).
+            // Time gate: fresh entries only allowed daily 9:00 AM–12:00 PM (local time).
             // Started/completed quizzes may resume after refresh; direct links outside the window bounce home.
             const _gateMinutes = new Date().getHours() * 60 + new Date().getMinutes();
-            const isFreshWindowOpen = _gateMinutes >= 19 * 60 && _gateMinutes < 20 * 60 + 30;
+            const isFreshWindowOpen = _gateMinutes >= 9 * 60 && _gateMinutes < 12 * 60;
             if (!(isFreshWindowOpen) && !(hasStoredState && (appState.quizStarted || appState.quizCompleted))) {
-                alert("Quiz #2 can be opened at 7:00 PM (until 8:30 PM). Please come back at 7PM.");
+                alert("Quiz #2 can be opened at 9:00 AM (until 12:00 PM). Please come back at 9AM.");
                 window.location.href = "index.html";
                 return;
             }
@@ -1669,15 +1669,15 @@ class AuthProxy {
             const studName = document.getElementById("inputStudentName").value;
             const studSec = document.getElementById("inputStudentSection").value;
 
-            if (!studId.trim() || !studName.trim() || studSec !== "IT3G") {
-                alert("Please fill in Student ID, Full Student Name, and select the available section IT3G.");
+            if (!studId.trim() || !studName.trim() || (studSec !== "IT3E" && studSec !== "IT3G")) {
+                alert("Please fill in Student ID, Full Student Name, and select a valid section (IT3E or IT3G).");
                 return;
             }
 
-            // Time gate: new quiz starts only allowed daily 7:00–8:30 PM (local time).
+            // Time gate: new quiz starts only allowed daily 9:00 AM–12:00 PM (local time).
             const _startMinutes = new Date().getHours() * 60 + new Date().getMinutes();
-            if (!(_startMinutes >= 19 * 60 && _startMinutes < 20 * 60 + 30)) {
-                alert("Quiz #2 can be opened at 7:00 PM (until 8:30 PM). Please come back at 7PM.");
+            if (!(_startMinutes >= 9 * 60 && _startMinutes < 12 * 60)) {
+                alert("Quiz #2 can be opened at 9:00 AM (until 12:00 PM). Please come back at 9AM.");
                 return;
             }
 
