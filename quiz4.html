@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITPE 130 – Integrative Programming 2 | Quiz #4 Portal</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+    <style>
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        @keyframes countdown-pop {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop { animation: countdown-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+
+        .sql-code {
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            background-color: #0f172a;
+            color: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-size: 0.8125rem;
+            line-height: 1.5;
+        }
+        .inline-code {
+            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            padding: 0.0625rem 0.3125rem;
+            border-radius: 0.25rem;
+            font-size: 0.8125em;
+        }
+        .custom-radio:checked + label {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+        }
+
+        #quizContainer,
+        #quizContainer *:not(input):not(textarea) {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+        #quizContainer input,
+        #quizContainer textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+        @media print { #quizContainer { display: none !important; } }
+    </style>
+</head>
+
+<body class="h-full text-slate-800 bg-slate-100 font-sans flex flex-col antialiased selection:bg-brand-500 selection:text-white">
+
+    <header class="bg-slate-900 text-white shadow-md sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-brand-600 p-2 rounded-lg text-white font-bold flex items-center justify-center w-10 h-10 shadow">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 2.21 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight text-white leading-tight">ITPE 130 – Integrative Programming 2</h1>
+                    <p class="text-xs text-slate-400">Faculty: <span class="text-slate-200 font-medium">Rich Anjo Capiloyan</span> | Quiz #4 Portal</p>
+                </div>
+            </div>
+
+            <div id="headerUserBadge" class="hidden flex items-center gap-4 bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-lg text-xs">
+                <div>
+                    <span class="text-slate-400 block text-[10px] uppercase tracking-wider">Student</span>
+                    <span id="displayStudentName" class="font-semibold text-white"></span>
+                    <span id="displayStudentId" class="text-brand-300 ml-1"></span>
+                    <span id="displayStudentSection" class="text-emerald-300 ml-1 font-semibold"></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col">
+
+        <div id="availabilityOverlay" class="hidden fixed inset-0 bg-slate-950/95 z-40 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 text-center border border-slate-200 animate-pop">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-100 text-amber-600 mb-4">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h2 id="availabilityTitle" class="text-2xl font-extrabold text-slate-900">Quiz #4</h2>
+                <p id="availabilityMessage" class="text-sm text-slate-600 mt-3"></p>
+                <p id="availabilityCountdown" class="text-lg font-bold text-brand-700 mt-4"></p>
+                <button onclick="window.location.href='index.html'" class="mt-7 w-full px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 font-semibold text-white text-sm shadow-md transition">Back to Quiz Portal</button>
+            </div>
+        </div>
+
+        <div id="studentModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 sm:p-8 border border-slate-200 animate-pop">
+                <div class="text-center mb-6">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-50 text-brand-600 mb-3">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path></svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-900">BSIT Quiz 4</h2>
+                    <p class="text-sm font-semibold text-brand-700 mt-1">APIs and HTTP (REST, GraphQL, SOAP)</p>
+                    <p class="text-xs text-slate-500 mt-1">15 Multiple Choice + 5 Fill in the Blank · 20 Points</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Faculty: Rich Anjo Capiloyan</p>
+                </div>
+
+                <form id="studentForm" class="space-y-4" onsubmit="handleStartQuiz(event)">
+                    <div>
+                        <label for="inputStudentId" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Student ID Number <span class="text-red-500">*</span></label>
+                        <input type="text" id="inputStudentId" required placeholder="e.g. 2026-0194" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm transition outline-none" />
+                    </div>
+                    <div>
+                        <label for="inputStudentName" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Full Student Name <span class="text-red-500">*</span></label>
+                        <input type="text" id="inputStudentName" required placeholder="e.g. Juan Dela Cruz" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm transition outline-none" />
+                    </div>
+                    <div>
+                        <label for="inputStudentSection" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Section <span class="text-red-500">*</span></label>
+                        <select id="inputStudentSection" required class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-sm transition outline-none bg-white">
+                            <option value="" disabled selected>Select section</option>
+                            <option value="IT3E">IT3E</option>
+                            <option value="IT3G">IT3G</option>
+                        </select>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-800 space-y-1">
+                        <div class="font-semibold">Quiz #4 Guidelines:</div>
+                        <p>• Part I: choose the letter of the best answer (15 items).</p>
+                        <p>• Part II: type the correct word or number (5 items).</p>
+                        <p>• Available November 25, 2026, 7:00 PM–8:00 PM PHT. One attempt only.</p>
+                    </div>
+
+                    <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-brand-500/25 transition-all duration-200 flex items-center justify-center gap-2">
+                        <span>Save and Start Quiz #4</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div id="countdownOverlay" class="hidden fixed inset-0 bg-slate-950 z-50 flex flex-col items-center justify-center text-white">
+            <span class="text-brand-400 font-bold uppercase tracking-widest text-lg mb-4">Get Ready</span>
+            <div id="countdownNumber" class="text-8xl font-extrabold tracking-tighter text-white animate-pop">5</div>
+            <p class="text-slate-400 text-sm mt-6">Loading APIs and HTTP Questionnaire...</p>
+        </div>
+
+        <div id="quizContainer" class="hidden flex-1 flex flex-col space-y-6">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                    <div>
+                        <span id="questionCounterBadge" class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-3 py-1 rounded-full border border-slate-200 uppercase tracking-wider">Question 1 of 20</span>
+                        <span id="questionCategoryBadge" class="inline-block ml-2 text-xs font-medium text-brand-600 bg-brand-50 px-2.5 py-1 rounded-full border border-brand-100">API Basics</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Closes in:</span>
+                        <div id="deadlineDisplayContainer" class="flex items-center gap-1.5 bg-slate-900 text-white font-mono font-bold text-lg px-4 py-1.5 rounded-xl shadow-inner">
+                            <svg class="w-5 h-5 text-brand-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span id="deadlineSeconds">00:00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden border border-slate-200">
+                    <div id="progressBar" class="bg-brand-600 h-full transition-all duration-300 rounded-full" style="width: 5%;"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 flex-1 flex flex-col justify-between">
+                <div>
+                    <p id="questionSectionText" class="text-xs font-bold uppercase tracking-wider text-brand-600 mb-2"></p>
+                    <div class="mb-4">
+                        <h2 id="questionPromptText" class="text-base sm:text-lg font-bold text-slate-900 leading-snug">Question Loading...</h2>
+                    </div>
+                    <div id="sampleCodeArea" class="hidden mb-6 space-y-2">
+                        <h3 id="sampleCodeLabel" class="text-sm font-bold text-slate-800">Sample</h3>
+                        <pre class="sql-code text-xs sm:text-sm"><code id="sampleCodeText"></code></pre>
+                    </div>
+                    <div id="answerInputArea" class="space-y-3"></div>
+                </div>
+                <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-end gap-4">
+                    <button id="btnNext" onclick="navigateQuestion(1)" disabled class="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 font-semibold text-white text-sm shadow-md transition flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                        <span id="btnNextText">Next Question</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultsContainer" class="hidden bg-white rounded-2xl shadow-xl border border-slate-200 p-6 sm:p-10 my-4 space-y-8">
+            <div id="lockBanner" class="hidden bg-slate-900 text-white rounded-xl px-4 py-3 text-sm border border-slate-700"></div>
+
+            <div class="text-center pb-6 border-b border-slate-200">
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-emerald-50 text-emerald-600 mb-4 ring-8 ring-emerald-50/50">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Quiz #4 Completed</h2>
+                <p class="text-slate-500 text-sm mt-1">BSIT Quiz 4: APIs and HTTP (REST, GraphQL, SOAP)</p>
+                <div class="inline-block mt-2 px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-medium border border-slate-200">Faculty: Rich Anjo Capiloyan</div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4"><span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Student Name</span><span id="resStudentName" class="text-base font-bold text-slate-800"></span></div>
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4"><span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Student ID</span><span id="resStudentId" class="text-base font-bold text-brand-600 font-mono"></span></div>
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4"><span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Section</span><span id="resStudentSection" class="text-base font-bold text-slate-800"></span></div>
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4"><span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Final Score</span><span id="resScoreText" class="text-xl font-extrabold text-slate-900">0 / 20</span></div>
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4"><span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Percentage Grade</span><span id="resPercentageText" class="text-xl font-extrabold text-brand-600">0.00%</span></div>
+            </div>
+            <p class="text-xs text-slate-500">Submission: <span id="resSubmissionTime" class="font-semibold text-slate-700"></span></p>
+
+            <div class="grid grid-cols-3 gap-3 text-center">
+                <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3"><span class="block text-2xl font-bold text-emerald-700" id="resCorrectCount">0</span><span class="text-xs font-semibold text-emerald-600 uppercase">Correct</span></div>
+                <div class="bg-rose-50 border border-rose-200 rounded-xl p-3"><span class="block text-2xl font-bold text-rose-700" id="resIncorrectCount">0</span><span class="text-xs font-semibold text-rose-600 uppercase">Incorrect</span></div>
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-3"><span class="block text-2xl font-bold text-amber-700" id="resUnansweredCount">0</span><span class="text-xs font-semibold text-amber-600 uppercase">Unanswered</span></div>
+            </div>
+
+            <div class="bg-slate-900 text-white rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                    <h3 class="text-base font-bold">Official Quiz #4 Result PDF</h3>
+                    <p class="text-xs text-slate-300 mt-0.5">Your result PDF is uploaded directly to the instructor Drive folder on submit.</p>
+                    <p class="text-xs text-amber-300 bg-amber-500/10 border border-amber-400/40 rounded-lg px-3 py-2 mt-2"><span class="font-bold">Note:</span> If the upload fails or an error occurs, take a screenshot of this results page showing your score and PM it directly to your faculty.</p>
+                    <p id="driveUploadStatus" class="text-xs mt-2 hidden px-3 py-2 rounded-lg border"></p>
+                </div>
+                <button id="btnDriveUpload" onclick="uploadResultPDFToDrive(true)" class="shrink-0 bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                    <span id="btnDriveUploadText">Upload PDF Result to Drive</span>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-lg font-bold text-slate-900 flex items-center justify-between"><span>Detailed Item Breakdown</span><span class="text-xs font-normal text-slate-500">20 Questions</span></h3>
+                <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 border-b border-slate-200 font-semibold uppercase tracking-wider text-[11px]">
+                                <th class="p-3">#</th>
+                                <th class="p-3">Question</th>
+                                <th class="p-3">Your Answer</th>
+                                <th class="p-3">Correct Answer</th>
+                                <th class="p-3 text-center">Result</th>
+                                <th class="p-3">Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reviewTableBody" class="divide-y divide-slate-200"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button onclick="window.location.href='index.html'" class="px-6 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition">Back to Quiz Portal</button>
+            </div>
+        </div>
+    </main>
+
+    <div id="submitConfirmModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-slate-200 animate-pop">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-amber-100 text-amber-600 mb-3">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900">Submit Quiz #4?</h3>
+                <p class="text-sm text-slate-600 mt-2">Are you sure you want to finalize and submit your answers?</p>
+                <p class="text-xs text-slate-400 mt-1">Once submitted, your result PDF is uploaded directly to Drive. You will not be able to take or modify the quiz again.</p>
+                <p id="submitUploadStatus" class="hidden text-xs mt-3 p-2.5 rounded-lg border"></p>
+            </div>
+            <div class="flex items-center justify-end gap-3">
+                <button id="btnCancelSubmit" onclick="closeSubmitModal()" class="px-4 py-2.5 rounded-xl border border-slate-300 font-semibold text-slate-700 text-sm hover:bg-slate-50 transition">Cancel</button>
+                <button id="btnConfirmSubmit" onclick="confirmQuizSubmission()" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 font-semibold text-white text-sm shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed">Confirm &amp; Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const MASTER_QUESTION_BANK = [
+            {
+                id: 1, section: 'Part I. Multiple Choice', category: 'API Basics', type: 'multiple-choice',
+                prompt: 'What is an API (Application Programming Interface)?',
+                options: ['A database table', 'A programming language', 'A set of rules and endpoints that lets software applications communicate with each other', 'A web browser'],
+                a: 'Cg==', s: 'q4a1b2c3',
+                explanation: 'An API is a set of rules and endpoints that lets software communicate.', points: 1
+            },
+            {
+                id: 2, section: 'Part I. Multiple Choice', category: 'API Basics', type: 'multiple-choice',
+                prompt: 'Why are APIs essential in modern software development?',
+                options: [
+                    'They let applications integrate with and reuse existing services without knowing how those services are implemented.',
+                    'They remove the need for databases.',
+                    'They make all software free to use.',
+                    'They are used only in mobile applications.'
+                ],
+                a: 'CA==', s: 'q4d4e5f6',
+                explanation: 'APIs let applications integrate with and reuse services without knowing their internal implementation, such as using a payment or maps API.', points: 1
+            },
+            {
+                id: 3, section: 'Part I. Multiple Choice', category: 'API Basics', type: 'multiple-choice',
+                prompt: "A weather app shows forecasts that come from a weather company's server. What role does the API play?",
+                options: [
+                    'It stores the forecast on the phone.',
+                    "It acts as an intermediary that receives the app's request and returns the service's data.",
+                    'It draws the screen of the app.',
+                    "It compiles the app's source code."
+                ],
+                a: 'Cw==', s: 'q4g7h8i9',
+                explanation: 'The API is the intermediary between the app and the service: it receives requests and returns data.', points: 1
+            },
+            {
+                id: 4, section: 'Part I. Multiple Choice', category: 'REST', type: 'multiple-choice',
+                prompt: 'Which statement describes the stateless constraint of REST?',
+                options: [
+                    'The server remembers all previous requests of each client.',
+                    'Requests are processed only once per day.',
+                    'The client must log in again on every page.',
+                    'Each request carries all the information needed, and the server stores no client session between requests.'
+                ],
+                a: 'DQ==', s: 'q4j0k1l2',
+                explanation: 'In REST, each request must contain everything the server needs, and the server keeps no client session.', points: 1
+            },
+            {
+                id: 5, section: 'Part I. Multiple Choice', category: 'HTTP Methods', type: 'multiple-choice',
+                prompt: 'Which HTTP method is normally used to retrieve a resource without changing it?',
+                options: ['GET', 'POST', 'DELETE', 'PUT'],
+                a: 'CA==', s: 'q4m3n4o5',
+                explanation: 'GET retrieves a resource and should not change it.', points: 1
+            },
+            {
+                id: 6, section: 'Part I. Multiple Choice', category: 'HTTP Requests', type: 'multiple-choice',
+                prompt: 'Study this HTTP request:',
+                sampleLabel: 'Sample HTTP request',
+                sampleCode: `POST /api/students HTTP/1.1
+Host: school.example.com
+Content-Type: application/json
+
+{"name": "Ana", "course": "BSIT"}`,
+                options: [
+                    'Retrieves all students',
+                    'Deletes the student named Ana',
+                    'Creates a new student resource using the JSON body',
+                    "Changes Ana's password"
+                ],
+                a: 'Cg==', s: 'q4p6q7r8',
+                explanation: 'POST to /api/students with a JSON body creates a new student.', points: 1
+            },
+            {
+                id: 7, section: 'Part I. Multiple Choice', category: 'HTTP Responses', type: 'multiple-choice',
+                prompt: 'Study this HTTP response:',
+                sampleLabel: 'Sample HTTP response',
+                sampleCode: `HTTP/1.1 404 Not Found
+Content-Type: application/json
+
+{"error": "Student not found"}`,
+                options: [
+                    'The server crashed.',
+                    'The requested resource could not be found.',
+                    'The request succeeded.',
+                    'The client is not logged in.'
+                ],
+                a: 'Cw==', s: 'q4s9t0u1',
+                explanation: '404 Not Found means the requested resource does not exist.', points: 1
+            },
+            {
+                id: 8, section: 'Part I. Multiple Choice', category: 'HTTP Status Codes', type: 'multiple-choice',
+                prompt: 'A client calls a protected API with a missing or invalid token. Which status code should the server return?',
+                options: ['200', '404', '500', '401'],
+                a: 'DQ==', s: 'q4v2w3x4',
+                explanation: '401 Unauthorized is returned when authentication is missing or invalid. 403 Forbidden is for a known user without permission.', points: 1
+            },
+            {
+                id: 9, section: 'Part I. Multiple Choice', category: 'HTTP Headers', type: 'multiple-choice',
+                prompt: 'Which HTTP header tells the server the format of the body that the client is sending?',
+                options: [
+                    '`Content-Type: application/json`',
+                    '`Accept-Language: en`',
+                    '`Host: school.example.com`',
+                    '`User-Agent: Mozilla`'
+                ],
+                a: 'CA==', s: 'q4y5z6a7',
+                explanation: 'Content-Type describes the format of the request body, such as application/json.', points: 1
+            },
+            {
+                id: 10, section: 'Part I. Multiple Choice', category: 'REST', type: 'multiple-choice',
+                prompt: 'What is the difference between PUT and PATCH in a REST API?',
+                options: [
+                    'PUT deletes a resource, while PATCH creates one.',
+                    'PUT replaces the entire resource, while PATCH updates only the specified fields.',
+                    'They are exactly the same.',
+                    'PATCH retrieves a resource, while PUT lists all resources.'
+                ],
+                a: 'Cw==', s: 'q4b8c9d0',
+                explanation: 'PUT replaces the whole resource; PATCH changes only the fields sent.', points: 1
+            },
+            {
+                id: 11, section: 'Part I. Multiple Choice', category: 'GraphQL', type: 'multiple-choice',
+                prompt: 'What is the main feature of GraphQL?',
+                options: [
+                    'It can only be used with XML.',
+                    'It requires a different URL for every resource.',
+                    'The client asks for exactly the fields it needs through a single endpoint.',
+                    'It does not use a schema.'
+                ],
+                a: 'Cg==', s: 'q4e1f2g3',
+                explanation: 'With GraphQL, the client specifies the exact fields it needs through one endpoint, which avoids over-fetching and under-fetching.', points: 1
+            },
+            {
+                id: 12, section: 'Part I. Multiple Choice', category: 'GraphQL', type: 'multiple-choice',
+                prompt: 'Study this GraphQL query:',
+                sampleLabel: 'Sample GraphQL query',
+                sampleCode: `{
+  student(id: 1) {
+    name
+    course
+  }
+}`,
+                options: [
+                    'All fields of every student',
+                    'It deletes student 1.',
+                    'An XML document',
+                    'Only the name and course of the student with id 1'
+                ],
+                a: 'DQ==', s: 'q4h4i5j6',
+                explanation: 'The query asks for only name and course of student 1.', points: 1
+            },
+            {
+                id: 13, section: 'Part I. Multiple Choice', category: 'SOAP', type: 'multiple-choice',
+                prompt: 'Which statement correctly describes SOAP?',
+                options: [
+                    'It uses XML messages in an envelope and is usually described by a WSDL contract.',
+                    'It uses only JSON and has no contract.',
+                    'It is a database query language.',
+                    'It can only be used in web browsers.'
+                ],
+                a: 'CA==', s: 'q4k7l8m9',
+                explanation: 'SOAP uses XML envelopes and is usually described by a WSDL contract.', points: 1
+            },
+            {
+                id: 14, section: 'Part I. Multiple Choice', category: 'REST vs SOAP', type: 'multiple-choice',
+                prompt: 'Which statement correctly compares REST and SOAP?',
+                options: [
+                    'REST can only use XML, while SOAP can only use JSON.',
+                    'REST commonly uses lightweight JSON over HTTP, while SOAP uses XML with a strict contract and built-in standards such as WS-Security.',
+                    'Both can only use the POST method.',
+                    'SOAP is always faster than REST.'
+                ],
+                a: 'Cw==', s: 'q4n0o1p2',
+                explanation: 'REST is commonly lightweight JSON over HTTP; SOAP is XML with a strict contract and standards like WS-Security.', points: 1
+            },
+            {
+                id: 15, section: 'Part I. Multiple Choice', category: 'gRPC', type: 'multiple-choice',
+                prompt: 'Which API style uses HTTP/2 and Protocol Buffers and is often used for fast communication between microservices?',
+                options: ['SOAP', 'GraphQL', 'gRPC', 'FTP'],
+                a: 'Cg==', s: 'q4q3r4s5',
+                explanation: 'gRPC uses HTTP/2 and Protocol Buffers for high-performance service-to-service calls.', points: 1
+            },
+            {
+                id: 16, section: 'Part II. Fill in the Blank', category: 'HTTP Methods', type: 'fill-blank',
+                prompt: 'The HTTP method __________ is used to remove a resource from the server.',
+                a: 'DREcAGV2', s: 'q4t6u7v8',
+                explanation: 'DELETE is the HTTP method used to remove a resource.', points: 1
+            },
+            {
+                id: 17, section: 'Part II. Fill in the Blank', category: 'HTTP Status Codes', type: 'fill-blank',
+                prompt: 'The HTTP status code __________ means the request succeeded (OK).',
+                a: 'e2Rg', s: 'q4w9x0y1',
+                explanation: '200 OK indicates that the request succeeded.', points: 1
+            },
+            {
+                id: 18, section: 'Part II. Fill in the Blank', category: 'GraphQL', type: 'fill-blank',
+                prompt: 'A GraphQL API typically exposes a single __________ (URL) for all queries and mutations.',
+                a: 'DDo0NV5aXlk=', s: 'q4z2a3b4',
+                explanation: 'GraphQL typically exposes one endpoint for all queries and mutations.', points: 1
+            },
+            {
+                id: 19, section: 'Part II. Fill in the Blank', category: 'SOAP', type: 'fill-blank',
+                prompt: 'SOAP messages are formatted in __________.',
+                a: 'ERkc', s: 'q4c5d6e7',
+                explanation: 'SOAP messages are XML documents wrapped in an envelope.', points: 1
+            },
+            {
+                id: 20, section: 'Part II. Fill in the Blank', category: 'HTTP Headers', type: 'fill-blank',
+                prompt: 'The __________ HTTP header carries credentials, such as a Bearer token, to prove who the client is.',
+                a: 'CCEkLV5BWVcwAQAVWg==', s: 'q4f8g9h0',
+                explanation: 'The Authorization header carries credentials such as a Bearer token.', points: 1
+            }
+        ];
+
+        const STORAGE_KEY = 'itpe130_quiz4_state';
+        const FORM_DRAFT_KEY = 'itpe130_quiz4_form_draft';
+        const DRIVE_FOLDER_ID = '1uIwG-Q2hJT_USwb1h5JWAvtG1hJK80rK';
+        const UPLOAD_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzSe6Diwlgt3HWbbrzwVnSfvaZdMaOT3PI0WGSME4xMOZxEVTiNF5EveIFQGnC7CsS3bA/exec';
+        const QUIZ4_OPEN_MS = Date.UTC(2026, 10, 25, 11, 0, 0);
+        const QUIZ4_CLOSE_MS = Date.UTC(2026, 10, 25, 12, 0, 0);
+
+        const _pp1 = 'ITPE130-';
+        const _pp2 = 'Quiz4::';
+        const _pp3 = 'DrivePepper#2026!';
+        const PEPPER = _pp1 + _pp2 + _pp3;
+
+        let isUploading = false;
+        let isSubmitting = false;
+        let isStarting = false;
+        let deadlineInterval = null;
+        let serverStatus = { ok: false, phase: '', submitted: false, filename: '', serverOffsetMs: 0 };
+        let statusBusy = false;
+
+        function _xorStr(str, key) {
+            let out = '';
+            for (let i = 0; i < str.length; i++) {
+                out += String.fromCharCode(str.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+            }
+            return out;
+        }
+        function _decAnswer(enc, salt) {
+            try {
+                if (!enc || !salt) return '';
+                return _xorStr(atob(enc), PEPPER + '::' + salt);
+            } catch (e) {
+                return '';
+            }
+        }
+        function getCorrectAnswer(q) {
+            if (q && q.a && q.s) return _decAnswer(q.a, q.s);
+            return (q && q.answer) || '';
+        }
+
+        function getDefaultAppState() {
+            return {
+                studentId: '', studentName: '', studentSection: '', answers: {},
+                currentQuestionIndex: 0, quizStarted: false, quizCompleted: false,
+                submissionTimestamp: '', scoreResult: null,
+                driveUpload: { status: 'idle', message: '', filename: '' }
+            };
+        }
+
+        let appState = getDefaultAppState();
+
+        function saveStateToStorage() {
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appState)); }
+            catch (e) { console.error('Error saving state:', e); }
+        }
+
+        function saveFormDraftToStorage() {
+            try {
+                const idEl = document.getElementById('inputStudentId');
+                const nameEl = document.getElementById('inputStudentName');
+                const secEl = document.getElementById('inputStudentSection');
+                if (!idEl || !nameEl) return;
+                localStorage.setItem(FORM_DRAFT_KEY, JSON.stringify({
+                    studentId: idEl.value || '',
+                    studentName: nameEl.value || '',
+                    studentSection: secEl ? (secEl.value || '') : ''
+                }));
+            } catch (e) {}
+        }
+
+        function loadFormDraftFromStorage() {
+            try {
+                const raw = localStorage.getItem(FORM_DRAFT_KEY);
+                if (!raw) return;
+                const draft = JSON.parse(raw);
+                if (draft.studentId) document.getElementById('inputStudentId').value = draft.studentId;
+                if (draft.studentName) document.getElementById('inputStudentName').value = draft.studentName;
+                if (draft.studentSection) document.getElementById('inputStudentSection').value = draft.studentSection;
+            } catch (e) {}
+        }
+
+        function loadStateFromStorage() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) { appState = getDefaultAppState(); return false; }
+                appState = Object.assign(getDefaultAppState(), JSON.parse(raw) || {});
+                if (!appState.answers || typeof appState.answers !== 'object') appState.answers = {};
+                if (!appState.driveUpload || typeof appState.driveUpload !== 'object') {
+                    appState.driveUpload = { status: 'idle', message: '', filename: '' };
+                }
+                appState.currentQuestionIndex = Math.min(Math.max(0, Number(appState.currentQuestionIndex) || 0), 19);
+                return Boolean(appState.quizStarted || appState.quizCompleted);
+            } catch (e) {
+                appState = getDefaultAppState();
+                return false;
+            }
+        }
+
+        function setupPersistenceListeners() {
+            const flush = () => {
+                try {
+                    saveStateToStorage();
+                    if (!appState.quizStarted) saveFormDraftToStorage();
+                } catch (e) {}
+            };
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') flush();
+            });
+            window.addEventListener('pagehide', flush);
+        }
+
+        function getLocalPhase() {
+            const now = Date.now() + (serverStatus.serverOffsetMs || 0);
+            if (now < QUIZ4_OPEN_MS) return 'upcoming';
+            if (now >= QUIZ4_CLOSE_MS) return 'closed';
+            return 'open';
+        }
+
+        function currentPhase() {
+            return getLocalPhase();
+        }
+
+        function isSubmitted() {
+            if (serverStatus.ok && appState.studentId) return Boolean(serverStatus.submitted);
+            return Boolean(appState.quizCompleted && appState.studentId);
+        }
+
+        async function refreshServerStatus() {
+            if (statusBusy) return;
+            statusBusy = true;
+            try {
+                const id = appState.studentId || '';
+                const studentQuery = id ? '&studentId=' + encodeURIComponent(id) : '';
+                const url = UPLOAD_SCRIPT_URL + '?action=quiz4-status' + studentQuery + '&_=' + Date.now();
+                const response = await fetch(url, { method: 'GET', cache: 'no-store' });
+                const json = JSON.parse(await response.text());
+                if (json && json.ok && json.quiz === 'Quiz4') {
+                    const serverTime = Date.parse(json.serverTime || '');
+                    serverStatus = {
+                        ok: true,
+                        phase: String(json.phase || ''),
+                        submitted: id ? Boolean(json.submitted) : false,
+                        filename: String(json.filename || ''),
+                        serverOffsetMs: Number.isFinite(serverTime) ? serverTime - Date.now() : 0
+                    };
+                }
+            } catch (e) {
+                serverStatus = { ok: false, phase: '', submitted: false, filename: '', serverOffsetMs: 0 };
+            } finally {
+                statusBusy = false;
+            }
+        }
+
+        function formatDuration(ms) {
+            if (ms <= 0) return '00:00:00';
+            const total = Math.floor(ms / 1000);
+            const hours = Math.floor(total / 3600);
+            const minutes = Math.floor((total % 3600) / 60);
+            const seconds = total % 60;
+            const pad = (n) => String(n).padStart(2, '0');
+            return pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+        }
+
+        function formatPhtTimestamp(date) {
+            const pht = new Date(date.getTime() + (8 * 60 * 60 * 1000));
+            const pad = (n) => String(n).padStart(2, '0');
+            return pht.getUTCFullYear() + '-' + pad(pht.getUTCMonth() + 1) + '-' + pad(pht.getUTCDate()) + ' ' +
+                pad(pht.getUTCHours()) + ':' + pad(pht.getUTCMinutes()) + ':' + pad(pht.getUTCSeconds()) + ' PHT';
+        }
+
+        function showAvailability(title, message) {
+            document.getElementById('availabilityTitle').textContent = title;
+            document.getElementById('availabilityMessage').textContent = message;
+            document.getElementById('availabilityOverlay').classList.remove('hidden');
+            document.getElementById('studentModal').classList.add('hidden');
+            document.getElementById('quizContainer').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.add('hidden');
+            updateAvailabilityCountdown();
+        }
+
+        function updateAvailabilityCountdown() {
+            const el = document.getElementById('availabilityCountdown');
+            const overlay = document.getElementById('availabilityOverlay');
+            if (!el || overlay.classList.contains('hidden')) return;
+            el.textContent = currentPhase() === 'upcoming'
+                ? 'Opens in ' + formatDuration(QUIZ4_OPEN_MS - (Date.now() + (serverStatus.serverOffsetMs || 0)))
+                : '';
+        }
+
+        function showLockBanner(message) {
+            const banner = document.getElementById('lockBanner');
+            if (!banner) return;
+            banner.textContent = message;
+            banner.classList.remove('hidden');
+        }
+
+        function startDeadlineWatcher() {
+            if (deadlineInterval) clearInterval(deadlineInterval);
+            deadlineInterval = setInterval(() => {
+                updateAvailabilityCountdown();
+                const visibleQuiz = !document.getElementById('quizContainer').classList.contains('hidden');
+                if (visibleQuiz) {
+                    document.getElementById('deadlineSeconds').textContent = formatDuration(QUIZ4_CLOSE_MS - (Date.now() + (serverStatus.serverOffsetMs || 0))).slice(3);
+                }
+                if (currentPhase() === 'closed' && visibleQuiz && appState.quizStarted && !appState.quizCompleted) {
+                    showAvailability('Quiz #4 is closed', 'The deadline was 8:00 PM on November 25, 2026 (PHT). Submissions are no longer accepted.');
+                }
+            }, 1000);
+        }
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const hasStoredState = loadStateFromStorage();
+            const params = new URLSearchParams(window.location.search);
+            const fromUrl = String(params.get('studentId') || '').trim();
+            if (fromUrl) appState.studentId = fromUrl;
+            if (!appState.studentId) {
+                try {
+                    const draft = JSON.parse(localStorage.getItem(FORM_DRAFT_KEY) || '{}');
+                    if (draft.studentId) appState.studentId = draft.studentId;
+                } catch (e) {}
+            }
+            if (fromUrl) loadFormDraftFromStorage();
+            document.getElementById('inputStudentId').value = appState.studentId || document.getElementById('inputStudentId').value;
+
+            setupPersistenceListeners();
+            await refreshServerStatus();
+
+            if (isSubmitted()) {
+                if (appState.quizCompleted && appState.scoreResult) {
+                    renderResultsScreen();
+                    showLockBanner('Already completed: Quiz 4 allows only one successful attempt and is locked for this student.');
+                } else {
+                    showAvailability('Quiz #4 already completed', 'You have already submitted Quiz 4. Only one attempt is allowed and the quiz cannot be taken again.');
+                }
+                startDeadlineWatcher();
+                return;
+            }
+
+            const phase = currentPhase();
+            if (phase === 'upcoming') {
+                showAvailability('Quiz #4 is not open yet', 'Quiz 4 opens on November 25, 2026 at 7:00 PM Philippine Standard Time.');
+            } else if (phase === 'closed') {
+                showAvailability('Quiz #4 is closed', 'The deadline was 8:00 PM on November 25, 2026 (PHT). Submissions are no longer accepted.');
+            } else if (hasStoredState && appState.quizCompleted) {
+                renderResultsScreen();
+            } else if (hasStoredState && appState.quizStarted) {
+                showQuizUI();
+                renderQuestion(appState.currentQuestionIndex);
+            } else {
+                document.getElementById('studentModal').classList.remove('hidden');
+            }
+            startDeadlineWatcher();
+
+            window.addEventListener('beforeunload', () => {
+                saveStateToStorage();
+                if (!appState.quizStarted) saveFormDraftToStorage();
+            });
+        });
+
+        async function handleStartQuiz(event) {
+            event.preventDefault();
+            if (isStarting) return;
+            if (appState.quizStarted && !appState.quizCompleted) {
+                document.getElementById('studentModal').classList.add('hidden');
+                showQuizUI();
+                renderQuestion(appState.currentQuestionIndex);
+                return;
+            }
+            const studId = document.getElementById('inputStudentId').value.trim();
+            const studName = document.getElementById('inputStudentName').value.trim();
+            const studSec = document.getElementById('inputStudentSection').value;
+            if (!studId || !studName || (studSec !== 'IT3E' && studSec !== 'IT3G')) {
+                alert('Please fill in Student ID, Full Student Name, and select a valid section (IT3E or IT3G).');
+                return;
+            }
+
+            isStarting = true;
+            await refreshServerStatus();
+            if (currentPhase() !== 'open') {
+                isStarting = false;
+                showAvailability('Quiz #4 is not available', currentPhase() === 'upcoming'
+                    ? 'Quiz 4 opens on November 25, 2026 at 7:00 PM PHT.'
+                    : 'The submission deadline has already passed.');
+                return;
+            }
+            if (isSubmitted()) {
+                isStarting = false;
+                showAvailability('Quiz #4 already completed', 'Only one attempt is allowed. Your previous submission is recorded.');
+                return;
+            }
+            isStarting = false;
+
+            document.getElementById('studentModal').classList.add('hidden');
+            runPreQuizCountdown(() => {
+                appState = getDefaultAppState();
+                appState.studentId = studId;
+                appState.studentName = studName;
+                appState.studentSection = studSec;
+                appState.quizStarted = true;
+                saveStateToStorage();
+                try { localStorage.removeItem(FORM_DRAFT_KEY); } catch (e) {}
+                showQuizUI();
+                renderQuestion(0);
+            });
+        }
+
+        function runPreQuizCountdown(onComplete) {
+            const overlay = document.getElementById('countdownOverlay');
+            const numberEl = document.getElementById('countdownNumber');
+            overlay.classList.remove('hidden');
+            let count = 5;
+            numberEl.textContent = count;
+            const interval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    numberEl.textContent = count;
+                    numberEl.classList.remove('animate-pop');
+                    void numberEl.offsetWidth;
+                    numberEl.classList.add('animate-pop');
+                } else if (count === 0) {
+                    numberEl.textContent = 'START!';
+                } else {
+                    clearInterval(interval);
+                    overlay.classList.add('hidden');
+                    onComplete();
+                }
+            }, 1000);
+        }
+
+        function showQuizUI() {
+            document.getElementById('quizContainer').classList.remove('hidden');
+            document.getElementById('headerUserBadge').classList.remove('hidden');
+            document.getElementById('displayStudentName').textContent = appState.studentName;
+            document.getElementById('displayStudentId').textContent = '(' + appState.studentId + ')';
+            document.getElementById('displayStudentSection').textContent = appState.studentSection ? '[' + appState.studentSection + ']' : '';
+        }
+
+        function escapeHtml(text) {
+            if (text === null || text === undefined) return '';
+            return String(text)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        function formatInlineCode(text) {
+            return escapeHtml(text).replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+        }
+
+        function plainOption(text) {
+            return String(text || '').replace(/`/g, '');
+        }
+
+        function renderQuestion(index) {
+            appState.currentQuestionIndex = index;
+            saveStateToStorage();
+            const q = MASTER_QUESTION_BANK[index];
+            if (!q) return;
+
+            document.getElementById('questionSectionText').textContent = q.section;
+            document.getElementById('questionCounterBadge').textContent = 'Question ' + (index + 1) + ' of 20';
+            document.getElementById('questionCategoryBadge').textContent = q.category;
+            document.getElementById('progressBar').style.width = (((index + 1) / 20) * 100) + '%';
+            document.getElementById('questionPromptText').textContent = q.prompt;
+
+            const codeArea = document.getElementById('sampleCodeArea');
+            if (q.sampleCode) {
+                document.getElementById('sampleCodeLabel').textContent = q.sampleLabel || 'Sample';
+                document.getElementById('sampleCodeText').textContent = q.sampleCode;
+                codeArea.classList.remove('hidden');
+            } else {
+                codeArea.classList.add('hidden');
+            }
+
+            const answerArea = document.getElementById('answerInputArea');
+            answerArea.innerHTML = '';
+            const existing = appState.answers[index] || '';
+
+            if (q.type === 'multiple-choice') {
+                q.options.forEach((opt, idx) => {
+                    const letter = String.fromCharCode(65 + idx);
+                    const optId = 'opt_' + index + '_' + idx;
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'relative';
+                    wrapper.innerHTML = `
+                        <input type="radio" id="${optId}" name="question_option" value="${letter}" ${existing === letter ? 'checked' : ''} onchange="handleAnswerChange('${index}', this.value)" class="peer sr-only custom-radio">
+                        <label for="${optId}" class="flex items-start gap-3 p-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer transition text-sm font-medium text-slate-800 peer-checked:border-brand-600 peer-checked:bg-brand-50">
+                            <span class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0 peer-checked:border-brand-600 peer-checked:bg-brand-600 peer-checked:text-white">${letter}</span>
+                            <span class="flex-1 leading-relaxed">${formatInlineCode(opt)}</span>
+                        </label>
+                    `;
+                    answerArea.appendChild(wrapper);
+                });
+            } else {
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML = `
+                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Write the correct word or number:</label>
+                    <input type="text" value="${escapeHtml(existing)}" oninput="handleAnswerChange('${index}', this.value)" placeholder="Type your answer" class="w-full px-4 py-3 rounded-xl border border-slate-300 font-mono text-base focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none" />
+                    <p class="text-[11px] text-slate-400 mt-1">Case and extra spaces are ignored. Do not include punctuation.</p>
+                `;
+                answerArea.appendChild(wrapper);
+            }
+
+            document.getElementById('btnNextText').textContent = index === 19 ? 'SUBMIT ANSWERS' : 'Next Question';
+            updateNextButtonState();
+        }
+
+        function handleAnswerChange(index, value) {
+            appState.answers[index] = value;
+            saveStateToStorage();
+            updateNextButtonState();
+        }
+
+        function hasAnswerForQuestion(index) {
+            const value = appState.answers[index];
+            return Boolean(value && String(value).trim());
+        }
+
+        function updateNextButtonState() {
+            const btn = document.getElementById('btnNext');
+            if (btn) btn.disabled = !hasAnswerForQuestion(appState.currentQuestionIndex);
+        }
+
+        function navigateQuestion(delta) {
+            if (delta < 0) return;
+            if (!hasAnswerForQuestion(appState.currentQuestionIndex)) {
+                alert('Please enter an answer before proceeding.');
+                return;
+            }
+            if (appState.currentQuestionIndex + 1 < MASTER_QUESTION_BANK.length) {
+                renderQuestion(appState.currentQuestionIndex + 1);
+            } else {
+                openSubmitModal();
+            }
+        }
+
+        function openSubmitModal() {
+            const missing = [];
+            for (let i = 0; i < MASTER_QUESTION_BANK.length; i++) {
+                if (!hasAnswerForQuestion(i)) missing.push(i + 1);
+            }
+            if (missing.length) {
+                alert('Please answer every question before submitting. Missing: ' + missing.join(', '));
+                renderQuestion(missing[0] - 1);
+                return;
+            }
+            document.getElementById('submitConfirmModal').classList.remove('hidden');
+        }
+
+        function closeSubmitModal() {
+            if (isSubmitting) return;
+            document.getElementById('submitConfirmModal').classList.add('hidden');
+        }
+
+        function normalizeFill(value) {
+            return String(value || '')
+                .trim()
+                .replace(/\s+/g, ' ')
+                .replace(/[.!?;]+$/, '')
+                .toLowerCase();
+        }
+
+        function checkAnswer(q, userAnswer) {
+            if (!hasAnswerForQuestion(MASTER_QUESTION_BANK.indexOf(q))) return false;
+            const correct = getCorrectAnswer(q);
+            if (q.type === 'multiple-choice') {
+                return String(userAnswer).trim().toUpperCase() === correct.toUpperCase();
+            }
+            return normalizeFill(userAnswer) === normalizeFill(correct);
+        }
+
+        function evaluateAnswers() {
+            let score = 0;
+            const rows = [];
+            MASTER_QUESTION_BANK.forEach((q, idx) => {
+                const selected = appState.answers[idx] || '';
+                const correct = getCorrectAnswer(q);
+                const isCorrect = Boolean(selected && String(selected).trim()) && checkAnswer(q, selected);
+                if (isCorrect) score += (q.points || 1);
+
+                let studentAnswerText = 'No Answer';
+                let correctAnswerText = correct;
+                if (q.type === 'multiple-choice') {
+                    const si = String(selected).charCodeAt(0) - 65;
+                    const ci = correct.charCodeAt(0) - 65;
+                    studentAnswerText = selected ? selected + '. ' + plainOption(q.options[si]) : 'No Answer';
+                    correctAnswerText = correct + '. ' + plainOption(q.options[ci]);
+                } else {
+                    studentAnswerText = String(selected).trim() || 'No Answer';
+                }
+
+                rows.push({
+                    itemNumber: idx + 1,
+                    section: q.section,
+                    category: q.category,
+                    questionText: q.prompt,
+                    sampleCode: q.sampleCode || '',
+                    sampleLabel: q.sampleLabel || '',
+                    options: q.type === 'multiple-choice' ? q.options.map(plainOption) : [],
+                    studentAnswer: selected,
+                    studentAnswerText,
+                    correctAnswer: correct,
+                    correctAnswerText,
+                    explanation: q.explanation,
+                    status: !selected || !String(selected).trim() ? 'UNANSWERED' : (isCorrect ? 'CORRECT' : 'INCORRECT'),
+                    points: isCorrect ? (q.points || 1) : 0
+                });
+            });
+            const correctCount = rows.filter(r => r.status === 'CORRECT').length;
+            const incorrectCount = rows.filter(r => r.status === 'INCORRECT').length;
+            const unansweredCount = rows.filter(r => r.status === 'UNANSWERED').length;
+            return {
+                score, total: 20,
+                percentage: ((score / 20) * 100).toFixed(2),
+                correctCount, incorrectCount, unansweredCount,
+                detailedResults: rows
+            };
+        }
+
+        async function confirmQuizSubmission() {
+            if (isSubmitting || isUploading) return;
+            isSubmitting = true;
+            const confirmBtn = document.getElementById('btnConfirmSubmit');
+            if (confirmBtn) { confirmBtn.disabled = true; confirmBtn.textContent = 'Checking submission...'; }
+
+            await refreshServerStatus();
+            if (currentPhase() !== 'open') {
+                isSubmitting = false;
+                if (confirmBtn) { confirmBtn.disabled = false; confirmBtn.textContent = 'Confirm & Submit'; }
+                document.getElementById('submitConfirmModal').classList.add('hidden');
+                showAvailability('Quiz #4 is closed', 'The deadline has passed. Your answers were not submitted.');
+                return;
+            }
+            if (isSubmitted()) {
+                isSubmitting = false;
+                if (confirmBtn) { confirmBtn.disabled = false; confirmBtn.textContent = 'Confirm & Submit'; }
+                document.getElementById('submitConfirmModal').classList.add('hidden');
+                showAvailability('Quiz #4 already completed', 'Only one attempt is allowed. Your previous submission is recorded.');
+                return;
+            }
+
+            const missing = [];
+            for (let i = 0; i < MASTER_QUESTION_BANK.length; i++) {
+                if (!hasAnswerForQuestion(i)) missing.push(i + 1);
+            }
+            if (missing.length) {
+                isSubmitting = false;
+                if (confirmBtn) { confirmBtn.disabled = false; confirmBtn.textContent = 'Confirm & Submit'; }
+                document.getElementById('submitConfirmModal').classList.add('hidden');
+                alert('Some questions are unanswered: ' + missing.join(', '));
+                renderQuestion(missing[0] - 1);
+                return;
+            }
+
+            appState.quizCompleted = true;
+            appState.submissionTimestamp = formatPhtTimestamp(new Date(Date.now() + (serverStatus.serverOffsetMs || 0)));
+            appState.scoreResult = evaluateAnswers();
+            saveStateToStorage();
+
+            document.getElementById('submitConfirmModal').classList.add('hidden');
+            renderResultsScreen();
+            isSubmitting = false;
+            if (confirmBtn) { confirmBtn.disabled = false; confirmBtn.textContent = 'Confirm & Submit'; }
+            setTimeout(() => uploadResultPDFToDrive(false), 300);
+        }
+
+        function renderResultsScreen() {
+            document.getElementById('quizContainer').classList.add('hidden');
+            document.getElementById('studentModal').classList.add('hidden');
+            document.getElementById('availabilityOverlay').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.remove('hidden');
+
+            const res = appState.scoreResult;
+            if (!res) return;
+            document.getElementById('resStudentName').textContent = appState.studentName;
+            document.getElementById('resStudentId').textContent = appState.studentId;
+            document.getElementById('resStudentSection').textContent = appState.studentSection || '—';
+            document.getElementById('resScoreText').textContent = res.score + ' / 20';
+            document.getElementById('resPercentageText').textContent = res.percentage + '%';
+            document.getElementById('resSubmissionTime').textContent = appState.submissionTimestamp;
+            document.getElementById('resCorrectCount').textContent = res.correctCount;
+            document.getElementById('resIncorrectCount').textContent = res.incorrectCount;
+            document.getElementById('resUnansweredCount').textContent = res.unansweredCount;
+
+            const tbody = document.getElementById('reviewTableBody');
+            tbody.innerHTML = '';
+            res.detailedResults.forEach(item => {
+                const badge = item.status === 'CORRECT'
+                    ? '<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[11px]">CORRECT</span>'
+                    : item.status === 'INCORRECT'
+                        ? '<span class="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 font-bold text-[11px]">INCORRECT</span>'
+                        : '<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold text-[11px]">UNANSWERED</span>';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-3 font-semibold text-slate-500">${item.itemNumber}</td>
+                    <td class="p-3 max-w-md font-medium text-slate-800">
+                        ${escapeHtml(item.questionText)}
+                        ${item.sampleCode ? '<pre class="sql-code text-[10px] mt-2 whitespace-pre-wrap">' + escapeHtml(item.sampleCode) + '</pre>' : ''}
+                    </td>
+                    <td class="p-3 font-mono text-xs">${escapeHtml(item.studentAnswerText)}</td>
+                    <td class="p-3 font-mono text-xs">${escapeHtml(item.correctAnswerText)}</td>
+                    <td class="p-3 text-center">${badge}</td>
+                    <td class="p-3 text-slate-600">${escapeHtml(item.explanation)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            if (!appState.driveUpload) appState.driveUpload = { status: 'idle', message: '', filename: '' };
+            if (appState.driveUpload.status === 'success') {
+                setDriveUploadUI('success', 'Uploaded: ' + (appState.driveUpload.filename || 'result PDF') + ' is in Drive.');
+            } else if (appState.driveUpload.status === 'uploading') {
+                setDriveUploadUI('uploading', 'Upload was interrupted (refresh/close). Tap Upload to retry.');
+                appState.driveUpload.status = 'pending';
+                saveStateToStorage();
+            } else if (appState.driveUpload.status === 'error' || appState.driveUpload.status === 'pending') {
+                setDriveUploadUI('error', (appState.driveUpload.message || 'Upload did not complete.') + ' Tap Upload to retry.');
+            }
+        }
+
+        function sanitizeFilenamePart(value) {
+            return String(value || '').trim().replace(/[^A-Za-z0-9._-]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 80) || 'student';
+        }
+
+        function safePdfText(text) {
+            return String(text || '').replace(/`/g, '');
+        }
+
+        function buildResultPDFDoc() {
+            const res = appState.scoreResult;
+            if (!res) return null;
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+            const fontName = 'helvetica';
+
+            doc.setFillColor(30, 41, 59);
+            doc.rect(0, 0, 210, 32, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFont(fontName, 'bold');
+            doc.setFontSize(16);
+            doc.text('ITPE 130 – Integrative Programming 2', 14, 14);
+            doc.setFontSize(10);
+            doc.setFont(fontName, 'normal');
+            doc.text('OFFICIAL QUIZ #4 RESULT REPORT', 14, 22);
+            doc.text('Faculty: Rich Anjo Capiloyan', 14, 27);
+
+            doc.setTextColor(30, 41, 59);
+            doc.setFontSize(11);
+            doc.setFont(fontName, 'bold');
+            doc.text('STUDENT INFORMATION', 14, 42);
+            doc.setDrawColor(226, 232, 240);
+            doc.setFillColor(248, 250, 252);
+            doc.roundedRect(14, 46, 182, 26, 2, 2, 'FD');
+            doc.setFontSize(9);
+            doc.setFont(fontName, 'normal');
+            doc.text('Student Name: ' + appState.studentName, 18, 54);
+            doc.text('Student ID: ' + appState.studentId + '  |  Section: ' + (appState.studentSection || '-'), 18, 60);
+            doc.text('Date & Time: ' + (appState.submissionTimestamp || new Date().toLocaleString()), 18, 66);
+            doc.setFont(fontName, 'bold');
+            doc.text('Final Score: ' + res.score + ' / 20', 120, 54);
+            doc.text('Percentage: ' + res.percentage + '%', 120, 60);
+            doc.text('Status: Completed', 120, 66);
+
+            doc.autoTable({
+                startY: 78,
+                head: [['Total Questions', 'Correct Answers', 'Incorrect Answers', 'Unanswered Items']],
+                body: [['20', String(res.correctCount), String(res.incorrectCount), String(res.unansweredCount)]],
+                theme: 'grid',
+                headStyles: { fillStyle: 'F', fillColor: [30, 58, 138], textColor: [255, 255, 255], fontStyle: 'bold', halign: 'center' },
+                bodyStyles: { halign: 'center', fontStyle: 'bold', fontSize: 11 },
+                margin: { left: 14, right: 14 }
+            });
+
+            doc.setFontSize(11);
+            doc.setFont(fontName, 'bold');
+            doc.text('ITEM PERFORMANCE SUMMARY', 14, doc.lastAutoTable.finalY + 10);
+            doc.autoTable({
+                startY: doc.lastAutoTable.finalY + 14,
+                head: [['#', 'Topic', 'Result', 'Points']],
+                body: res.detailedResults.map(r => [r.itemNumber, r.category, r.status, String(r.points)]),
+                theme: 'striped',
+                headStyles: { fillColor: [51, 65, 85], textColor: [255, 255, 255], fontStyle: 'bold' },
+                columnStyles: {
+                    0: { cellWidth: 12, halign: 'center' },
+                    1: { cellWidth: 70 },
+                    2: { cellWidth: 45, halign: 'center' },
+                    3: { cellWidth: 20, halign: 'center' }
+                },
+                didParseCell: function (data) {
+                    if (data.section === 'body' && data.column.index === 2) {
+                        const value = data.cell.raw;
+                        if (value === 'CORRECT') {
+                            data.cell.styles.textColor = [16, 185, 129];
+                            data.cell.styles.fontStyle = 'bold';
+                        } else if (value === 'INCORRECT') {
+                            data.cell.styles.textColor = [239, 68, 68];
+                            data.cell.styles.fontStyle = 'bold';
+                        } else {
+                            data.cell.styles.textColor = [245, 158, 11];
+                        }
+                    }
+                },
+                margin: { left: 14, right: 14 }
+            });
+
+            doc.addPage();
+            doc.setFontSize(12);
+            doc.setFont(fontName, 'bold');
+            doc.text('DETAILED QUESTION & ANSWER BREAKDOWN', 14, 16);
+            let currentY = 22;
+            const lineHeight = 4;
+
+            const writeLabel = (label, text, font) => {
+                doc.setFont(fontName, 'bold');
+                doc.setFontSize(9);
+                const prefix = label + ' ';
+                const labelWidth = doc.getTextWidth(prefix);
+                doc.setTextColor(30, 41, 59);
+                doc.text(label, 14, currentY);
+                doc.setFont(font || fontName, 'normal');
+                doc.setTextColor(71, 85, 105);
+                const lines = doc.splitTextToSize(safePdfText(text), 180 - labelWidth);
+                doc.text(lines, 14 + labelWidth, currentY);
+                currentY += Math.max(1, lines.length) * lineHeight;
+            };
+
+            res.detailedResults.forEach(item => {
+                const questionLines = doc.splitTextToSize('Q: ' + safePdfText(item.questionText), 180).length;
+                const codeLines = item.sampleCode ? item.sampleCode.split('\n').length : 0;
+                const optionLines = item.options.reduce((sum, opt, i) => sum + doc.splitTextToSize(String.fromCharCode(65 + i) + '. ' + safePdfText(opt), 175).length, 0);
+                const estimated = 10 + questionLines * lineHeight + (codeLines ? (codeLines * 3.4 + 6) : 0) + optionLines * lineHeight + 4 * lineHeight + 8;
+                if (currentY + estimated > 275) {
+                    doc.addPage();
+                    currentY = 16;
+                }
+
+                doc.setFontSize(9);
+                doc.setFont(fontName, 'bold');
+                doc.setTextColor(30, 41, 59);
+                doc.text('Question ' + item.itemNumber + ' [' + item.section + '] - ' + item.status, 14, currentY);
+                currentY += 5;
+
+                writeLabel('Q:', item.questionText);
+
+                if (item.sampleCode) {
+                    doc.setFont(fontName, 'bold');
+                    doc.setFontSize(8);
+                    doc.setTextColor(30, 41, 59);
+                    doc.text(item.sampleLabel || 'Sample:', 14, currentY);
+                    currentY += 4;
+                    doc.setFont('courier', 'normal');
+                    doc.setFontSize(7.5);
+                    doc.setTextColor(71, 85, 105);
+                    item.sampleCode.split('\n').forEach(line => {
+                        const wrapped = doc.splitTextToSize(line, 180);
+                        doc.text(wrapped, 14, currentY);
+                        currentY += wrapped.length * 3.2;
+                    });
+                    currentY += 1;
+                }
+
+                doc.setFontSize(9);
+                item.options.forEach((opt, idx) => writeLabel(String.fromCharCode(65 + idx) + '.', opt));
+
+                writeLabel('Student Answer:', item.studentAnswerText);
+                writeLabel('Correct Answer:', item.correctAnswerText);
+                writeLabel('Explanation:', item.explanation);
+
+                doc.setDrawColor(226, 232, 240);
+                doc.line(14, currentY, 196, currentY);
+                currentY += 5;
+            });
+
+            const safeId = sanitizeFilenamePart(appState.studentId);
+            const filename = 'ITPE 130 Quiz4_' + safeId + '_' + res.score + '_' + res.total + '.pdf';
+            return { doc, filename };
+        }
+
+        function generateResultPDF() {
+            const built = buildResultPDFDoc();
+            if (!built) return;
+            built.doc.save(built.filename);
+        }
+
+        function blobToBase64(blob) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(String(reader.result).split(',')[1] || '');
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+        }
+
+        async function checkDuplicateFile(filename) {
+            const url = UPLOAD_SCRIPT_URL + '?action=check&filename=' + encodeURIComponent(filename) + '&folderId=' + encodeURIComponent(DRIVE_FOLDER_ID);
+            try {
+                const response = await fetch(url, { method: 'GET' });
+                const json = JSON.parse(await response.text());
+                if (json && !json.error && typeof json.exists === 'boolean') return json.exists;
+                return null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function setDriveUploadUI(state, message) {
+            const el = document.getElementById('driveUploadStatus');
+            const btn = document.getElementById('btnDriveUpload');
+            const btnText = document.getElementById('btnDriveUploadText');
+            if (el) {
+                el.classList.remove('hidden');
+                el.textContent = message;
+                el.className = 'text-xs mt-2 px-3 py-2 rounded-lg border ' + (
+                    state === 'success' ? 'bg-emerald-500/15 border-emerald-400 text-emerald-200' :
+                    state === 'error' ? 'bg-red-500/15 border-red-400 text-red-200' :
+                    'bg-sky-500/15 border-sky-400 text-sky-200'
+                );
+            }
+            if (btn) btn.disabled = (state === 'uploading' || state === 'success');
+            if (btnText) {
+                btnText.textContent = state === 'success' ? 'Uploaded to Drive ✓'
+                    : state === 'uploading' ? 'Uploading...' : 'Upload PDF Result to Drive';
+            }
+        }
+
+        async function uploadResultPDFToDrive(manual) {
+            if (isUploading) return;
+            if (!appState.scoreResult) {
+                setDriveUploadUI('error', 'No result to upload yet. Submit the quiz first.');
+                return;
+            }
+            if (!appState.studentSection) {
+                setDriveUploadUI('error', 'Section is missing from this saved quiz. Ask your instructor for help before uploading.');
+                return;
+            }
+            if (!(window.jspdf && window.jspdf.jsPDF)) {
+                setDriveUploadUI('error', 'PDF library not loaded (internet required). Reconnect and retry.');
+                return;
+            }
+            if (!navigator.onLine) {
+                setDriveUploadUI('error', 'No internet connection. Reconnect, then tap Upload again.');
+                return;
+            }
+
+            await refreshServerStatus();
+            if (currentPhase() !== 'open') {
+                setDriveUploadUI('error', 'Quiz 4 is closed. Submissions are no longer accepted.');
+                return;
+            }
+            if (isSubmitted()) {
+                setDriveUploadUI('success', 'Already submitted: Quiz 4 is recorded for this Student ID.');
+                return;
+            }
+
+            const built = buildResultPDFDoc();
+            if (!built) return;
+            const filename = built.filename;
+
+            if (appState.driveUpload && appState.driveUpload.status === 'success' && appState.driveUpload.filename === filename && !manual) {
+                setDriveUploadUI('success', 'Already submitted: ' + filename);
+                return;
+            }
+
+            isUploading = true;
+            setDriveUploadUI('uploading', 'Checking Drive for "' + filename + '"...');
+            appState.driveUpload = { status: 'uploading', message: 'Uploading...', filename };
+            saveStateToStorage();
+
+            try {
+                const alreadyExists = await checkDuplicateFile(filename);
+                if (alreadyExists === true) {
+                    appState.driveUpload = { status: 'success', message: 'Already submitted.', filename };
+                    saveStateToStorage();
+                    setDriveUploadUI('success', 'Already submitted: "' + filename + '" already exists in Drive.');
+                    alert('Already submitted: "' + filename + '" already exists in Drive.');
+                    return;
+                }
+
+                setDriveUploadUI('uploading', alreadyExists === null
+                    ? 'Connection check unclear — generating PDF and uploading...'
+                    : 'No existing file found. Generating PDF and uploading... please wait.');
+
+                const blob = built.doc.output('blob');
+                const dataBase64 = await blobToBase64(blob);
+                const payload = JSON.stringify({
+                    quiz: 'Quiz4',
+                    filename,
+                    mimeType: 'application/pdf',
+                    dataBase64,
+                    studentId: appState.studentId,
+                    studentName: appState.studentName,
+                    studentSection: appState.studentSection,
+                    submissionTimestamp: appState.submissionTimestamp,
+                    score: appState.scoreResult.score,
+                    percentage: appState.scoreResult.percentage,
+                    total: appState.scoreResult.total,
+                    answers: appState.answers,
+                    folderId: DRIVE_FOLDER_ID
+                });
+
+                let response;
+                try {
+                    response = await fetch(UPLOAD_SCRIPT_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: payload
+                    });
+                } catch (corsErr) {
+                    await fetch(UPLOAD_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: payload
+                    });
+                }
+
+                let serverConfirmed = false;
+                if (response) {
+                    let json;
+                    try { json = await response.json(); }
+                    catch (err) { throw new Error('Upload response could not be read. Check Drive before retrying.'); }
+                    if (json && json.duplicate === true) {
+                        throw Object.assign(new Error('DUPLICATE'), { isDuplicate: true });
+                    }
+                    if (json && (json.closed === true || json.expired === true)) {
+                        throw new Error('Quiz 4 is closed. Submissions are no longer accepted.');
+                    }
+                    if (!response.ok || !json || json.success !== true) {
+                        throw new Error((json && json.error) || 'Upload rejected by server.');
+                    }
+                    serverConfirmed = true;
+                }
+
+                if (serverConfirmed) {
+                    appState.driveUpload = { status: 'success', message: 'Uploaded.', filename };
+                    saveStateToStorage();
+                    serverStatus.submitted = true;
+                    setDriveUploadUI('success', 'Submitted successfully! "' + filename + '" was uploaded to Drive.');
+                } else {
+                    appState.driveUpload = { status: 'pending', message: 'Sent but unconfirmed.', filename };
+                    saveStateToStorage();
+                    setDriveUploadUI('error', 'Upload sent but not confirmed (browser blocked the Drive reply). Open the Drive folder and verify "' + filename + '" exists; if missing, retry.');
+                }
+            } catch (err) {
+                console.error(err);
+                if (err && (err.isDuplicate || /DUPLICATE/i.test(String((err && err.message) || '')))) {
+                    appState.driveUpload = { status: 'success', message: 'Already submitted.', filename };
+                    saveStateToStorage();
+                    serverStatus.submitted = true;
+                    setDriveUploadUI('success', 'Already submitted: "' + filename + '" already exists in Drive.');
+                    alert('Already submitted: "' + filename + '" already exists in Drive.');
+                } else {
+                    appState.driveUpload = { status: 'error', message: String((err && err.message) || err), filename };
+                    saveStateToStorage();
+                    setDriveUploadUI('error', 'Upload failed: ' + (err && err.message ? err.message : err) + ' Check connection and retry.');
+                }
+            } finally {
+                isUploading = false;
+                const btn = document.getElementById('btnConfirmSubmit');
+                if (btn) { btn.disabled = false; btn.textContent = 'Confirm & Submit'; }
+            }
+        }
+
+        (function protectQuestionnaire() {
+            const quizEl = () => document.getElementById('quizContainer');
+            const isQuizVisible = () => {
+                const el = quizEl();
+                return el && !el.classList.contains('hidden');
+            };
+            const isEditableTarget = (t) => t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable);
+            const selectionTouchesQuiz = () => {
+                const sel = window.getSelection();
+                if (!sel || sel.rangeCount === 0) return false;
+                const el = quizEl();
+                for (let i = 0; i < sel.rangeCount; i++) {
+                    const node = sel.getRangeAt(i).commonAncestorContainer;
+                    const element = node.nodeType === 1 ? node : node.parentElement;
+                    if (element && el && (el === element || el.contains(element))) return true;
+                }
+                return false;
+            };
+            document.addEventListener('copy', e => {
+                if (!isQuizVisible() || isEditableTarget(e.target)) return;
+                if (selectionTouchesQuiz()) {
+                    e.preventDefault();
+                    e.clipboardData && e.clipboardData.setData('text/plain', '');
+                }
+            });
+            document.addEventListener('cut', e => {
+                if (!isQuizVisible() || isEditableTarget(e.target)) return;
+                if (selectionTouchesQuiz()) e.preventDefault();
+            });
+            document.addEventListener('contextmenu', e => {
+                if (!isEditableTarget(e.target)) e.preventDefault();
+            });
+            document.addEventListener('dragstart', e => {
+                const el = quizEl();
+                if (isQuizVisible() && el && el.contains(e.target) && !isEditableTarget(e.target)) e.preventDefault();
+            });
+            document.addEventListener('selectstart', e => {
+                const el = quizEl();
+                if (isQuizVisible() && el && el.contains(e.target) && !isEditableTarget(e.target)) e.preventDefault();
+            });
+        })();
+    </script>
+</body>
+</html>

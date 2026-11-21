@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITPE 130 – Integrative Programming 2 | Quiz Portal</title>
+    <title>ITPE 130 – Integrative Programming 2 | Quiz and Laboratory Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -44,7 +44,7 @@
                 </div>
                 <div>
                     <h1 class="text-lg font-bold tracking-tight text-white leading-tight">ITPE 130 – Integrative Programming 2</h1>
-                    <p class="text-xs text-slate-400">Faculty: <span class="text-slate-200 font-medium">Rich Anjo Capiloyan</span> | Quiz Portal</p>
+                    <p class="text-xs text-slate-400">Faculty: <span class="text-slate-200 font-medium">Rich Anjo Capiloyan</span> | Quiz and Laboratory Portal</p>
                 </div>
             </div>
         </div>
@@ -53,8 +53,8 @@
     <!-- Main Content -->
     <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="text-center mb-8">
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Select Your Quiz</h2>
-            <p class="text-sm text-slate-500 mt-2">ITPE 130 – Integrative Programming 2 (Quiz #1 to #5)</p>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Select Your Quiz or Laboratory</h2>
+            <p class="text-sm text-slate-500 mt-2">ITPE 130 – Integrative Programming 2 (Quizzes #1 to #4 · Laboratories #6 to #8)</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -74,69 +74,234 @@
                 </div>
             </div>
 
-            <!-- Quiz #2 : TIME-GATED (open daily 9:00 AM–12:00 PM) -->
-            <div id="quiz2Card" role="button" tabindex="0" onclick="tryOpenQuiz2()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tryOpenQuiz2();}" class="group bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-lg hover:border-brand-500 transition cursor-pointer">
+            <!-- Quiz #2 : LOCKED -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between opacity-60 cursor-not-allowed select-none" aria-disabled="true" title="Quiz #2 is locked">
                 <div>
-                    <span class="inline-block bg-emerald-100 text-emerald-700 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-emerald-200">Available</span>
+                    <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-500 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-slate-200">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        Locked
+                    </span>
                     <h3 class="text-xl font-bold text-slate-900 mt-3">Quiz #2</h3>
-                    <p class="text-xs text-slate-500 mt-1">20 items · Structural Design Patterns (Adapter, Bridge, Proxy, Composite, Facade, Flyweight, Decorator)</p>
-                    <p class="text-xs text-slate-500 mt-1">Multiple Choice &amp; PHP Code Writing</p>
-                    <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-3">Open daily 9:00 AM – 12:00 PM only</p>
+                    <p class="text-xs text-slate-500 mt-1">20 items · Structural Design Patterns</p>
+                    <p class="text-xs text-slate-500 mt-1">This quiz is no longer available in this portal.</p>
                 </div>
                 <div class="mt-6">
-                    <span class="w-full inline-flex items-center justify-center gap-2 bg-brand-600 group-hover:bg-brand-700 text-white font-semibold py-2.5 px-4 rounded-xl shadow-md transition text-sm">
-                        <span>Start Quiz #2</span>
+                    <button disabled class="w-full inline-flex items-center justify-center gap-2 bg-slate-200 text-slate-400 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed">Locked</button>
+                </div>
+            </div>
+
+            <!-- Quiz #3 : TIME-GATED (Nov 23, 2026, 7:00 PM–8:00 PM PHT) -->
+            <div id="quiz3Card" role="button" tabindex="0" onclick="tryOpenQuiz3(event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tryOpenQuiz3(event);}" class="group bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-lg hover:border-brand-500 transition cursor-pointer">
+                <div>
+                    <div class="flex items-center justify-between gap-2">
+                        <span id="quiz3StatusBadge" class="inline-block bg-amber-100 text-amber-700 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-amber-200">Upcoming</span>
+                        <span class="text-[10px] font-bold tracking-widest text-slate-400">QUIZ 3</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mt-3 leading-snug">BSIT Quiz 3: Behavioral Design Patterns</h3>
+                    <p class="text-xs text-slate-500 mt-1">Coverage: Chain of Responsibility, Command, Iterator, Mediator, Memento, Observer, State, Strategy, Template Method, and Visitor</p>
+                    <p class="text-xs text-slate-500 mt-1">20 Questions · 20 Points · Multiple Choice</p>
+                    <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-3">November 23, 2026 · 7:00 PM–8:00 PM Philippine Standard Time</p>
+                    <p id="quiz3Countdown" class="text-xs font-semibold text-brand-700 mt-3"></p>
+                    <p id="quiz3StatusDetail" class="text-[11px] text-slate-500 mt-1"></p>
+                </div>
+                <div class="mt-6">
+                    <button id="quiz3StartBtn" disabled class="w-full inline-flex items-center justify-center gap-2 bg-slate-200 text-slate-400 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed">
+                        <span id="quiz3StartBtnText">Start Quiz #3</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </span>
+                    </button>
                 </div>
             </div>
 
-            <!-- Quiz #3 : DISABLED -->
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between opacity-60 cursor-not-allowed select-none" aria-disabled="true" title="Quiz #3 is not yet available">
+            <!-- Quiz #4 : TIME-GATED (Nov 25, 2026, 7:00 PM–8:00 PM PHT) -->
+            <div id="quiz4Card" role="button" tabindex="0" onclick="tryOpenQuiz4(event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tryOpenQuiz4(event);}" class="group bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-lg hover:border-brand-500 transition cursor-pointer">
                 <div>
-                    <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-500 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-slate-200">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                        Locked
-                    </span>
-                    <h3 class="text-xl font-bold text-slate-900 mt-3">Quiz #3</h3>
-                    <p class="text-xs text-slate-500 mt-1">Not yet available</p>
+                    <div class="flex items-center justify-between gap-2">
+                        <span id="quiz4StatusBadge" class="inline-block bg-amber-100 text-amber-700 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-amber-200">Upcoming</span>
+                        <span class="text-[10px] font-bold tracking-widest text-slate-400">QUIZ 4</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mt-3 leading-snug">BSIT Quiz 4: APIs and HTTP (REST, GraphQL, SOAP)</h3>
+                    <p class="text-xs text-slate-500 mt-1">Topics: APIs, REST, GraphQL, SOAP, gRPC, HTTP requests and responses.</p>
+                    <p class="text-xs text-slate-500 mt-1">20 Questions · 20 Points · Multiple Choice &amp; Fill in the Blank</p>
+                    <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-3">November 25, 2026 · 7:00 PM–8:00 PM Philippine Standard Time</p>
+                    <p id="quiz4Countdown" class="text-xs font-semibold text-brand-700 mt-3"></p>
+                    <p id="quiz4StatusDetail" class="text-[11px] text-slate-500 mt-1"></p>
                 </div>
                 <div class="mt-6">
-                    <button disabled class="w-full inline-flex items-center justify-center gap-2 bg-slate-200 text-slate-400 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed">Locked</button>
+                    <button id="quiz4StartBtn" disabled class="w-full inline-flex items-center justify-center gap-2 bg-slate-200 text-slate-400 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed">
+                        <span id="quiz4StartBtnText">Start Quiz #4</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
                 </div>
             </div>
 
-            <!-- Quiz #4 : DISABLED -->
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between opacity-60 cursor-not-allowed select-none" aria-disabled="true" title="Quiz #4 is not yet available">
+            <div class="group bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-lg hover:border-brand-500 transition">
                 <div>
-                    <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-500 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-slate-200">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                        Locked
-                    </span>
-                    <h3 class="text-xl font-bold text-slate-900 mt-3">Quiz #4</h3>
-                    <p class="text-xs text-slate-500 mt-1">Not yet available</p>
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="inline-block bg-brand-50 text-brand-700 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-brand-100">Laboratory 6</span>
+                        <span class="text-[10px] font-bold tracking-widest text-slate-400">ACTIVITY</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mt-3 leading-snug">Basic Implementation of REST API</h3>
+                    <p class="text-xs text-slate-500 mt-1">Laboratory activity on implementing a basic REST API.</p>
+                    <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-3">
+                        Deadline: November 26, 2026<br>
+                        Checking: DICT Office · Individual checking<br>
+                        IT3G: 10:00 AM–12:00 NN · IT3E: 5:00 PM–7:00 PM
+                    </p>
                 </div>
                 <div class="mt-6">
-                    <button disabled class="w-full inline-flex items-center justify-center gap-2 bg-slate-200 text-slate-400 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed">Locked</button>
+                    <a href="https://drive.google.com/drive/folders/1DwKC-EAQkM2jPWMdHycAOnErnxu7KtyO?usp=sharing" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 bg-brand-600 group-hover:bg-brand-700 text-white font-semibold py-2.5 px-4 rounded-xl shadow-md transition text-sm">
+                        <span>Open Laboratory 6</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
                 </div>
             </div>
 
-            <!-- Quiz #5 : DISABLED -->
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between opacity-60 cursor-not-allowed select-none" aria-disabled="true" title="Quiz #5 is not yet available">
+            <div class="group bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-lg hover:border-brand-500 transition">
                 <div>
-                    <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-500 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-slate-200">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                        Locked
-                    </span>
-                    <h3 class="text-xl font-bold text-slate-900 mt-3">Quiz #5</h3>
-                    <p class="text-xs text-slate-500 mt-1">Not yet available</p>
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="inline-block bg-brand-50 text-brand-700 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-brand-100">Laboratory 7</span>
+                        <span class="text-[10px] font-bold tracking-widest text-slate-400">ACTIVITY</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mt-3 leading-snug">Continuation of Laboratory 6</h3>
+                    <p class="text-xs text-slate-500 mt-1">Continuation of the basic REST API implementation activity.</p>
+                    <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-3">
+                        Deadline: November 26, 2026<br>
+                        Checking: DICT Office · Individual checking<br>
+                        IT3G: 10:00 AM–12:00 NN · IT3E: 5:00 PM–7:00 PM
+                    </p>
                 </div>
                 <div class="mt-6">
-                    <button disabled class="w-full inline-flex items-center justify-center gap-2 bg-slate-200 text-slate-400 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed">Locked</button>
+                    <a href="https://drive.google.com/drive/folders/183uZxb2bxTlRpTIqSdoRRkYGVSIH5aMf?usp=sharing" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 bg-brand-600 group-hover:bg-brand-700 text-white font-semibold py-2.5 px-4 rounded-xl shadow-md transition text-sm">
+                        <span>Open Laboratory 7</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="group bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-lg hover:border-brand-500 transition">
+                <div>
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="inline-block bg-brand-50 text-brand-700 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-brand-100">Laboratory 8</span>
+                        <span class="text-[10px] font-bold tracking-widest text-slate-400">FINAL LAB</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mt-3 leading-snug">Final Laboratory</h3>
+                    <p class="text-xs text-slate-500 mt-1">Final laboratory activity for the course.</p>
+                    <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-3">
+                        Deadline: November 26, 2026<br>
+                        Checking: DICT Office · Individual checking<br>
+                        IT3G: 10:00 AM–12:00 NN · IT3E: 5:00 PM–7:00 PM
+                    </p>
+                </div>
+                <div class="mt-6">
+                    <a href="https://drive.google.com/drive/folders/1wtfbTlOB5xYG8uhiAhFsnAbXZ0TI12c9?usp=sharing" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 bg-brand-600 group-hover:bg-brand-700 text-white font-semibold py-2.5 px-4 rounded-xl shadow-md transition text-sm">
+                        <span>Open Laboratory 8</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
                 </div>
             </div>
 
         </div>
+
+        <section class="mt-8 space-y-6">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+                <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                    <div>
+                        <span class="inline-block bg-brand-50 text-brand-700 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-brand-100">FINAL PROJECT</span>
+                        <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-3 tracking-tight">Project Proposal Requirements</h2>
+                        <p class="text-sm text-slate-500 mt-1">Capstone-level system proposal requirements and presentation schedule.</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-700 mb-3">Requirements</h3>
+                        <ol class="list-decimal pl-5 space-y-2 text-sm text-slate-600 marker:text-brand-600 marker:font-bold">
+                            <li>Form a group consisting of exactly <strong class="text-slate-900">6 members</strong>.</li>
+                            <li>Propose a user-friendly <strong class="text-slate-900">System Website Project</strong> that addresses an actual organizational need or problem.</li>
+                            <li>Apply the three categories of Design Patterns: <strong class="text-slate-900">Creational, Structural, and Behavioral</strong>.</li>
+                            <li>Design and implement well-structured API endpoints with <strong class="text-slate-900">CRUD operations (Create, Read, Update, Delete)</strong>.</li>
+                            <li>Implement API integration, authentication (e.g., API Keys or OAuth), and security best practices.</li>
+                            <li>Demonstrate PHP session and cookie management, including setting, storing, and retrieving data.</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5">
+                        <h3 class="text-sm font-bold uppercase tracking-wider text-amber-800">Project Proposal Presentation Schedule</h3>
+                        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="bg-white rounded-xl border border-amber-200 p-4">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="text-xs font-extrabold text-brand-700">IT3G</span>
+                                    <span class="text-[10px] font-bold tracking-widest text-slate-400">SECTION</span>
+                                </div>
+                                <p class="text-sm font-bold text-slate-900 mt-2">December 2, 2026</p>
+                                <p class="text-xs text-slate-600 mt-1">Starting at <strong>6:00 PM onwards</strong></p>
+                            </div>
+                            <div class="bg-white rounded-xl border border-amber-200 p-4">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="text-xs font-extrabold text-brand-700">IT3E</span>
+                                    <span class="text-[10px] font-bold tracking-widest text-slate-400">SECTION</span>
+                                </div>
+                                <p class="text-sm font-bold text-slate-900 mt-2">December 3, 2026</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-md border border-brand-100 p-6 sm:p-8">
+                <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                    <div>
+                        <span class="inline-block bg-brand-50 text-brand-700 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-brand-100">SUBMISSION</span>
+                        <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-3 tracking-tight">Project Presentation and Screenshot Submission</h2>
+                        <p class="text-sm text-slate-500 mt-1">Submit organized screenshots of every page of your proposed system website.</p>
+                    </div>
+                    <span id="projectDeadlineBadge" class="inline-block bg-emerald-100 text-emerald-700 text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-emerald-200">Open</span>
+                </div>
+
+                <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-700 mb-3">Submission Requirements</h3>
+                        <ul class="list-disc pl-5 space-y-2 text-sm text-slate-600 marker:text-brand-500">
+                            <li>Each group must create its own folder in the designated Google Drive folder for their respective section.</li>
+                            <li>Upload screenshots of <strong class="text-slate-900">every page of the proposed system website</strong>.</li>
+                            <li>Ensure screenshots are organized inside the group's folder and clearly identify the group or project title.</li>
+                            <li>The uploaded screenshots must represent the actual pages and interface of the proposed system.</li>
+                        </ul>
+                        <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mt-4">
+                            Screenshot Submission Deadline: December 23, 2026 · 11:59 PM PHT
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-700 mb-3">Google Drive Submission Links</h3>
+                        <div class="space-y-3">
+                            <a id="projectSubmitIT3G" href="https://drive.google.com/drive/folders/12gNiBhH94PhOamtCFtCJQlkCsbLHEZHd?usp=sharing" target="_blank" rel="noopener noreferrer" onclick="return handleProjectSubmissionClick(event)" class="w-full inline-flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold py-2.5 px-4 rounded-xl shadow-md transition text-sm">
+                                <span>Open IT3G Drive Folder</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </a>
+                            <a id="projectSubmitIT3E" href="https://drive.google.com/drive/folders/1vY0HTShoSoj4MRRVnkNyK5pPkQU3uWYe?usp=sharing" target="_blank" rel="noopener noreferrer" onclick="return handleProjectSubmissionClick(event)" class="w-full inline-flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold py-2.5 px-4 rounded-xl shadow-md transition text-sm">
+                                <span>Open IT3E Drive Folder</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </a>
+                        </div>
+                        <p id="projectSubmissionStatus" class="text-xs mt-3 p-3 rounded-lg border bg-emerald-50 border-emerald-200 text-emerald-700">Open until December 23, 2026 at 11:59 PM PHT.</p>
+                        <p id="projectSubmissionCountdown" class="text-xs font-semibold text-brand-700 mt-2"></p>
+                        <p id="projectCurrentTime" class="text-[11px] text-slate-400 mt-1"></p>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-6 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900">Project Evaluation Rubrics</h3>
+                        <p class="text-xs text-slate-500 mt-1">Review the evaluation criteria before preparing and presenting your project.</p>
+                    </div>
+                    <a href="https://docs.google.com/spreadsheets/d/1i1WRF1sOP69koxyxR2VCmpCf95ykahj1/edit?usp=sharing&amp;ouid=106064501512971749662&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 px-5 rounded-xl shadow-md transition text-sm">
+                        <span>View Project Evaluation Rubrics</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Quiz #2 closed modal -->
@@ -178,6 +343,475 @@
         });
         document.getElementById("quiz2ClosedModal").addEventListener("click", (e) => {
             if (e.target.id === "quiz2ClosedModal") closeQuiz2ClosedModal();
+        });
+
+        // Quiz #3 schedule: November 23, 2026, 7:00 PM–8:00 PM Philippine Standard Time (UTC+8).
+        const QUIZ3_OPEN_MS = Date.UTC(2026, 10, 23, 11, 0, 0);
+        const QUIZ3_CLOSE_MS = Date.UTC(2026, 10, 23, 12, 0, 0);
+        const QUIZ3_STATUS_URL = 'https://script.google.com/macros/s/AKfycbzSe6Diwlgt3HWbbrzwVnSfvaZdMaOT3PI0WGSME4xMOZxEVTiNF5EveIFQGnC7CsS3bA/exec';
+        const QUIZ3_STATE_KEY = 'itpe130_quiz3_state';
+        let quiz3ServerStatus = { ok: false, phase: '', submitted: false, filename: '', serverOffsetMs: 0 };
+        let quiz3StatusBusy = false;
+
+        function getQuiz3LocalPhase() {
+            const now = Date.now() + (quiz3ServerStatus.serverOffsetMs || 0);
+            if (now < QUIZ3_OPEN_MS) return 'upcoming';
+            if (now >= QUIZ3_CLOSE_MS) return 'closed';
+            return 'open';
+        }
+
+        function readStoredStudentId(key) {
+            try {
+                const raw = localStorage.getItem(key);
+                if (!raw) return '';
+                const parsed = JSON.parse(raw);
+                return String((parsed && parsed.studentId) || '');
+            } catch (e) {
+                return '';
+            }
+        }
+
+        function getQuiz3StudentId() {
+            return readStoredStudentId(QUIZ3_STATE_KEY) || readStoredStudentId('itpe130_quiz3_form_draft');
+        }
+
+        function getQuiz3LocalSubmission() {
+            try {
+                const raw = localStorage.getItem(QUIZ3_STATE_KEY);
+                const parsed = raw ? JSON.parse(raw) : null;
+                return Boolean(parsed && parsed.quizCompleted && String(parsed.studentId || '').trim());
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function formatQuiz3Duration(ms) {
+            if (ms <= 0) return '00:00:00';
+            const total = Math.floor(ms / 1000);
+            const days = Math.floor(total / 86400);
+            const hours = Math.floor((total % 86400) / 3600);
+            const minutes = Math.floor((total % 3600) / 60);
+            const seconds = total % 60;
+            const pad = (n) => String(n).padStart(2, '0');
+            return (days > 0 ? days + 'd ' : '') + pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+        }
+
+        function setQuiz3Badge(text, className) {
+            const badge = document.getElementById('quiz3StatusBadge');
+            if (!badge) return;
+            badge.textContent = text;
+            badge.className = 'inline-block text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border ' + className;
+        }
+
+        async function refreshQuiz3ServerStatus() {
+            if (quiz3StatusBusy) return;
+            quiz3StatusBusy = true;
+            const id = getQuiz3StudentId();
+            try {
+                const studentQuery = id ? '&studentId=' + encodeURIComponent(id) : '';
+                const url = QUIZ3_STATUS_URL + '?action=quiz3-status' + studentQuery + '&_=' + Date.now();
+                const response = await fetch(url, { method: 'GET', cache: 'no-store' });
+                const json = JSON.parse(await response.text());
+                if (json && json.ok && json.quiz === 'Quiz3') {
+                    const serverTime = Date.parse(json.serverTime || '');
+                    quiz3ServerStatus = {
+                        ok: true,
+                        phase: String(json.phase || ''),
+                        submitted: id ? Boolean(json.submitted) : false,
+                        filename: String(json.filename || ''),
+                        serverOffsetMs: Number.isFinite(serverTime) ? serverTime - Date.now() : 0
+                    };
+                }
+            } catch (e) {
+                quiz3ServerStatus = { ok: false, phase: '', submitted: false, filename: '', serverOffsetMs: 0 };
+            } finally {
+                quiz3StatusBusy = false;
+                renderQuiz3Card();
+            }
+        }
+
+        function renderQuiz3Card() {
+            const phase = getQuiz3LocalPhase();
+            const submitted = quiz3ServerStatus.submitted || getQuiz3LocalSubmission();
+            const badge = document.getElementById('quiz3StatusBadge');
+            const countdown = document.getElementById('quiz3Countdown');
+            const detail = document.getElementById('quiz3StatusDetail');
+            const btn = document.getElementById('quiz3StartBtn');
+            const btnText = document.getElementById('quiz3StartBtnText');
+            if (!badge || !countdown || !detail || !btn || !btnText) return;
+
+            if (phase === 'closed') {
+                setQuiz3Badge('Closed', 'bg-slate-200 text-slate-600 border-slate-300');
+                countdown.textContent = '';
+                detail.textContent = submitted
+                    ? 'Submission period ended. Your Quiz 3 submission is already recorded.'
+                    : 'Submission period ended at 8:00 PM PHT.';
+                btnText.textContent = 'Quiz Closed';
+                btn.disabled = true;
+                btn.className = 'w-full inline-flex items-center justify-center gap-2 bg-slate-200 text-slate-400 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed';
+                return;
+            }
+
+            if (phase === 'upcoming') {
+                setQuiz3Badge('Upcoming', 'bg-amber-100 text-amber-700 border-amber-200');
+                countdown.textContent = 'Opens in ' + formatQuiz3Duration(QUIZ3_OPEN_MS - (Date.now() + (quiz3ServerStatus.serverOffsetMs || 0)));
+                detail.textContent = 'Opens November 23, 2026 at 7:00 PM PHT.';
+                btnText.textContent = 'Not Yet Open';
+                btn.disabled = true;
+                btn.className = 'w-full inline-flex items-center justify-center gap-2 bg-slate-200 text-slate-400 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed';
+                return;
+            }
+
+            if (submitted) {
+                setQuiz3Badge('Completed', 'bg-emerald-100 text-emerald-700 border-emerald-200');
+                countdown.textContent = '';
+                detail.textContent = 'Already taken. Quiz 3 is locked after a successful submission.';
+                btnText.textContent = 'Already Taken';
+                btn.disabled = true;
+                btn.className = 'w-full inline-flex items-center justify-center gap-2 bg-emerald-50 text-emerald-600 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed border border-emerald-200';
+                return;
+            }
+
+            setQuiz3Badge('Open', 'bg-brand-50 text-brand-700 border-brand-200');
+            countdown.textContent = '';
+            detail.textContent = 'Open now until 8:00 PM PHT. One attempt only.';
+            btnText.textContent = 'Start Quiz #3';
+            btn.disabled = false;
+            btn.className = 'w-full inline-flex items-center justify-center gap-2 bg-brand-600 group-hover:bg-brand-700 text-white font-semibold py-2.5 px-4 rounded-xl shadow-md transition text-sm';
+        }
+
+        async function tryOpenQuiz3(e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            await refreshQuiz3ServerStatus();
+            const phase = getQuiz3LocalPhase();
+            if (phase !== 'open') {
+                alert(phase === 'upcoming'
+                    ? 'Quiz 3 opens on November 23, 2026 at 7:00 PM Philippine Standard Time.'
+                    : 'Quiz 3 closed at 8:00 PM on November 23, 2026.');
+                renderQuiz3Card();
+                return;
+            }
+            if (quiz3ServerStatus.submitted || getQuiz3LocalSubmission()) {
+                alert('You have already taken Quiz 3. Only one attempt is allowed.');
+                renderQuiz3Card();
+                return;
+            }
+            const id = getQuiz3StudentId();
+            window.location.href = id ? 'quiz3.html?studentId=' + encodeURIComponent(id) : 'quiz3.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderQuiz3Card();
+            refreshQuiz3ServerStatus();
+            setInterval(renderQuiz3Card, 1000);
+            setInterval(() => refreshQuiz3ServerStatus(), 30000);
+        });
+
+        // Quiz #4 schedule: November 25, 2026, 7:00 PM–8:00 PM Philippine Standard Time (UTC+8).
+        const QUIZ4_OPEN_MS = Date.UTC(2026, 10, 25, 11, 0, 0);
+        const QUIZ4_CLOSE_MS = Date.UTC(2026, 10, 25, 12, 0, 0);
+        const QUIZ4_STATUS_URL = 'https://script.google.com/macros/s/AKfycbzSe6Diwlgt3HWbbrzwVnSfvaZdMaOT3PI0WGSME4xMOZxEVTiNF5EveIFQGnC7CsS3bA/exec';
+        const QUIZ4_STATE_KEY = 'itpe130_quiz4_state';
+        let quiz4ServerStatus = { ok: false, phase: '', submitted: false, filename: '', serverOffsetMs: 0 };
+        let quiz4StatusBusy = false;
+
+        function getQuiz4LocalPhase() {
+            const now = Date.now() + (quiz4ServerStatus.serverOffsetMs || 0);
+            if (now < QUIZ4_OPEN_MS) return 'upcoming';
+            if (now >= QUIZ4_CLOSE_MS) return 'closed';
+            return 'open';
+        }
+
+        function readQuiz4StudentId(key) {
+            try {
+                const raw = localStorage.getItem(key);
+                if (!raw) return '';
+                const parsed = JSON.parse(raw);
+                return String((parsed && parsed.studentId) || '');
+            } catch (e) {
+                return '';
+            }
+        }
+
+        function getQuiz4StudentId() {
+            return readQuiz4StudentId(QUIZ4_STATE_KEY) || readQuiz4StudentId('itpe130_quiz4_form_draft');
+        }
+
+        function getQuiz4LocalSubmission() {
+            try {
+                const raw = localStorage.getItem(QUIZ4_STATE_KEY);
+                const parsed = raw ? JSON.parse(raw) : null;
+                return Boolean(parsed && parsed.quizCompleted && String(parsed.studentId || '').trim());
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function formatQuiz4Duration(ms) {
+            if (ms <= 0) return '00:00:00';
+            const total = Math.floor(ms / 1000);
+            const days = Math.floor(total / 86400);
+            const hours = Math.floor((total % 86400) / 3600);
+            const minutes = Math.floor((total % 3600) / 60);
+            const seconds = total % 60;
+            const pad = (n) => String(n).padStart(2, '0');
+            return (days > 0 ? days + 'd ' : '') + pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+        }
+
+        function setQuiz4Badge(text, className) {
+            const badge = document.getElementById('quiz4StatusBadge');
+            if (!badge) return;
+            badge.textContent = text;
+            badge.className = 'inline-block text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border ' + className;
+        }
+
+        async function refreshQuiz4ServerStatus() {
+            if (quiz4StatusBusy) return;
+            quiz4StatusBusy = true;
+            const id = getQuiz4StudentId();
+            try {
+                const studentQuery = id ? '&studentId=' + encodeURIComponent(id) : '';
+                const url = QUIZ4_STATUS_URL + '?action=quiz4-status' + studentQuery + '&_=' + Date.now();
+                const response = await fetch(url, { method: 'GET', cache: 'no-store' });
+                const json = JSON.parse(await response.text());
+                if (json && json.ok && json.quiz === 'Quiz4') {
+                    const serverTime = Date.parse(json.serverTime || '');
+                    quiz4ServerStatus = {
+                        ok: true,
+                        phase: String(json.phase || ''),
+                        submitted: id ? Boolean(json.submitted) : false,
+                        filename: String(json.filename || ''),
+                        serverOffsetMs: Number.isFinite(serverTime) ? serverTime - Date.now() : 0
+                    };
+                }
+            } catch (e) {
+                quiz4ServerStatus = { ok: false, phase: '', submitted: false, filename: '', serverOffsetMs: 0 };
+            } finally {
+                quiz4StatusBusy = false;
+                renderQuiz4Card();
+            }
+        }
+
+        function renderQuiz4Card() {
+            const phase = getQuiz4LocalPhase();
+            const submitted = quiz4ServerStatus.submitted || getQuiz4LocalSubmission();
+            const badge = document.getElementById('quiz4StatusBadge');
+            const countdown = document.getElementById('quiz4Countdown');
+            const detail = document.getElementById('quiz4StatusDetail');
+            const btn = document.getElementById('quiz4StartBtn');
+            const btnText = document.getElementById('quiz4StartBtnText');
+            if (!badge || !countdown || !detail || !btn || !btnText) return;
+
+            if (phase === 'closed') {
+                setQuiz4Badge('Closed', 'bg-slate-200 text-slate-600 border-slate-300');
+                countdown.textContent = '';
+                detail.textContent = submitted
+                    ? 'Submission period ended. Your Quiz 4 submission is already recorded.'
+                    : 'Submission period ended at 8:00 PM PHT.';
+                btnText.textContent = 'Quiz Closed';
+                btn.disabled = true;
+                btn.className = 'w-full inline-flex items-center justify-center gap-2 bg-slate-200 text-slate-400 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed';
+                return;
+            }
+
+            if (phase === 'upcoming') {
+                setQuiz4Badge('Upcoming', 'bg-amber-100 text-amber-700 border-amber-200');
+                countdown.textContent = 'Opens in ' + formatQuiz4Duration(QUIZ4_OPEN_MS - (Date.now() + (quiz4ServerStatus.serverOffsetMs || 0)));
+                detail.textContent = 'Opens November 25, 2026 at 7:00 PM PHT.';
+                btnText.textContent = 'Not Yet Open';
+                btn.disabled = true;
+                btn.className = 'w-full inline-flex items-center justify-center gap-2 bg-slate-200 text-slate-400 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed';
+                return;
+            }
+
+            if (submitted) {
+                setQuiz4Badge('Completed', 'bg-emerald-100 text-emerald-700 border-emerald-200');
+                countdown.textContent = '';
+                detail.textContent = 'Already taken. Quiz 4 is locked after a successful submission.';
+                btnText.textContent = 'Already Taken';
+                btn.disabled = true;
+                btn.className = 'w-full inline-flex items-center justify-center gap-2 bg-emerald-50 text-emerald-600 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed border border-emerald-200';
+                return;
+            }
+
+            setQuiz4Badge('Open', 'bg-brand-50 text-brand-700 border-brand-200');
+            countdown.textContent = '';
+            detail.textContent = 'Open now until 8:00 PM PHT. One attempt only.';
+            btnText.textContent = 'Start Quiz #4';
+            btn.disabled = false;
+            btn.className = 'w-full inline-flex items-center justify-center gap-2 bg-brand-600 group-hover:bg-brand-700 text-white font-semibold py-2.5 px-4 rounded-xl shadow-md transition text-sm';
+        }
+
+        async function tryOpenQuiz4(e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            await refreshQuiz4ServerStatus();
+            const phase = getQuiz4LocalPhase();
+            if (phase !== 'open') {
+                alert(phase === 'upcoming'
+                    ? 'Quiz 4 opens on November 25, 2026 at 7:00 PM Philippine Standard Time.'
+                    : 'Quiz 4 closed at 8:00 PM on November 25, 2026.');
+                renderQuiz4Card();
+                return;
+            }
+            if (quiz4ServerStatus.submitted || getQuiz4LocalSubmission()) {
+                alert('You have already taken Quiz 4. Only one attempt is allowed.');
+                renderQuiz4Card();
+                return;
+            }
+            const id = getQuiz4StudentId();
+            window.location.href = id ? 'quiz4.html?studentId=' + encodeURIComponent(id) : 'quiz4.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderQuiz4Card();
+            refreshQuiz4ServerStatus();
+            setInterval(renderQuiz4Card, 1000);
+            setInterval(() => refreshQuiz4ServerStatus(), 30000);
+        });
+
+        const PROJECT_SUBMISSION_DEADLINE_MS = Date.parse('2026-12-23T23:59:59+08:00');
+        const PROJECT_SUBMISSION_LINKS = {
+            IT3G: 'https://drive.google.com/drive/folders/12gNiBhH94PhOamtCFtCJQlkCsbLHEZHd?usp=sharing',
+            IT3E: 'https://drive.google.com/drive/folders/1vY0HTShoSoj4MRRVnkNyK5pPkQU3uWYe?usp=sharing'
+        };
+        let projectServerOffsetMs = 0;
+        let projectStatusBusy = false;
+
+        function getProjectNowMs() {
+            return Date.now() + projectServerOffsetMs;
+        }
+
+        function isProjectSubmissionClosed() {
+            return getProjectNowMs() >= PROJECT_SUBMISSION_DEADLINE_MS;
+        }
+
+        function formatProjectDuration(ms) {
+            if (ms <= 0) return '00:00:00';
+            const total = Math.floor(ms / 1000);
+            const days = Math.floor(total / 86400);
+            const hours = Math.floor((total % 86400) / 3600);
+            const minutes = Math.floor((total % 3600) / 60);
+            const seconds = total % 60;
+            const pad = (n) => String(n).padStart(2, '0');
+            return (days > 0 ? days + 'd ' : '') + pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+        }
+
+        function formatProjectManilaTime(ms) {
+            return new Intl.DateTimeFormat('en-PH', {
+                timeZone: 'Asia/Manila',
+                year: 'numeric',
+                month: 'short',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            }).format(new Date(ms));
+        }
+
+        async function refreshProjectServerTime() {
+            if (projectStatusBusy) return;
+            projectStatusBusy = true;
+            try {
+                const url = QUIZ4_STATUS_URL + '?action=quiz4-status&_=' + Date.now();
+                const response = await fetch(url, { method: 'GET', cache: 'no-store' });
+                const json = JSON.parse(await response.text());
+                const serverTime = Date.parse((json && json.serverTime) || '');
+                if (Number.isFinite(serverTime)) projectServerOffsetMs = serverTime - Date.now();
+            } catch (e) {
+            } finally {
+                projectStatusBusy = false;
+            }
+        }
+
+        function setProjectSubmissionLink(section) {
+            const link = document.getElementById('projectSubmit' + section);
+            if (!link) return;
+            const label = link.querySelector('span');
+            const icon = link.querySelector('svg');
+            const closed = isProjectSubmissionClosed();
+
+            if (closed) {
+                link.removeAttribute('href');
+                link.removeAttribute('target');
+                link.removeAttribute('rel');
+                link.setAttribute('aria-disabled', 'true');
+                link.setAttribute('tabindex', '-1');
+                link.style.pointerEvents = 'none';
+                link.classList.add('bg-slate-200', 'text-slate-400', 'cursor-not-allowed');
+                link.classList.remove('bg-brand-600', 'hover:bg-brand-700', 'text-white', 'shadow-md');
+                if (label) label.textContent = 'Submission Closed';
+                if (icon) icon.classList.add('hidden');
+                return;
+            }
+
+            link.href = PROJECT_SUBMISSION_LINKS[section];
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.removeAttribute('aria-disabled');
+            link.removeAttribute('tabindex');
+            link.style.pointerEvents = '';
+            link.classList.remove('bg-slate-200', 'text-slate-400', 'cursor-not-allowed');
+            link.classList.add('bg-brand-600', 'hover:bg-brand-700', 'text-white', 'shadow-md');
+            if (label) label.textContent = 'Open ' + section + ' Drive Folder';
+            if (icon) icon.classList.remove('hidden');
+        }
+
+        function renderProjectSubmissionStatus() {
+            const closed = isProjectSubmissionClosed();
+            const nowMs = getProjectNowMs();
+            const badge = document.getElementById('projectDeadlineBadge');
+            const status = document.getElementById('projectSubmissionStatus');
+            const countdown = document.getElementById('projectSubmissionCountdown');
+            const currentTime = document.getElementById('projectCurrentTime');
+
+            setProjectSubmissionLink('IT3G');
+            setProjectSubmissionLink('IT3E');
+
+            if (badge) {
+                badge.textContent = closed ? 'Closed' : 'Open';
+                badge.className = 'inline-block text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border ' + (
+                    closed
+                        ? 'bg-rose-100 text-rose-700 border-rose-200'
+                        : 'bg-emerald-100 text-emerald-700 border-emerald-200'
+                );
+            }
+
+            if (status) {
+                status.textContent = closed
+                    ? 'Submission Closed – Deadline Has Passed'
+                    : 'Open until December 23, 2026 at 11:59 PM PHT.';
+                status.className = 'text-xs mt-3 p-3 rounded-lg border ' + (
+                    closed
+                        ? 'bg-rose-50 border-rose-200 text-rose-700 font-semibold'
+                        : 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                );
+            }
+
+            if (countdown) {
+                countdown.textContent = closed
+                    ? ''
+                    : 'Closes in ' + formatProjectDuration(PROJECT_SUBMISSION_DEADLINE_MS - nowMs) + ' (Asia/Manila)';
+            }
+
+            if (currentTime) {
+                currentTime.textContent = 'Current PHT: ' + formatProjectManilaTime(nowMs);
+            }
+        }
+
+        function handleProjectSubmissionClick(event) {
+            if (isProjectSubmissionClosed()) {
+                event.preventDefault();
+                return false;
+            }
+            return true;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProjectSubmissionStatus();
+            refreshProjectServerTime().then(renderProjectSubmissionStatus);
+            setInterval(renderProjectSubmissionStatus, 1000);
+            setInterval(refreshProjectServerTime, 300000);
         });
     </script>
 </body>
