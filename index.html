@@ -90,7 +90,7 @@
                 </div>
             </div>
 
-            <!-- Quiz #3 : TIME-GATED (Nov 24, 2026, 8:00 PM–9:00 PM PHT) -->
+            <!-- Quiz #3 : TIME-GATED (Nov 25, 2026, 5:30 PM–6:30 PM PHT, IT3G only) -->
             <div id="quiz3Card" role="button" tabindex="0" onclick="tryOpenQuiz3(event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tryOpenQuiz3(event);}" class="group bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-lg hover:border-brand-500 transition cursor-pointer">
                 <div>
                     <div class="flex items-center justify-between gap-2">
@@ -100,7 +100,8 @@
                     <h3 class="text-lg font-bold text-slate-900 mt-3 leading-snug">BSIT Quiz 3: Behavioral Design Patterns</h3>
                     <p class="text-xs text-slate-500 mt-1">Coverage: Chain of Responsibility, Command, Iterator, Mediator, Memento, Observer, State, Strategy, Template Method, and Visitor</p>
                     <p class="text-xs text-slate-500 mt-1">20 Questions · 20 Points · Multiple Choice</p>
-                    <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-3">November 24, 2026 · 8:00 PM–9:00 PM Philippine Standard Time</p>
+                    <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-3">November 25, 2026 · 5:30 PM–6:30 PM Philippine Standard Time</p>
+                    <p class="text-[11px] text-brand-700 font-semibold mt-1">For IT3G only</p>
                     <p id="quiz3Countdown" class="text-xs font-semibold text-brand-700 mt-3"></p>
                     <p id="quiz3StatusDetail" class="text-[11px] text-slate-500 mt-1"></p>
                 </div>
@@ -346,9 +347,9 @@
             if (e.target.id === "quiz2ClosedModal") closeQuiz2ClosedModal();
         });
 
-        // Quiz #3 schedule: November 24, 2026, 8:00 PM–9:00 PM Philippine Standard Time (UTC+8).
-        const QUIZ3_OPEN_MS = Date.UTC(2026, 10, 24, 12, 0, 0);
-        const QUIZ3_CLOSE_MS = Date.UTC(2026, 10, 24, 13, 0, 0);
+        // Quiz #3 schedule: November 25, 2026, 5:30 PM–6:30 PM Philippine Standard Time (UTC+8).
+        const QUIZ3_OPEN_MS = Date.UTC(2026, 10, 25, 9, 30, 0);
+        const QUIZ3_CLOSE_MS = Date.UTC(2026, 10, 25, 10, 30, 0);
         const QUIZ3_STATUS_URL = 'https://script.google.com/macros/s/AKfycbzSe6Diwlgt3HWbbrzwVnSfvaZdMaOT3PI0WGSME4xMOZxEVTiNF5EveIFQGnC7CsS3bA/exec';
         const QUIZ3_STATE_KEY = 'itpe130_quiz3_state';
         let quiz3ServerStatus = { ok: false, phase: '', submitted: false, filename: '', serverOffsetMs: 0 };
@@ -374,6 +375,18 @@
 
         function getQuiz3StudentId() {
             return readStoredStudentId(QUIZ3_STATE_KEY) || readStoredStudentId('itpe130_quiz3_form_draft');
+        }
+
+        function getQuiz3StoredSection() {
+            for (const key of [QUIZ3_STATE_KEY, 'itpe130_quiz3_form_draft']) {
+                try {
+                    const raw = localStorage.getItem(key);
+                    const parsed = raw ? JSON.parse(raw) : null;
+                    const section = String((parsed && parsed.studentSection) || '').trim().toUpperCase();
+                    if (section) return section;
+                } catch (e) {}
+            }
+            return '';
         }
 
         function getQuiz3LocalSubmission() {
@@ -441,12 +454,23 @@
             const btnText = document.getElementById('quiz3StartBtnText');
             if (!badge || !countdown || !detail || !btn || !btnText) return;
 
+            const storedSection = getQuiz3StoredSection();
+            if (storedSection && storedSection !== 'IT3G') {
+                setQuiz3Badge('Not Available', 'bg-rose-100 text-rose-700 border-rose-200');
+                countdown.textContent = '';
+                detail.textContent = 'Quiz 3 is open only to section IT3G.';
+                btnText.textContent = 'IT3G Only';
+                btn.disabled = true;
+                btn.className = 'w-full inline-flex items-center justify-center gap-2 bg-slate-200 text-slate-400 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed';
+                return;
+            }
+
             if (phase === 'closed') {
                 setQuiz3Badge('Closed', 'bg-slate-200 text-slate-600 border-slate-300');
                 countdown.textContent = '';
                 detail.textContent = submitted
                     ? 'Submission period ended. Your Quiz 3 submission is already recorded.'
-                    : 'Submission period ended at 9:00 PM PHT.';
+                    : 'Submission period ended at 6:30 PM PHT.';
                 btnText.textContent = 'Quiz Closed';
                 btn.disabled = true;
                 btn.className = 'w-full inline-flex items-center justify-center gap-2 bg-slate-200 text-slate-400 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed';
@@ -456,7 +480,7 @@
             if (phase === 'upcoming') {
                 setQuiz3Badge('Upcoming', 'bg-amber-100 text-amber-700 border-amber-200');
                 countdown.textContent = 'Opens in ' + formatQuiz3Duration(QUIZ3_OPEN_MS - (Date.now() + (quiz3ServerStatus.serverOffsetMs || 0)));
-                detail.textContent = 'Opens November 24, 2026 at 8:00 PM PHT.';
+                detail.textContent = 'Opens November 25, 2026 at 5:30 PM PHT for IT3G.';
                 btnText.textContent = 'Not Yet Open';
                 btn.disabled = true;
                 btn.className = 'w-full inline-flex items-center justify-center gap-2 bg-slate-200 text-slate-400 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed';
@@ -475,7 +499,7 @@
 
             setQuiz3Badge('Open', 'bg-brand-50 text-brand-700 border-brand-200');
             countdown.textContent = '';
-            detail.textContent = 'Open now until 9:00 PM PHT. One attempt only.';
+            detail.textContent = 'Open now until 6:30 PM PHT. IT3G only. One attempt only.';
             btnText.textContent = 'Start Quiz #3';
             btn.disabled = false;
             btn.className = 'w-full inline-flex items-center justify-center gap-2 bg-brand-600 group-hover:bg-brand-700 text-white font-semibold py-2.5 px-4 rounded-xl shadow-md transition text-sm';
@@ -484,11 +508,17 @@
         async function tryOpenQuiz3(e) {
             if (e && e.stopPropagation) e.stopPropagation();
             await refreshQuiz3ServerStatus();
+            const storedSection = getQuiz3StoredSection();
+            if (storedSection && storedSection !== 'IT3G') {
+                alert('Quiz 3 is open only to section IT3G.');
+                renderQuiz3Card();
+                return;
+            }
             const phase = getQuiz3LocalPhase();
             if (phase !== 'open') {
                 alert(phase === 'upcoming'
-                    ? 'Quiz 3 opens on November 24, 2026 at 8:00 PM Philippine Standard Time.'
-                    : 'Quiz 3 closed at 9:00 PM on November 24, 2026.');
+                    ? 'Quiz 3 opens on November 25, 2026 at 5:30 PM Philippine Standard Time for IT3G.'
+                    : 'Quiz 3 closed at 6:30 PM on November 25, 2026.');
                 renderQuiz3Card();
                 return;
             }

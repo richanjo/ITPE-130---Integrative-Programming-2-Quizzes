@@ -1,9 +1,10 @@
 var QUIZ_FOLDER_ID = '1uIwG-Q2hJT_USwb1h5JWAvtG1hJK80rK';
 
-// Quiz #3: November 24, 2026, 8:00 PM–9:00 PM Philippine Standard Time (UTC+8).
+// Quiz #3: November 25, 2026, 5:30 PM–6:30 PM Philippine Standard Time (UTC+8).
 var QUIZ3_PREFIX = 'ITPE 130 Quiz3_';
-var QUIZ3_OPEN_MS = Date.UTC(2026, 10, 24, 12, 0, 0);
-var QUIZ3_CLOSE_MS = Date.UTC(2026, 10, 24, 13, 0, 0);
+var QUIZ3_OPEN_MS = Date.UTC(2026, 10, 25, 9, 30, 0);
+var QUIZ3_CLOSE_MS = Date.UTC(2026, 10, 25, 10, 30, 0);
+var QUIZ3_ALLOWED_SECTION = 'IT3G';
 
 function getQuiz3Phase() {
   var now = Date.now();
@@ -155,6 +156,9 @@ function doPost(e) {
     if (isQuiz3) {
       var safeId = sanitizeQuiz3Id(data.studentId);
       if (!safeId) throw new Error('Missing student ID for Quiz3');
+      if (String(data.studentSection || '').trim().toUpperCase() !== QUIZ3_ALLOWED_SECTION) {
+        throw new Error('Quiz3 is only open to section IT3G');
+      }
       var expectedPrefix = QUIZ3_PREFIX + safeId + '_';
       if (String(data.filename).indexOf(expectedPrefix) !== 0) throw new Error('Invalid Quiz3 filename');
     }
