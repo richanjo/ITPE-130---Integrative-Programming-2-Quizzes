@@ -267,7 +267,7 @@
                 </button>
             </div>
 
-            <div class="space-y-4">
+            <div class="hidden space-y-4">
                 <h3 class="text-lg font-bold text-slate-900 flex items-center justify-between"><span>Detailed Item Breakdown</span><span class="text-xs font-normal text-slate-500">20 Questions</span></h3>
                 <div class="overflow-x-auto border border-slate-200 rounded-xl">
                     <table class="w-full text-left border-collapse text-xs sm:text-sm">
@@ -1360,16 +1360,6 @@ Content-Type: application/json
             }
             if (!navigator.onLine) {
                 setDriveUploadUI('error', 'No internet connection. Reconnect, then tap Upload again.');
-                return;
-            }
-
-            await refreshServerStatus();
-            if (currentPhase() !== 'open') {
-                setDriveUploadUI('error', 'Quiz 4 is closed. Submissions are no longer accepted.');
-                return;
-            }
-            if (isSubmitted()) {
-                setDriveUploadUI('success', 'Already submitted: Quiz 4 is recorded for this Student ID.');
                 return;
             }
 

@@ -1,9 +1,9 @@
 var QUIZ_FOLDER_ID = '1uIwG-Q2hJT_USwb1h5JWAvtG1hJK80rK';
 
-// Quiz #3: November 23, 2026, 7:00 PM–8:00 PM Philippine Standard Time (UTC+8).
+// Quiz #3: November 24, 2026, 7:00 PM–8:00 PM Philippine Standard Time (UTC+8).
 var QUIZ3_PREFIX = 'ITPE 130 Quiz3_';
-var QUIZ3_OPEN_MS = Date.UTC(2026, 10, 23, 11, 0, 0);
-var QUIZ3_CLOSE_MS = Date.UTC(2026, 10, 23, 12, 0, 0);
+var QUIZ3_OPEN_MS = Date.UTC(2026, 10, 24, 11, 0, 0);
+var QUIZ3_CLOSE_MS = Date.UTC(2026, 10, 24, 12, 0, 0);
 
 function getQuiz3Phase() {
   var now = Date.now();
@@ -153,16 +153,6 @@ function doPost(e) {
     if (isQuiz3 && isQuiz4) throw new Error('Mixed quiz submission');
 
     if (isQuiz3) {
-      var phase = getQuiz3Phase();
-      if (phase !== 'open') {
-        return ContentService.createTextOutput(JSON.stringify({
-          success: false,
-          closed: true,
-          expired: phase === 'closed',
-          error: phase === 'closed' ? 'QUIZ3_CLOSED' : 'QUIZ3_NOT_OPEN'
-        })).setMimeType(ContentService.MimeType.JSON);
-      }
-
       var safeId = sanitizeQuiz3Id(data.studentId);
       if (!safeId) throw new Error('Missing student ID for Quiz3');
       var expectedPrefix = QUIZ3_PREFIX + safeId + '_';
@@ -170,16 +160,6 @@ function doPost(e) {
     }
 
     if (isQuiz4) {
-      var quiz4Phase = getQuiz4Phase();
-      if (quiz4Phase !== 'open') {
-        return ContentService.createTextOutput(JSON.stringify({
-          success: false,
-          closed: true,
-          expired: quiz4Phase === 'closed',
-          error: quiz4Phase === 'closed' ? 'QUIZ4_CLOSED' : 'QUIZ4_NOT_OPEN'
-        })).setMimeType(ContentService.MimeType.JSON);
-      }
-
       var safeQuiz4Id = sanitizeQuiz4Id(data.studentId);
       if (!safeQuiz4Id) throw new Error('Missing student ID for Quiz4');
       var expectedQuiz4Prefix = QUIZ4_PREFIX + safeQuiz4Id + '_';

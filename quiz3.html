@@ -174,7 +174,7 @@
                     <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-800 space-y-1">
                         <div class="font-semibold">Quiz #3 Guidelines:</div>
                         <p>• 20 multiple choice items, 1 point each.</p>
-                        <p>• Available only November 23, 2026, 7:00 PM–8:00 PM Philippine Standard Time.</p>
+                        <p>• Available only November 24, 2026, 7:00 PM–8:00 PM Philippine Standard Time.</p>
                         <p>• One attempt only. Progress is saved locally and submission is recorded in Drive.</p>
                     </div>
 
@@ -275,7 +275,7 @@
                 </button>
             </div>
 
-            <div class="space-y-4">
+            <div class="hidden space-y-4">
                 <h3 class="text-lg font-bold text-slate-900 flex items-center justify-between"><span>Detailed Item Breakdown</span><span class="text-xs font-normal text-slate-500">20 Questions</span></h3>
                 <div class="overflow-x-auto border border-slate-200 rounded-xl">
                     <table class="w-full text-left border-collapse text-xs sm:text-sm">
@@ -632,8 +632,8 @@ interface Element { void accept(Visitor v); }`,
         const FORM_DRAFT_KEY = 'itpe130_quiz3_form_draft';
         const DRIVE_FOLDER_ID = '1uIwG-Q2hJT_USwb1h5JWAvtG1hJK80rK';
         const UPLOAD_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzSe6Diwlgt3HWbbrzwVnSfvaZdMaOT3PI0WGSME4xMOZxEVTiNF5EveIFQGnC7CsS3bA/exec';
-        const QUIZ3_OPEN_MS = Date.UTC(2026, 10, 23, 11, 0, 0);
-        const QUIZ3_CLOSE_MS = Date.UTC(2026, 10, 23, 12, 0, 0);
+        const QUIZ3_OPEN_MS = Date.UTC(2026, 10, 24, 11, 0, 0);
+        const QUIZ3_CLOSE_MS = Date.UTC(2026, 10, 24, 12, 0, 0);
 
         const _pp1 = 'ITPE130-';
         const _pp2 = 'Quiz3::';
@@ -841,7 +841,7 @@ interface Element { void accept(Visitor v); }`,
                 }
                 if (phase === 'closed' && visibleQuiz && appState.quizStarted && !appState.quizCompleted) {
                     if (timerInterval) clearInterval(timerInterval);
-                    showAvailability('Quiz #3 is closed', 'The deadline was 8:00 PM on November 23, 2026 (PHT). Submissions are no longer accepted.');
+                    showAvailability('Quiz #3 is closed', 'The deadline was 8:00 PM on November 24, 2026 (PHT). Submissions are no longer accepted.');
                 }
             }, 1000);
         }
@@ -881,9 +881,9 @@ interface Element { void accept(Visitor v); }`,
 
             const phase = currentPhase();
             if (phase === 'upcoming') {
-                showAvailability('Quiz #3 is not open yet', 'Quiz 3 opens on November 23, 2026 at 7:00 PM Philippine Standard Time.');
+                showAvailability('Quiz #3 is not open yet', 'Quiz 3 opens on November 24, 2026 at 7:00 PM Philippine Standard Time.');
             } else if (phase === 'closed') {
-                showAvailability('Quiz #3 is closed', 'The deadline was 8:00 PM on November 23, 2026 (PHT). Submissions are no longer accepted.');
+                showAvailability('Quiz #3 is closed', 'The deadline was 8:00 PM on November 24, 2026 (PHT). Submissions are no longer accepted.');
             } else if (hasStoredState && appState.quizCompleted) {
                 document.getElementById('studentModal').classList.add('hidden');
                 renderResultsScreen();
@@ -924,7 +924,7 @@ interface Element { void accept(Visitor v); }`,
             if (currentPhase() !== 'open') {
                 isStarting = false;
                 showAvailability('Quiz #3 is not available', currentPhase() === 'upcoming'
-                    ? 'Quiz 3 opens on November 23, 2026 at 7:00 PM PHT.'
+                    ? 'Quiz 3 opens on November 24, 2026 at 7:00 PM PHT.'
                     : 'The submission deadline has already passed.');
                 return;
             }
@@ -1460,16 +1460,6 @@ interface Element { void accept(Visitor v); }`,
             }
             if (!navigator.onLine) {
                 setDriveUploadUI('error', 'No internet connection. Reconnect, then tap Upload again.');
-                return;
-            }
-
-            await refreshServerStatus();
-            if (currentPhase() !== 'open') {
-                setDriveUploadUI('error', 'Quiz 3 is closed. Submissions are no longer accepted.');
-                return;
-            }
-            if (isSubmitted()) {
-                setDriveUploadUI('success', 'Already submitted: Quiz 3 is recorded for this Student ID.');
                 return;
             }
 

@@ -90,7 +90,7 @@
                 </div>
             </div>
 
-            <!-- Quiz #3 : TIME-GATED (Nov 23, 2026, 7:00 PM–8:00 PM PHT) -->
+            <!-- Quiz #3 : TIME-GATED (Nov 24, 2026, 7:00 PM–8:00 PM PHT) -->
             <div id="quiz3Card" role="button" tabindex="0" onclick="tryOpenQuiz3(event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tryOpenQuiz3(event);}" class="group bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:shadow-lg hover:border-brand-500 transition cursor-pointer">
                 <div>
                     <div class="flex items-center justify-between gap-2">
@@ -100,7 +100,7 @@
                     <h3 class="text-lg font-bold text-slate-900 mt-3 leading-snug">BSIT Quiz 3: Behavioral Design Patterns</h3>
                     <p class="text-xs text-slate-500 mt-1">Coverage: Chain of Responsibility, Command, Iterator, Mediator, Memento, Observer, State, Strategy, Template Method, and Visitor</p>
                     <p class="text-xs text-slate-500 mt-1">20 Questions · 20 Points · Multiple Choice</p>
-                    <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-3">November 23, 2026 · 7:00 PM–8:00 PM Philippine Standard Time</p>
+                    <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-3">November 24, 2026 · 7:00 PM–8:00 PM Philippine Standard Time</p>
                     <p id="quiz3Countdown" class="text-xs font-semibold text-brand-700 mt-3"></p>
                     <p id="quiz3StatusDetail" class="text-[11px] text-slate-500 mt-1"></p>
                 </div>
@@ -143,9 +143,9 @@
                     <h3 class="text-lg font-bold text-slate-900 mt-3 leading-snug">Basic Implementation of REST API</h3>
                     <p class="text-xs text-slate-500 mt-1">Laboratory activity on implementing a basic REST API.</p>
                     <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-3">
-                        Deadline: November 26, 2026<br>
+                        Deadline: November 30, 2026<br>
                         Checking: DICT Office · Individual checking<br>
-                        IT3G: 10:00 AM–12:00 NN · IT3E: 5:00 PM–7:00 PM
+                        5:00 PM–8:00 PM (all sections)
                     </p>
                 </div>
                 <div class="mt-6">
@@ -165,9 +165,9 @@
                     <h3 class="text-lg font-bold text-slate-900 mt-3 leading-snug">Continuation of Laboratory 6</h3>
                     <p class="text-xs text-slate-500 mt-1">Continuation of the basic REST API implementation activity.</p>
                     <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-3">
-                        Deadline: November 26, 2026<br>
+                        Deadline: November 30, 2026<br>
                         Checking: DICT Office · Individual checking<br>
-                        IT3G: 10:00 AM–12:00 NN · IT3E: 5:00 PM–7:00 PM
+                        5:00 PM–8:00 PM (all sections)
                     </p>
                 </div>
                 <div class="mt-6">
@@ -187,9 +187,9 @@
                     <h3 class="text-lg font-bold text-slate-900 mt-3 leading-snug">Final Laboratory</h3>
                     <p class="text-xs text-slate-500 mt-1">Final laboratory activity for the course.</p>
                     <p class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-3">
-                        Deadline: November 26, 2026<br>
+                        Deadline: November 30, 2026<br>
                         Checking: DICT Office · Individual checking<br>
-                        IT3G: 10:00 AM–12:00 NN · IT3E: 5:00 PM–7:00 PM
+                        5:00 PM–8:00 PM (all sections)
                     </p>
                 </div>
                 <div class="mt-6">
@@ -346,9 +346,9 @@
             if (e.target.id === "quiz2ClosedModal") closeQuiz2ClosedModal();
         });
 
-        // Quiz #3 schedule: November 23, 2026, 7:00 PM–8:00 PM Philippine Standard Time (UTC+8).
-        const QUIZ3_OPEN_MS = Date.UTC(2026, 10, 23, 11, 0, 0);
-        const QUIZ3_CLOSE_MS = Date.UTC(2026, 10, 23, 12, 0, 0);
+        // Quiz #3 schedule: November 24, 2026, 7:00 PM–8:00 PM Philippine Standard Time (UTC+8).
+        const QUIZ3_OPEN_MS = Date.UTC(2026, 10, 24, 11, 0, 0);
+        const QUIZ3_CLOSE_MS = Date.UTC(2026, 10, 24, 12, 0, 0);
         const QUIZ3_STATUS_URL = 'https://script.google.com/macros/s/AKfycbzSe6Diwlgt3HWbbrzwVnSfvaZdMaOT3PI0WGSME4xMOZxEVTiNF5EveIFQGnC7CsS3bA/exec';
         const QUIZ3_STATE_KEY = 'itpe130_quiz3_state';
         let quiz3ServerStatus = { ok: false, phase: '', submitted: false, filename: '', serverOffsetMs: 0 };
@@ -456,7 +456,7 @@
             if (phase === 'upcoming') {
                 setQuiz3Badge('Upcoming', 'bg-amber-100 text-amber-700 border-amber-200');
                 countdown.textContent = 'Opens in ' + formatQuiz3Duration(QUIZ3_OPEN_MS - (Date.now() + (quiz3ServerStatus.serverOffsetMs || 0)));
-                detail.textContent = 'Opens November 23, 2026 at 7:00 PM PHT.';
+                detail.textContent = 'Opens November 24, 2026 at 7:00 PM PHT.';
                 btnText.textContent = 'Not Yet Open';
                 btn.disabled = true;
                 btn.className = 'w-full inline-flex items-center justify-center gap-2 bg-slate-200 text-slate-400 font-semibold py-2.5 px-4 rounded-xl text-sm cursor-not-allowed';
@@ -487,8 +487,8 @@
             const phase = getQuiz3LocalPhase();
             if (phase !== 'open') {
                 alert(phase === 'upcoming'
-                    ? 'Quiz 3 opens on November 23, 2026 at 7:00 PM Philippine Standard Time.'
-                    : 'Quiz 3 closed at 8:00 PM on November 23, 2026.');
+                    ? 'Quiz 3 opens on November 24, 2026 at 7:00 PM Philippine Standard Time.'
+                    : 'Quiz 3 closed at 8:00 PM on November 24, 2026.');
                 renderQuiz3Card();
                 return;
             }
