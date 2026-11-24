@@ -169,7 +169,7 @@
                         <div class="font-semibold">Quiz #4 Guidelines:</div>
                         <p>• Part I: choose the letter of the best answer (15 items).</p>
                         <p>• Part II: type the correct word or number (5 items).</p>
-                        <p>• Available November 25, 2026, 7:00 PM–8:00 PM PHT. One attempt only.</p>
+                        <p>• Available November 25, 2026, 8:00 PM–9:00 PM PHT. One attempt only.</p>
                     </div>
 
                     <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-brand-500/25 transition-all duration-200 flex items-center justify-center gap-2">
@@ -526,8 +526,8 @@ Content-Type: application/json
         const FORM_DRAFT_KEY = 'itpe130_quiz4_form_draft';
         const DRIVE_FOLDER_ID = '1uIwG-Q2hJT_USwb1h5JWAvtG1hJK80rK';
         const UPLOAD_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzSe6Diwlgt3HWbbrzwVnSfvaZdMaOT3PI0WGSME4xMOZxEVTiNF5EveIFQGnC7CsS3bA/exec';
-        const QUIZ4_OPEN_MS = Date.UTC(2026, 10, 25, 11, 0, 0);
-        const QUIZ4_CLOSE_MS = Date.UTC(2026, 10, 25, 12, 0, 0);
+        const QUIZ4_OPEN_MS = Date.UTC(2026, 10, 25, 12, 0, 0);
+        const QUIZ4_CLOSE_MS = Date.UTC(2026, 10, 25, 13, 0, 0);
 
         const _pp1 = 'ITPE130-';
         const _pp2 = 'Quiz4::';
@@ -726,7 +726,7 @@ Content-Type: application/json
                     document.getElementById('deadlineSeconds').textContent = formatDuration(QUIZ4_CLOSE_MS - (Date.now() + (serverStatus.serverOffsetMs || 0))).slice(3);
                 }
                 if (currentPhase() === 'closed' && visibleQuiz && appState.quizStarted && !appState.quizCompleted) {
-                    showAvailability('Quiz #4 is closed', 'The deadline was 8:00 PM on November 25, 2026 (PHT). Submissions are no longer accepted.');
+                    showAvailability('Quiz #4 is closed', 'The deadline was 9:00 PM on November 25, 2026 (PHT). Submissions are no longer accepted.');
                 }
             }, 1000);
         }
@@ -761,9 +761,9 @@ Content-Type: application/json
 
             const phase = currentPhase();
             if (phase === 'upcoming') {
-                showAvailability('Quiz #4 is not open yet', 'Quiz 4 opens on November 25, 2026 at 7:00 PM Philippine Standard Time.');
+                showAvailability('Quiz #4 is not open yet', 'Quiz 4 opens on November 25, 2026 at 8:00 PM Philippine Standard Time.');
             } else if (phase === 'closed') {
-                showAvailability('Quiz #4 is closed', 'The deadline was 8:00 PM on November 25, 2026 (PHT). Submissions are no longer accepted.');
+                showAvailability('Quiz #4 is closed', 'The deadline was 9:00 PM on November 25, 2026 (PHT). Submissions are no longer accepted.');
             } else if (hasStoredState && appState.quizCompleted) {
                 renderResultsScreen();
             } else if (hasStoredState && appState.quizStarted) {
@@ -802,7 +802,7 @@ Content-Type: application/json
             if (currentPhase() !== 'open') {
                 isStarting = false;
                 showAvailability('Quiz #4 is not available', currentPhase() === 'upcoming'
-                    ? 'Quiz 4 opens on November 25, 2026 at 7:00 PM PHT.'
+                    ? 'Quiz 4 opens on November 25, 2026 at 8:00 PM PHT.'
                     : 'The submission deadline has already passed.');
                 return;
             }

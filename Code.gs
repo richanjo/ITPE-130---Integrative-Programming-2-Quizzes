@@ -1,9 +1,9 @@
 var QUIZ_FOLDER_ID = '1uIwG-Q2hJT_USwb1h5JWAvtG1hJK80rK';
 
-// Quiz #3: November 24, 2026, 7:00 PM–8:00 PM Philippine Standard Time (UTC+8).
+// Quiz #3: November 24, 2026, 8:00 PM–9:00 PM Philippine Standard Time (UTC+8).
 var QUIZ3_PREFIX = 'ITPE 130 Quiz3_';
-var QUIZ3_OPEN_MS = Date.UTC(2026, 10, 24, 11, 0, 0);
-var QUIZ3_CLOSE_MS = Date.UTC(2026, 10, 24, 12, 0, 0);
+var QUIZ3_OPEN_MS = Date.UTC(2026, 10, 24, 12, 0, 0);
+var QUIZ3_CLOSE_MS = Date.UTC(2026, 10, 24, 13, 0, 0);
 
 function getQuiz3Phase() {
   var now = Date.now();
@@ -51,8 +51,8 @@ function getQuiz3Description(data) {
 }
 
 var QUIZ4_PREFIX = 'ITPE 130 Quiz4_';
-var QUIZ4_OPEN_MS = Date.UTC(2026, 10, 25, 11, 0, 0);
-var QUIZ4_CLOSE_MS = Date.UTC(2026, 10, 25, 12, 0, 0);
+var QUIZ4_OPEN_MS = Date.UTC(2026, 10, 25, 12, 0, 0);
+var QUIZ4_CLOSE_MS = Date.UTC(2026, 10, 25, 13, 0, 0);
 
 function getQuiz4Phase() {
   var now = Date.now();
